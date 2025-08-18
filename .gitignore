@@ -1,0 +1,86 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project specific
+temp_processing/
+temp_analysis/
+results_experiments/
+
+# Exclude most JSON files but keep important results
+*.jsonl
+*.json
+!datasets/*.jsonl
+!docs/*.md
+!README.md
+!requirements.txt
+!LICENSE
+
+# Include key results for audit and reproducibility
+!results_final_test_complete.jsonl
+!results_final_develop_complete.jsonl
+!ner_evaluation_results.json
+!metrics_summary.json
+
+# Logs
+*.log
+logs/
+
+# Ollama models (if any)
+models/
+*.gguf
+
+# Large files
+*.bin
+*.safetensors
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Environment variables
+.env
+.env.local
+.env.*.local

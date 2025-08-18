@@ -1,0 +1,1930 @@
+{
+  "overall": {
+    "precision": 0.9974025974025974,
+    "recall": 0.9974025974025974,
+    "f1": 0.9974025974025974,
+    "tp": 384,
+    "fp": 1,
+    "fn": 1
+  },
+  "strategy_metrics": {
+    "regex": {
+      "precision": 1.0,
+      "tp": 384,
+      "fp": 0
+    },
+    "llama32_high_precision": {
+      "precision": 1.0,
+      "tp": 123,
+      "fp": 0
+    },
+    "llama32_max_sensitivity": {
+      "precision": 1.0,
+      "tp": 122,
+      "fp": 0
+    },
+    "llama32_balanced": {
+      "precision": 1.0,
+      "tp": 130,
+      "fp": 0
+    },
+    "qwen25_diversity": {
+      "precision": 1.0,
+      "tp": 96,
+      "fp": 0
+    }
+  },
+  "detailed_results": [
+    {
+      "pmid": "9949209",
+      "predicted": [
+        "ct",
+        "hepatic copper accumulation",
+        "copper toxicosis",
+        "inherited disorder",
+        "wilson disease",
+        "copper overload",
+        "non-indian childhood cirrhosis",
+        "wd"
+      ],
+      "reference": [
+        "hepatic copper accumulation",
+        "inherited disorder",
+        "wilson disease",
+        "wd",
+        "copper overload",
+        "non-indian childhood cirrhosis",
+        "copper toxicosis",
+        "ct"
+      ],
+      "tp": 8,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9950360",
+      "predicted": [
+        "colorectal cancer",
+        "fap",
+        "familial adenomatous polyposis"
+      ],
+      "reference": [
+        "fap",
+        "colorectal cancer",
+        "familial adenomatous polyposis"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9634518",
+      "predicted": [
+        "phenylketonuria",
+        "mild hyperphenylalaninemia",
+        "hyperphenylalaninemia",
+        "pku",
+        "phenylalanine hydroxylase deficiency",
+        "allelic disorders",
+        "pah deficiency",
+        "mhp"
+      ],
+      "reference": [
+        "phenylalanine hydroxylase deficiency",
+        "phenylketonuria",
+        "pku",
+        "mild hyperphenylalaninemia",
+        "mhp",
+        "allelic disorders",
+        "pah deficiency",
+        "hyperphenylalaninemia"
+      ],
+      "tp": 8,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9563950",
+      "predicted": [
+        "myotonic dystrophy",
+        "myotonic dystrophy",
+        "dm"
+      ],
+      "reference": [
+        "myotonic dystrophy",
+        "myotonic dystrophy",
+        "dm"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9674903",
+      "predicted": [
+        "maternal uniparental disomy (upd) for chromosome 15",
+        "maternal upd 15",
+        "pws",
+        "uniparental disomy",
+        "prader-willi syndrome",
+        "maternal disomy",
+        "maternal disomy 15"
+      ],
+      "reference": [
+        "maternal disomy",
+        "prader-willi syndrome",
+        "maternal uniparental disomy (upd) for chromosome 15",
+        "pws",
+        "maternal disomy 15",
+        "uniparental disomy",
+        "maternal upd 15"
+      ],
+      "tp": 6,
+      "fp": 1,
+      "fn": 1,
+      "precision": 0.8571428571428571,
+      "recall": 0.8571428571428571
+    },
+    {
+      "pmid": "9863607",
+      "predicted": [
+        "dm",
+        "cdm",
+        "myotonic dystrophy",
+        "congenital myotonic dystrophy",
+        "myotonic dystrophy",
+        "infertility",
+        "autosomal dominant disease"
+      ],
+      "reference": [
+        "myotonic dystrophy",
+        "myotonic dystrophy",
+        "dm",
+        "autosomal dominant disease",
+        "infertility",
+        "congenital myotonic dystrophy",
+        "cdm"
+      ],
+      "tp": 7,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9443866",
+      "predicted": [
+        "breast cancer",
+        "ataxia-telangiectasia"
+      ],
+      "reference": [
+        "ataxia-telangiectasia",
+        "breast cancer"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9311732",
+      "predicted": [
+        "unilateral retinoblastoma",
+        "retinoblastoma",
+        "bilateral retinoblastoma"
+      ],
+      "reference": [
+        "unilateral retinoblastoma",
+        "bilateral retinoblastoma",
+        "retinoblastoma"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9931324",
+      "predicted": [
+        "ectopia pupillae",
+        "congenital absence of the iris",
+        "congenital nystagmus",
+        "congenital eye malformations",
+        "displaced pupils",
+        "searching gaze",
+        "aniridia"
+      ],
+      "reference": [
+        "congenital eye malformations",
+        "aniridia",
+        "congenital absence of the iris",
+        "ectopia pupillae",
+        "displaced pupils",
+        "congenital nystagmus",
+        "searching gaze"
+      ],
+      "tp": 7,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9668171",
+      "predicted": [
+        "genetic diseases",
+        "myotonic dystrophy",
+        "dm"
+      ],
+      "reference": [
+        "myotonic dystrophy",
+        "dm",
+        "genetic diseases"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9463314",
+      "predicted": [
+        "cerebellar degeneration",
+        "breast cancer",
+        "leukemia",
+        "hodgkin lymphoma",
+        "lymphoma"
+      ],
+      "reference": [
+        "leukemia",
+        "lymphoma",
+        "breast cancer",
+        "cerebellar degeneration",
+        "hodgkin lymphoma"
+      ],
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9700175",
+      "predicted": [
+        "hereditary ovarian cancer",
+        "ovarian cancer",
+        "hereditary forms of ovarian cancer"
+      ],
+      "reference": [
+        "hereditary ovarian cancer",
+        "ovarian cancer",
+        "hereditary forms of ovarian cancer"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9792861",
+      "predicted": [
+        "ovarian cancer",
+        "breast cancer"
+      ],
+      "reference": [
+        "ovarian cancer",
+        "breast cancer"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9705283",
+      "predicted": [
+        "familial foveal dysplasia",
+        "aniridia",
+        "autosomal dominant keratitis",
+        "aniridia",
+        "peters anomaly"
+      ],
+      "reference": [
+        "aniridia",
+        "peters anomaly",
+        "autosomal dominant keratitis",
+        "familial foveal dysplasia",
+        "aniridia"
+      ],
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9546397",
+      "predicted": [
+        "iron-overload disease",
+        "hereditary hemochromatosis"
+      ],
+      "reference": [
+        "iron-overload disease",
+        "hereditary hemochromatosis"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9790667",
+      "predicted": [
+        "ctx",
+        "cerebrotendinous xanthomatosis",
+        "deficiency in the sterol 27-hydroxylase activity"
+      ],
+      "reference": [
+        "cerebrotendinous xanthomatosis",
+        "ctx",
+        "deficiency in the sterol 27-hydroxylase activity"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9702690",
+      "predicted": [
+        "adrenoleukodystrophy",
+        "ad",
+        "ald",
+        "alzheimers disease"
+      ],
+      "reference": [
+        "adrenoleukodystrophy",
+        "ald",
+        "alzheimers disease",
+        "ad"
+      ],
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9618166",
+      "predicted": [
+        "autosomal recessive disorder",
+        "pendred syndrome",
+        "goiter",
+        "deafness"
+      ],
+      "reference": [
+        "pendred syndrome",
+        "autosomal recessive disorder",
+        "deafness",
+        "goiter"
+      ],
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9427148",
+      "predicted": [
+        "deficiency of the lysosomal enzyme aspartylglucosaminidase",
+        "agu",
+        "aspartylglucosaminuria"
+      ],
+      "reference": [
+        "aspartylglucosaminuria",
+        "agu",
+        "deficiency of the lysosomal enzyme aspartylglucosaminidase"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9467011",
+      "predicted": [
+        "thyroid tumours",
+        "malignancy",
+        "bannayan-zonana syndrome",
+        "cd",
+        "malignant melanoma",
+        "cowden disease",
+        "endometrial carcinomas"
+      ],
+      "reference": [
+        "cowden disease",
+        "bannayan-zonana syndrome",
+        "malignancy",
+        "endometrial carcinomas",
+        "malignant melanoma",
+        "thyroid tumours",
+        "cd"
+      ],
+      "tp": 7,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9831355",
+      "predicted": [
+        "colorectal cancer",
+        "hereditary non-polyposis colorectal cancer",
+        "cancer"
+      ],
+      "reference": [
+        "hereditary non-polyposis colorectal cancer",
+        "colorectal cancer",
+        "cancer"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9590178",
+      "predicted": [
+        "male pseudohermaphroditism",
+        "denys-drash syndrome"
+      ],
+      "reference": [
+        "male pseudohermaphroditism",
+        "denys-drash syndrome"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9358014",
+      "predicted": [
+        "hh",
+        "cancer",
+        "hereditary hemochromatosis"
+      ],
+      "reference": [
+        "hereditary hemochromatosis",
+        "hh",
+        "cancer"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9382108",
+      "predicted": [
+        "huntington disease",
+        "hd"
+      ],
+      "reference": [
+        "huntington disease",
+        "hd"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9554743",
+      "predicted": [
+        "wilson disease"
+      ],
+      "reference": [
+        "wilson disease"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9792860",
+      "predicted": [
+        "autosomal recessive alport syndrome",
+        "hematuric glomerulonephritis",
+        "autosomal recessive alport syndrome"
+      ],
+      "reference": [
+        "autosomal recessive alport syndrome",
+        "autosomal recessive alport syndrome",
+        "hematuric glomerulonephritis"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9771706",
+      "predicted": [
+        "wolfram syndrome",
+        "optic atrophy",
+        "diabetes mellitus",
+        "insulin-dependent diabetes mellitus",
+        "wfs"
+      ],
+      "reference": [
+        "diabetes mellitus",
+        "optic atrophy",
+        "wolfram syndrome",
+        "wfs",
+        "insulin-dependent diabetes mellitus"
+      ],
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9472666",
+      "predicted": [
+        "complement component c6 deficiency",
+        "meningococcal meningitis",
+        "c6d",
+        "complement component c6 deficiency",
+        "meningitis",
+        "neisserial infection"
+      ],
+      "reference": [
+        "complement component c6 deficiency",
+        "complement component c6 deficiency",
+        "c6d",
+        "meningococcal meningitis",
+        "meningitis",
+        "neisserial infection"
+      ],
+      "tp": 6,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9733027",
+      "predicted": [
+        "friedreich ataxia"
+      ],
+      "reference": [
+        "friedreich ataxia"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9506545",
+      "predicted": [
+        "machado-joseph disease",
+        "sca2",
+        "hypermetria",
+        "gaze-evoked nystagmus",
+        "mjd",
+        "sca1",
+        "sca3"
+      ],
+      "reference": [
+        "sca1",
+        "sca2",
+        "sca3",
+        "machado-joseph disease",
+        "mjd",
+        "hypermetria",
+        "gaze-evoked nystagmus"
+      ],
+      "tp": 7,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9288106",
+      "predicted": [
+        "sporadic t-pll",
+        "cancer",
+        "a-t",
+        "sporadic t-cell prolymphocytic leukaemia",
+        "b-nhl",
+        "sporadic t-cell leukaemia",
+        "mature t-cell leukaemia",
+        "ataxia-telangiectasia",
+        "b-cell non-hodgkins lymphomas",
+        "t-pll"
+      ],
+      "reference": [
+        "sporadic t-cell leukaemia",
+        "ataxia-telangiectasia",
+        "a-t",
+        "cancer",
+        "sporadic t-cell prolymphocytic leukaemia",
+        "t-pll",
+        "mature t-cell leukaemia",
+        "b-cell non-hodgkins lymphomas",
+        "b-nhl",
+        "sporadic t-pll"
+      ],
+      "tp": 10,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9580132",
+      "predicted": [
+        "familial neurohypophyseal diabetes insipidus",
+        "autosomal dominant disease",
+        "fndi",
+        "familial neurohypophyseal diabetes insipidus"
+      ],
+      "reference": [
+        "familial neurohypophyseal diabetes insipidus",
+        "familial neurohypophyseal diabetes insipidus",
+        "fndi",
+        "autosomal dominant disease"
+      ],
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9792409",
+      "predicted": [
+        "a-t",
+        "autosomal recessive disorder",
+        "ataxia-telangiectasia"
+      ],
+      "reference": [
+        "autosomal recessive disorder",
+        "ataxia-telangiectasia",
+        "a-t"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9867744",
+      "predicted": [
+        "iron overload",
+        "hemochromatosis",
+        "cirrhosis",
+        "early death",
+        "hepatic cirrhosis"
+      ],
+      "reference": [
+        "hemochromatosis",
+        "early death",
+        "iron overload",
+        "cirrhosis",
+        "hepatic cirrhosis"
+      ],
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9482572",
+      "predicted": [
+        "congenital cataracts",
+        "isolated foveal hypoplasia",
+        "autosomal dominant keratitis",
+        "aniridia",
+        "peters anomaly"
+      ],
+      "reference": [
+        "aniridia",
+        "peters anomaly",
+        "congenital cataracts",
+        "autosomal dominant keratitis",
+        "isolated foveal hypoplasia"
+      ],
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9674906",
+      "predicted": [
+        "skeletal dysplasia",
+        "contractures",
+        "campomelic-metaphyseal skeletal dysplasia",
+        "schwartz-jampel syndrome",
+        "myotonia",
+        "bone dysplasia",
+        "schwartz-jampel syndrome type 2",
+        "sws",
+        "stuve-wiedemann syndrome",
+        "congenital joint contractures",
+        "hyperthermia",
+        "early death",
+        "sjs",
+        "campomelia",
+        "sjs type 2"
+      ],
+      "reference": [
+        "schwartz-jampel syndrome type 2",
+        "stuve-wiedemann syndrome",
+        "schwartz-jampel syndrome",
+        "sjs",
+        "myotonia",
+        "skeletal dysplasia",
+        "sjs type 2",
+        "sws",
+        "campomelia",
+        "contractures",
+        "early death",
+        "congenital joint contractures",
+        "hyperthermia",
+        "campomelic-metaphyseal skeletal dysplasia",
+        "bone dysplasia"
+      ],
+      "tp": 15,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9400934",
+      "predicted": [
+        "retinoblastoma",
+        "ectopic intracranial retinoblastoma"
+      ],
+      "reference": [
+        "ectopic intracranial retinoblastoma",
+        "retinoblastoma"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9729124",
+      "predicted": [
+        "pds",
+        "congenital chloride diarrhea",
+        "cld"
+      ],
+      "reference": [
+        "congenital chloride diarrhea",
+        "cld",
+        "pds"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9585605",
+      "predicted": [
+        "uniparental disomy",
+        "angelman syndrome",
+        "as",
+        "upd"
+      ],
+      "reference": [
+        "angelman syndrome",
+        "as",
+        "uniparental disomy",
+        "upd"
+      ],
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9360520",
+      "predicted": [
+        "autosomal dominant neurohypophyseal diabetes insipidus",
+        "adndi",
+        "diabetes insipidus"
+      ],
+      "reference": [
+        "autosomal dominant neurohypophyseal diabetes insipidus",
+        "adndi",
+        "diabetes insipidus"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9709714",
+      "predicted": [
+        "hepatomegaly",
+        "very-long-chain acyl-coenzyme a dehydrogenase (vlcad) deficiency",
+        "hypertrophic cardiomyopathy",
+        "vlcad deficiency",
+        "very-long-chain acyl-coenzyme a dehydrogenase deficiency",
+        "hypotonia"
+      ],
+      "reference": [
+        "hypertrophic cardiomyopathy",
+        "very-long-chain acyl-coenzyme a dehydrogenase deficiency",
+        "very-long-chain acyl-coenzyme a dehydrogenase (vlcad) deficiency",
+        "vlcad deficiency",
+        "hepatomegaly",
+        "hypotonia"
+      ],
+      "tp": 6,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9600235",
+      "predicted": [
+        "a-t",
+        "ataxia-telangiectasia"
+      ],
+      "reference": [
+        "ataxia-telangiectasia",
+        "a-t"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9770531",
+      "predicted": [
+        "vhl"
+      ],
+      "reference": [
+        "vhl"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9385378",
+      "predicted": [
+        "mucopolysaccharidosis iva",
+        "mucopolysaccharidosis iva",
+        "autosomal recessive lysosomal storage disorder",
+        "genetic defect",
+        "mps iva"
+      ],
+      "reference": [
+        "mucopolysaccharidosis iva",
+        "mucopolysaccharidosis iva",
+        "mps iva",
+        "autosomal recessive lysosomal storage disorder",
+        "genetic defect"
+      ],
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9603435",
+      "predicted": [
+        "g(m2) gangliosidosis",
+        "hex a enzyme deficiency",
+        "tay-sachs disease",
+        "hex a deficiency",
+        "g (m2) gangliosidosis",
+        "tsd",
+        "infantile form of g (m2) gangliosidosis, type 1"
+      ],
+      "reference": [
+        "g(m2) gangliosidosis",
+        "tay-sachs disease",
+        "tsd",
+        "infantile form of g (m2) gangliosidosis, type 1",
+        "g (m2) gangliosidosis",
+        "hex a enzyme deficiency",
+        "hex a deficiency"
+      ],
+      "tp": 7,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9294109",
+      "predicted": [
+        "myotonic dystrophy",
+        "dm"
+      ],
+      "reference": [
+        "myotonic dystrophy",
+        "dm"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9618170",
+      "predicted": [
+        "x-linked dilated cardiomyopathy",
+        "skeletal myopathy",
+        "xldcm"
+      ],
+      "reference": [
+        "x-linked dilated cardiomyopathy",
+        "xldcm",
+        "skeletal myopathy"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9585583",
+      "predicted": [
+        "craniosynostosis",
+        "low frontal hairline",
+        "coronal synostosis",
+        "clinodactyly",
+        "ptosis",
+        "saethre-chotzen syndrome",
+        "facial asymmetry",
+        "broad great toes",
+        "hypertelorism",
+        "brachycephaly"
+      ],
+      "reference": [
+        "saethre-chotzen syndrome",
+        "craniosynostosis",
+        "coronal synostosis",
+        "brachycephaly",
+        "low frontal hairline",
+        "facial asymmetry",
+        "ptosis",
+        "hypertelorism",
+        "broad great toes",
+        "clinodactyly"
+      ],
+      "tp": 10,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9371490",
+      "predicted": [
+        "cancer",
+        "sporadic prostate carcinoma",
+        "prostate cancer",
+        "prostate tumors",
+        "sporadic prostate cancer"
+      ],
+      "reference": [
+        "prostate cancer",
+        "sporadic prostate carcinoma",
+        "cancer",
+        "sporadic prostate cancer",
+        "prostate tumors"
+      ],
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9521421",
+      "predicted": [
+        "mucopolysaccharidosis iva",
+        "mucopolysaccharidosis iva",
+        "autosomal recessive lysosomal storage disorder",
+        "genetic defect",
+        "mps iva"
+      ],
+      "reference": [
+        "mucopolysaccharidosis iva",
+        "mucopolysaccharidosis iva",
+        "mps iva",
+        "autosomal recessive lysosomal storage disorder",
+        "genetic defect"
+      ],
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9852676",
+      "predicted": [
+        "friedreichs ataxia",
+        "myotonic dystrophy",
+        "dm"
+      ],
+      "reference": [
+        "myotonic dystrophy",
+        "dm",
+        "friedreichs ataxia"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9425228",
+      "predicted": [
+        "familial melanoma"
+      ],
+      "reference": [
+        "familial melanoma"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9888388",
+      "predicted": [
+        "hereditary coproporphyria",
+        "hepatic porphyria",
+        "hc",
+        "deficient activity of coproporphyrinogen iii oxidase",
+        "hereditary coproporphyria"
+      ],
+      "reference": [
+        "hereditary coproporphyria",
+        "hereditary coproporphyria",
+        "hc",
+        "hepatic porphyria",
+        "deficient activity of coproporphyrinogen iii oxidase"
+      ],
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9463309",
+      "predicted": [
+        "hypohaptoglobinemia",
+        "anhaptoglobinemia"
+      ],
+      "reference": [
+        "anhaptoglobinemia",
+        "hypohaptoglobinemia"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9585611",
+      "predicted": [
+        "colonic adenomas",
+        "adenomas",
+        "aapc",
+        "colorectal adenomas",
+        "fap",
+        "desmoid tumors",
+        "colorectal cancer",
+        "familial adenomatous polyposis",
+        "attenuated adenomatous polyposis coli"
+      ],
+      "reference": [
+        "attenuated adenomatous polyposis coli",
+        "aapc",
+        "familial adenomatous polyposis",
+        "fap",
+        "colonic adenomas",
+        "colorectal cancer",
+        "colorectal adenomas",
+        "adenomas",
+        "desmoid tumors"
+      ],
+      "tp": 9,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9724771",
+      "predicted": [
+        "adenomas",
+        "apc",
+        "colorectal adenomas",
+        "colorectal tumors",
+        "metaplastic polyps of the colorectum",
+        "fap",
+        "autosomal dominant disease",
+        "colorectal cancer",
+        "familial adenomatous polyposis",
+        "attenuated adenomatous polyposis coli"
+      ],
+      "reference": [
+        "familial adenomatous polyposis",
+        "fap",
+        "autosomal dominant disease",
+        "attenuated adenomatous polyposis coli",
+        "colorectal adenomas",
+        "adenomas",
+        "apc",
+        "colorectal tumors",
+        "metaplastic polyps of the colorectum",
+        "colorectal cancer"
+      ],
+      "tp": 10,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9585606",
+      "predicted": [
+        "premature death",
+        "hemochromatosis",
+        "hemochromatosis",
+        "iron overload"
+      ],
+      "reference": [
+        "hemochromatosis",
+        "iron overload",
+        "premature death",
+        "hemochromatosis"
+      ],
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9689113",
+      "predicted": [
+        "thrombosis",
+        "vascular injury",
+        "von willebrand factor (vwf) deficiency",
+        "von willebrand disease"
+      ],
+      "reference": [
+        "von willebrand disease",
+        "thrombosis",
+        "von willebrand factor (vwf) deficiency",
+        "vascular injury"
+      ],
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9448273",
+      "predicted": [
+        "brain hemangioblastomas",
+        "vhl",
+        "sporadic renal cell carcinomas",
+        "vhl cancer syndrome",
+        "rcc"
+      ],
+      "reference": [
+        "vhl cancer syndrome",
+        "sporadic renal cell carcinomas",
+        "rcc",
+        "brain hemangioblastomas",
+        "vhl"
+      ],
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9703418",
+      "predicted": [
+        "complement c9 deficiency",
+        "meningococcal meningitis",
+        "complement deficiency",
+        "c9 deficiency",
+        "deficiency of the ninth component of human complement"
+      ],
+      "reference": [
+        "complement c9 deficiency",
+        "deficiency of the ninth component of human complement",
+        "complement deficiency",
+        "c9 deficiency",
+        "meningococcal meningitis"
+      ],
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9848786",
+      "predicted": [
+        "hus",
+        "deficiency in the human complement regulatory protein factor h",
+        "human complement factor h deficiency",
+        "acute renal disease",
+        "hemolytic uremic syndrome",
+        "complement deficiency",
+        "factor h deficiency"
+      ],
+      "reference": [
+        "human complement factor h deficiency",
+        "hemolytic uremic syndrome",
+        "deficiency in the human complement regulatory protein factor h",
+        "acute renal disease",
+        "hus",
+        "factor h deficiency",
+        "complement deficiency"
+      ],
+      "tp": 7,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9521325",
+      "predicted": [
+        "sudden death",
+        "idiopathic ventricular fibrillation",
+        "ivf",
+        "ventricular fibrillation"
+      ],
+      "reference": [
+        "idiopathic ventricular fibrillation",
+        "ventricular fibrillation",
+        "ivf",
+        "sudden death"
+      ],
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9869602",
+      "predicted": [
+        "colorectal cancer",
+        "colorectal neoplasia",
+        "cancer"
+      ],
+      "reference": [
+        "colorectal cancer",
+        "cancer",
+        "colorectal neoplasia"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9336417",
+      "predicted": [
+        "as",
+        "ankylosing spondylitis"
+      ],
+      "reference": [
+        "ankylosing spondylitis",
+        "as"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9731533",
+      "predicted": [
+        "cancer",
+        "apc",
+        "crc",
+        "fap",
+        "colorectal cancer",
+        "familial adenomatous polyposis"
+      ],
+      "reference": [
+        "familial adenomatous polyposis",
+        "fap",
+        "colorectal cancer",
+        "crc",
+        "apc",
+        "cancer"
+      ],
+      "tp": 6,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9465039",
+      "predicted": [
+        "hereditary hemochromatosis"
+      ],
+      "reference": [
+        "hereditary hemochromatosis"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9457913",
+      "predicted": [
+        "atrophic benign epidermolysis bullosa"
+      ],
+      "reference": [
+        "atrophic benign epidermolysis bullosa"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9463318",
+      "predicted": [
+        "myotonic dystrophy"
+      ],
+      "reference": [
+        "myotonic dystrophy"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9425239",
+      "predicted": [
+        "myotonic dystrophy",
+        "dm"
+      ],
+      "reference": [
+        "myotonic dystrophy",
+        "dm"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9973276",
+      "predicted": [
+        "colorectal neoplasia",
+        "adenomatous polyps",
+        "inherited colorectal polyposis",
+        "adenomas",
+        "colorectal cancers",
+        "familial adenomatous polyposis syndrome",
+        "colorectal cancer",
+        "colorectal cancer,"
+      ],
+      "reference": [
+        "inherited colorectal polyposis",
+        "familial adenomatous polyposis syndrome",
+        "adenomatous polyps",
+        "colorectal cancer,",
+        "colorectal neoplasia",
+        "adenomas",
+        "colorectal cancers",
+        "colorectal cancer"
+      ],
+      "tp": 8,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9927033",
+      "predicted": [
+        "neurofibromatosis type 1",
+        "nf1",
+        "hereditary nonpolyposis colorectal cancer"
+      ],
+      "reference": [
+        "neurofibromatosis type 1",
+        "hereditary nonpolyposis colorectal cancer",
+        "nf1"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9800909",
+      "predicted": [
+        "duchenne muscular dystrophy",
+        "dmd"
+      ],
+      "reference": [
+        "duchenne muscular dystrophy",
+        "dmd"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9861003",
+      "predicted": [
+        "bipolar affective disorder",
+        "hypomania",
+        "bpad",
+        "mania",
+        "manic-depressive illness",
+        "bipolar affective disorder",
+        "depression"
+      ],
+      "reference": [
+        "bipolar affective disorder",
+        "bipolar affective disorder",
+        "bpad",
+        "manic-depressive illness",
+        "mania",
+        "hypomania",
+        "depression"
+      ],
+      "tp": 7,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "932197",
+      "predicted": [
+        "systemic lupus erythematosus",
+        "c5 deficiency",
+        "hereditary deficiency of the fifth component of complement",
+        "hereditary deficiency of the fifth component of complement",
+        "glomerulonephritis",
+        "vasculitis"
+      ],
+      "reference": [
+        "hereditary deficiency of the fifth component of complement",
+        "hereditary deficiency of the fifth component of complement",
+        "systemic lupus erythematosus",
+        "c5 deficiency",
+        "glomerulonephritis",
+        "vasculitis"
+      ],
+      "tp": 6,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9439660",
+      "predicted": [
+        "a-t",
+        "malignancy"
+      ],
+      "reference": [
+        "malignancy",
+        "a-t"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9856498",
+      "predicted": [
+        "c6 deficiency",
+        "meningococcal disease",
+        "deficiency of the sixth component of human complement"
+      ],
+      "reference": [
+        "c6 deficiency",
+        "deficiency of the sixth component of human complement",
+        "meningococcal disease"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9744473",
+      "predicted": [
+        "metachromatic leukodystrophy",
+        "mld",
+        "deficiency of arylsulfatase a"
+      ],
+      "reference": [
+        "metachromatic leukodystrophy",
+        "deficiency of arylsulfatase a",
+        "mld"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9450866",
+      "predicted": [
+        "sensorineural deafness",
+        "piebaldism",
+        "piebaldism",
+        "deafness",
+        "waardenburg syndrome"
+      ],
+      "reference": [
+        "piebaldism",
+        "deafness",
+        "piebaldism",
+        "sensorineural deafness",
+        "waardenburg syndrome"
+      ],
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9497246",
+      "predicted": [
+        "breast cancer",
+        "inherited breast cancer"
+      ],
+      "reference": [
+        "inherited breast cancer",
+        "breast cancer"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9620771",
+      "predicted": [
+        "genetic defect",
+        "acth deficiency",
+        "obesity"
+      ],
+      "reference": [
+        "obesity",
+        "acth deficiency",
+        "genetic defect"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9420335",
+      "predicted": [
+        "gastrulation defect",
+        "pancreatic cancers"
+      ],
+      "reference": [
+        "pancreatic cancers",
+        "gastrulation defect"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9888390",
+      "predicted": [
+        "metachromatic leukodystrophy",
+        "mld"
+      ],
+      "reference": [
+        "metachromatic leukodystrophy",
+        "mld"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "941901",
+      "predicted": [
+        "deficiency of hex a",
+        "hex a deficiency",
+        "tay-sachs disease",
+        "tsd"
+      ],
+      "reference": [
+        "deficiency of hex a",
+        "tay-sachs disease",
+        "tsd",
+        "hex a deficiency"
+      ],
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9590284",
+      "predicted": [
+        "prader-willi syndrome",
+        "pws"
+      ],
+      "reference": [
+        "prader-willi syndrome",
+        "pws"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9457914",
+      "predicted": [
+        "atrophic benign epidermolysis bullosa",
+        "nail dystrophy",
+        "patchy alopecia",
+        "junctional epidermolysis bullosa",
+        "blistering"
+      ],
+      "reference": [
+        "atrophic benign epidermolysis bullosa",
+        "junctional epidermolysis bullosa",
+        "blistering",
+        "nail dystrophy",
+        "patchy alopecia"
+      ],
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9843038",
+      "predicted": [
+        "hcp",
+        "autosomal dominant disease",
+        "hereditary coproporphyria",
+        "deficiency of coproporphyrinogen oxidase"
+      ],
+      "reference": [
+        "hereditary coproporphyria",
+        "hcp",
+        "autosomal dominant disease",
+        "deficiency of coproporphyrinogen oxidase"
+      ],
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "993342",
+      "predicted": [
+        "c2 deficiency",
+        "deficiency of the second component of complement"
+      ],
+      "reference": [
+        "deficiency of the second component of complement",
+        "c2 deficiency"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9856499",
+      "predicted": [
+        "c7 defects",
+        "c7 deficiency",
+        "complement c7 deficiency"
+      ],
+      "reference": [
+        "complement c7 deficiency",
+        "c7 deficiency",
+        "c7 defects"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9529364",
+      "predicted": [
+        "isolated dms",
+        "denys-drash syndrome",
+        "wt",
+        "dms",
+        "dds",
+        "diffuse mesangial sclerosis",
+        "wilms tumor",
+        "idms",
+        "pseudohermaphroditism"
+      ],
+      "reference": [
+        "diffuse mesangial sclerosis",
+        "denys-drash syndrome",
+        "dds",
+        "dms",
+        "pseudohermaphroditism",
+        "wilms tumor",
+        "wt",
+        "isolated dms",
+        "idms"
+      ],
+      "tp": 9,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9391889",
+      "predicted": [
+        "congenital myotonic dystrophy",
+        "congenital dm",
+        "dm"
+      ],
+      "reference": [
+        "congenital myotonic dystrophy",
+        "dm",
+        "congenital dm"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9465301",
+      "predicted": [
+        "uniparental disomy"
+      ],
+      "reference": [
+        "uniparental disomy"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9949197",
+      "predicted": [
+        "emery-dreifuss muscular dystrophy",
+        "edmd"
+      ],
+      "reference": [
+        "emery-dreifuss muscular dystrophy",
+        "edmd"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "9988281",
+      "predicted": [
+        "sporadic breast cancers",
+        "non-inherited breast carcinomas",
+        "breast malignancies",
+        "ductal carcinomas",
+        "low-grade ductal carcinomas"
+      ],
+      "reference": [
+        "non-inherited breast carcinomas",
+        "breast malignancies",
+        "low-grade ductal carcinomas",
+        "ductal carcinomas",
+        "sporadic breast cancers"
+      ],
+      "tp": 5,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    }
+  ],
+  "summary": {
+    "total_documents": 93,
+    "total_predictions": 385,
+    "total_references": 385
+  }
+}
