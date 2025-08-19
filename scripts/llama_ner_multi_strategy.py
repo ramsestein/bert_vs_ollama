@@ -2,6 +2,7 @@
 """
 Multi-Strategy NER System - Memory Efficient Version
 Processes everything through files to minimize RAM usage
+
 """
 
 import json
@@ -972,7 +973,8 @@ def process_document(pmid: str, text: str, entity_candidates: List[str],
 
 def main():
     parser = argparse.ArgumentParser(description="Multi-Strategy NER System - Memory Efficient")
-    parser.add_argument("--develop_jsonl", required=True, help="Input JSONL file")
+    parser.add_argument("--input_jsonl", required=True, help="Input JSONL file with text and entities to search")
+    parser.add_argument("--benchmark_jsonl", required=True, help="Benchmark JSONL file for evaluation")
     parser.add_argument("--out_pred", default="results_multi_strategy.jsonl", help="Output file")
     parser.add_argument("--limit", type=int, default=0, help="Limit number of documents")
     parser.add_argument("--strategies", nargs="+", default=["all"], 
@@ -1045,6 +1047,8 @@ def main():
         print(f"  - {s['name']}: {s['model']} | chunks={s['chunk_target']}t | temp={s['temperature']}")
     
     print(f"[CONFIG] Confidence threshold: {CONFIDENCE_THRESHOLDS['min_accept']}")
+    print(f"[CONFIG] Input file: {args.input_jsonl}")
+    print(f"[CONFIG] Benchmark file: {args.benchmark_jsonl}")
     
     # Ensure temporary directory exists
     ensure_temp_dir()
@@ -1055,7 +1059,7 @@ def main():
     results = []
     doc_count = 0
     
-    with open(args.develop_jsonl, 'r', encoding='utf-8') as f:
+    with open(args.input_jsonl, 'r', encoding='utf-8') as f:
         for line_num, line in enumerate(f):
             if not line.strip():
                 continue

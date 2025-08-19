@@ -59,26 +59,47 @@ bert_vs_ollama/
 │   └── ncbi_test.jsonl         # Dataset de test
 ├── scripts/                     # Scripts principales
 │   ├── llama_ner_multi_strategy.py  # Sistema principal
+│   ├── run_multi_strategy_example.py # Ejemplo de uso
 │   └── evaluate_ner_performance.py  # Evaluador
 ├── results_final/               # Resultados finales
 ├── docs/                        # Documentación
+│   └── SEPARACION_ARCHIVOS.md  # Guía de separación de archivos
 └── temp_analysis/               # Análisis temporales
 ```
 
 ## 🎮 Uso
 
+### Separación de Archivos
+
+El sistema ahora separa claramente dos tipos de archivos JSONL:
+
+1. **`--input_jsonl`**: Contiene el texto a procesar y las entidades específicas que se deben buscar
+   - Campo `Texto`: El texto biomédico a analizar
+   - Campo `Entidad`: Lista de entidades específicas a detectar
+
+2. **`--benchmark_jsonl`**: Contiene los datos de referencia para evaluación
+   - Permite evaluar el rendimiento del sistema de manera independiente
+   - Facilita la comparación entre diferentes configuraciones
+
+Esta separación permite:
+- **Entrenamiento independiente**: Usar diferentes datasets para entrenamiento y evaluación
+- **Validación cruzada**: Probar con múltiples conjuntos de benchmark
+- **Análisis comparativo**: Evaluar el mismo modelo con diferentes datos de test
+
 ### Ejecución Básica
 
 ```bash
 python scripts/llama_ner_multi_strategy.py \
-    --develop_jsonl ./datasets/ncbi_develop.jsonl \
+    --input_jsonl ./datasets/ncbi_develop.jsonl \
+    --benchmark_jsonl ./datasets/ncbi_test.jsonl \
     --out_pred results_final.jsonl \
     --strategies all
 ```
 
 ### Parámetros Principales
 
-- `--develop_jsonl`: Archivo de entrada JSONL
+- `--input_jsonl`: Archivo de entrada JSONL con texto y entidades a buscar
+- `--benchmark_jsonl`: Archivo JSONL de benchmark para evaluación
 - `--out_pred`: Archivo de salida
 - `--limit`: Número máximo de documentos (0 = todos)
 - `--strategies`: Estrategias a usar (`all` o nombres específicos)
@@ -100,6 +121,11 @@ python scripts/evaluate_ner_performance.py \
     --predictions results_final.jsonl \
     --reference ./datasets/ncbi_develop.jsonl
 ```
+
+## 📚 Documentación Adicional
+
+- **[Separación de Archivos](docs/SEPARACION_ARCHIVOS.md)**: Guía completa sobre la nueva funcionalidad de separación de archivos de entrada y benchmark
+- **[Metodología Detallada](docs/METODOLOGIA_DETALLADA.md)**: Explicación técnica del sistema multi-estrategia
 
 ### Métricas Generadas
 
