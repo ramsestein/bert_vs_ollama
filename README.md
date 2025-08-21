@@ -192,27 +192,6 @@ La carpeta `docs/` contiene documentación técnica detallada del proyecto:
   - **Audiencia**: Usuarios que quieren adaptar el sistema a nuevos datasets
   - **Uso**: Tutorial paso a paso para optimización de rendimiento
 
-#### **🔍 Documentos de Análisis**
-
-- **[AUDIT_REPORT.md](AUDIT_REPORT.md)** (en raíz del proyecto)
-  - **Descripción**: Reporte de auditoría del sistema y resultados obtenidos
-  - **Contenido**: Análisis de rendimiento, comparaciones con benchmarks, conclusiones
-  - **Audiencia**: Stakeholders, investigadores, evaluadores del sistema
-
-#### **📊 Documentos de Métricas**
-
-- **[metrics_summary.json](metrics_summary.json)** (en raíz del proyecto)
-  - **Descripción**: Resumen consolidado de todas las métricas de rendimiento
-  - **Contenido**: Precisión, recall, F1-score para todos los datasets evaluados
-  - **Audiencia**: Análisis cuantitativo del rendimiento del sistema
-
-#### **📝 Documentos de Desarrollo**
-
-- **[improvement_log.md](improvement_log.md)** (en raíz del proyecto)
-  - **Descripción**: Registro cronológico de mejoras y optimizaciones realizadas
-  - **Contenido**: Historial de cambios, experimentos, resultados de optimización
-  - **Audiencia**: Equipo de desarrollo, investigadores que quieren entender la evolución
-
 #### **🎯 Cómo Usar la Documentación**
 
 1. **Para empezar**: Lee el README principal (este archivo) para una visión general
