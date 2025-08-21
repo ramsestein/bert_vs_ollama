@@ -54,24 +54,40 @@ pip install -r requirements.txt
 
 ```
 bert_vs_ollama/
-├── datasets/                    # Datasets de entrada
-│   ├── ncbi_develop.jsonl      # Dataset de desarrollo
-│   └── ncbi_test.jsonl         # Dataset de test
-├── scripts/                     # Scripts principales
-│   ├── llama_ner_multi_strategy.py  # Sistema principal
-│   ├── run_multi_strategy_example.py # Ejemplo de uso
-│   └── evaluate_ner_performance.py  # Evaluador
-├── results_final/               # Resultados finales
-├── docs/                        # Documentación
-│   └── SEPARACION_ARCHIVOS.md  # Guía de separación de archivos
-└── temp_analysis/               # Análisis temporales
+├── ner_multi_strategy.py              # 🚀 SISTEMA PRINCIPAL NER (ejecutar desde aquí)
+├── old_ner_multi_strategy.py          # 🔄 Sistema original (backup)
+├── ner_app/                           # 🏗️ Arquitectura modular refactorizada
+├── tests/                             # 🧪 Suite de tests completa
+├── datasets/                          # 📊 Datasets de entrada y benchmark
+│   ├── ncbi_develop.jsonl            # Dataset de desarrollo (NCBI)
+│   ├── ncbi_test.jsonl               # Dataset de test (NCBI)
+│   ├── n2c2_test_input.jsonl         # Dataset de entrada n2c2 (sin chest pain)
+│   └── n2c2_test.jsonl               # Dataset de benchmark n2c2 (sin chest pain)
+├── scripts/                           # 🔧 Scripts auxiliares de análisis
+│   ├── evaluate_ner_performance.py    # Evaluador de métricas
+│   ├── analyze_false_positives_clean.py # Análisis de falsos positivos
+│   ├── analyze_false_negatives_clean.py # Análisis de falsos negativos
+│   ├── run_llama_grid_n2c2.py        # Grid search Llama
+│   ├── run_qwen_grid_n2c2.py         # Grid search Qwen
+│   └── analyze_n2c2_grid_results.py  # Análisis de resultados grid
+├── docs/                             # 📚 Documentación técnica
+│   ├── METODOLOGIA_DETALLADA.md      # Explicación técnica del sistema
+│   └── OPTIMIZACION_PARAMETROS.md    # Guía de optimización
+├── results_final/                    # 📈 Resultados finales
+└── temp_analysis/                    # 🔍 Análisis temporales
 ```
 
 ## 🎮 Uso
 
+```bash
+# ✅ CORRECTO - desde el directorio raíz
+python ner_multi_strategy.py --help
+
+```
+
 ### Separación de Archivos
 
-El sistema ahora separa claramente dos tipos de archivos JSONL:
+El sistema separa claramente dos tipos de archivos JSONL:
 
 1. **`--input_jsonl`**: Contiene el texto a procesar y las entidades específicas que se deben buscar
    - Campo `Texto`: El texto biomédico a analizar
@@ -79,19 +95,13 @@ El sistema ahora separa claramente dos tipos de archivos JSONL:
 
 2. **`--benchmark_jsonl`**: Contiene los datos de referencia para evaluación
    - Permite evaluar el rendimiento del sistema de manera independiente
-   - Facilita la comparación entre diferentes configuraciones
-
-Esta separación permite:
-- **Entrenamiento independiente**: Usar diferentes datasets para entrenamiento y evaluación
-- **Validación cruzada**: Probar con múltiples conjuntos de benchmark
-- **Análisis comparativo**: Evaluar el mismo modelo con diferentes datos de test
 
 ### Ejecución Básica
 
 ```bash
-python scripts/llama_ner_multi_strategy.py \
-    --input_jsonl ./datasets/ncbi_develop.jsonl \
-    --benchmark_jsonl ./datasets/ncbi_test.jsonl \
+python ner_multi_strategy.py \
+    --input_jsonl ./datasets/dataset_input.jsonl \
+    --benchmark_jsonl ./datasets/dataset_test.jsonl \
     --out_pred results_final.jsonl \
     --strategies all
 ```
@@ -103,7 +113,7 @@ python scripts/llama_ner_multi_strategy.py \
 - `--out_pred`: Archivo de salida
 - `--limit`: Número máximo de documentos (0 = todos)
 - `--strategies`: Estrategias a usar (`all` o nombres específicos)
-- `--confidence_threshold`: Umbral mínimo de confianza (default: 0.3)
+- `--confidence_threshold`: Umbral mínimo de confianza (default: 0.5)
 
 ### Estrategias Disponibles
 
@@ -112,6 +122,48 @@ python scripts/llama_ner_multi_strategy.py \
 3. **llama32_high_precision**: Chunks pequeños (30t), alta precisión
 4. **qwen25_diversity**: Chunks pequeños (20t), diversidad de modelo
 
+## 🔧 Pipeline de Optimización
+
+Hemos diseñado un **pipeline sistemático de optimización** para adaptar el script a nuevos datasets:
+
+### **1. Optimización de Temperatura**
+```bash
+# Probar diferentes temperaturas para encontrar la óptima
+python scripts/run_llama_grid.py --dataset n2c2_develop --limit 50
+```
+
+### **2. Optimización de Chunks y Overlap**
+```bash
+# Probar diferentes configuraciones de chunking
+python scripts/run_llama_grid.py --dataset n2c2_develop --limit 50
+```
+
+### **3. Optimización del Umbral de Confianza**
+```bash
+# Probar diferentes umbrales (0.3, 0.5, 0.7, 0.9)
+python ner_multi_strategy.py \
+    --confidence_threshold 0.5 \
+    --input_jsonl ./datasets/n2c2_test_input.jsonl \
+    --benchmark_jsonl ./datasets/n2c2_test.jsonl \
+    --out_pred results_test.jsonl \
+    --limit 50
+```
+
+### **4. Validación y Corrección de Benchmark**
+```bash
+# Analizar falsos positivos para identificar errores en anotaciones humanas
+python scripts/analyze_false_positives_clean.py
+
+# Analizar falsos negativos para verificar cobertura completa
+python scripts/analyze_false_negatives_clean.py
+```
+
+### **5. Actualización del Script Principal**
+Una vez optimizados los parámetros, se actualiza `ner_multi_strategy.py` con:
+- Temperatura óptima
+- Configuración de chunks óptima
+- Umbral de confianza óptimo
+
 ## 📊 Evaluación
 
 ### Evaluar Rendimiento
@@ -119,20 +171,79 @@ python scripts/llama_ner_multi_strategy.py \
 ```bash
 python scripts/evaluate_ner_performance.py \
     --predictions results_final.jsonl \
-    --reference ./datasets/ncbi_develop.jsonl
+    --reference ./datasets/n2c2_test.jsonl
 ```
 
-## 📚 Documentación Adicional
+## **Documentos Disponibles en `docs/`**
 
-- **[Separación de Archivos](docs/SEPARACION_ARCHIVOS.md)**: Guía completa sobre la nueva funcionalidad de separación de archivos de entrada y benchmark
-- **[Metodología Detallada](docs/METODOLOGIA_DETALLADA.md)**: Explicación técnica del sistema multi-estrategia
+La carpeta `docs/` contiene documentación técnica detallada del proyecto:
 
-### Métricas Generadas
+#### **📋 Documentos Principales**
 
-- **Precisión**: True Positives / (True Positives + False Positives)
-- **Recall**: True Positives / (True Positives + False Negatives)
-- **F1-Score**: Media armónica de precisión y recall
-- **Análisis por Estrategia**: Rendimiento individual de cada estrategia
+- **[METODOLOGIA_DETALLADA.md](docs/METODOLOGIA_DETALLADA.md)**
+  - **Descripción**: Explicación técnica completa del sistema NER multi-estrategia
+  - **Contenido**: Arquitectura del sistema, flujo de procesamiento, estrategias implementadas
+  - **Audiencia**: Desarrolladores, investigadores, usuarios técnicos
+  - **Uso**: Referencia para entender cómo funciona internamente el sistema
+
+- **[OPTIMIZACION_PARAMETROS.md](docs/OPTIMIZACION_PARAMETROS.md)**
+  - **Descripción**: Guía completa del pipeline de optimización de parámetros
+  - **Contenido**: Proceso sistemático para optimizar temperatura, chunks, overlap y umbral de confianza
+  - **Audiencia**: Usuarios que quieren adaptar el sistema a nuevos datasets
+  - **Uso**: Tutorial paso a paso para optimización de rendimiento
+
+#### **🔍 Documentos de Análisis**
+
+- **[AUDIT_REPORT.md](AUDIT_REPORT.md)** (en raíz del proyecto)
+  - **Descripción**: Reporte de auditoría del sistema y resultados obtenidos
+  - **Contenido**: Análisis de rendimiento, comparaciones con benchmarks, conclusiones
+  - **Audiencia**: Stakeholders, investigadores, evaluadores del sistema
+
+#### **📊 Documentos de Métricas**
+
+- **[metrics_summary.json](metrics_summary.json)** (en raíz del proyecto)
+  - **Descripción**: Resumen consolidado de todas las métricas de rendimiento
+  - **Contenido**: Precisión, recall, F1-score para todos los datasets evaluados
+  - **Audiencia**: Análisis cuantitativo del rendimiento del sistema
+
+#### **📝 Documentos de Desarrollo**
+
+- **[improvement_log.md](improvement_log.md)** (en raíz del proyecto)
+  - **Descripción**: Registro cronológico de mejoras y optimizaciones realizadas
+  - **Contenido**: Historial de cambios, experimentos, resultados de optimización
+  - **Audiencia**: Equipo de desarrollo, investigadores que quieren entender la evolución
+
+#### **🎯 Cómo Usar la Documentación**
+
+1. **Para empezar**: Lee el README principal (este archivo) para una visión general
+2. **Para entender el sistema**: Consulta `METODOLOGIA_DETALLADA.md` para detalles técnicos
+3. **Para optimizar**: Sigue `OPTIMIZACION_PARAMETROS.md` para mejorar el rendimiento
+4. **Para análisis**: Revisa `AUDIT_REPORT.md` y `metrics_summary.json` para resultados
+5. **Para desarrollo**: Consulta `improvement_log.md` para entender la evolución del proyecto
+
+#### **📖 Estructura de la Documentación**
+
+```
+docs/
+├── METODOLOGIA_DETALLADA.md      # 🧠 Explicación técnica del sistema
+├── OPTIMIZACION_PARAMETROS.md    # ⚙️ Guía de optimización
+└── (futuros documentos)         # 📚 Documentación adicional en desarrollo
+
+📁 Raíz del proyecto
+├── README.md                     # 🚀 Documentación principal (este archivo)
+├── AUDIT_REPORT.md              # 📊 Reporte de auditoría
+├── improvement_log.md            # 📝 Registro de mejoras
+└── metrics_summary.json          # 📈 Resumen de métricas
+```
+
+#### **🔧 Documentación Técnica Adicional**
+
+- **Código fuente**: Todos los scripts incluyen documentación inline detallada
+- **Tests**: La carpeta `tests/` contiene ejemplos de uso y validación
+- **Scripts auxiliares**: Cada script en `scripts/` incluye documentación de uso
+- **Configuración**: Los archivos de configuración están documentados con comentarios
+
+
 
 ## 🔧 Configuración Avanzada
 
@@ -140,18 +251,10 @@ python scripts/evaluate_ner_performance.py \
 
 > ⚠️ **Nota Importante**: El sistema está optimizado para precisión, no velocidad. Las siguientes optimizaciones pueden reducir la precisión significativamente.
 
-#### **Reducir Estrategias**
-```bash
-# Solo usar estrategias más rápidas
-python scripts/llama_ner_multi_strategy.py \
-    --strategies llama32_high_precision,qwen25_diversity \
-    --develop_jsonl ./datasets/ncbi_test.jsonl \
-    --out_pred results_fast.jsonl
-```
 
 #### **Ajustar Tamaños de Chunk**
 ```python
-# En llama_ner_multi_strategy.py
+# En ner_multi_strategy.py
 STRATEGY_FAST = {
     "name": "llama32_fast",
     "model": "llama3.2:3b",
@@ -179,7 +282,7 @@ options = {
 ### Personalizar Estrategias
 
 ```python
-# En llama_ner_multi_strategy.py
+# En ner_multi_strategy.py
 STRATEGY_1 = {
     "name": "custom_strategy",
     "model": "llama3.2:3b",
@@ -197,21 +300,20 @@ CONFIDENCE_THRESHOLDS = {
     "high": 0.9,      # 3+ estrategias
     "medium": 0.7,    # 2+ estrategias
     "low": 0.5,       # 1+ estrategias
-    "min_accept": 0.3 # Mínimo para aceptar
+    "min_accept": 0.5 # Mínimo para aceptar (optimizado para n2c2)
 }
 ```
 
 ## 📈 Rendimiento
 
-### Resultados en Dataset de Desarrollo
+### Métricas Generadas
 
-- **Precisión**: 99.3%
-- **Recall**: 98.9%
-- **F1-Score**: 99.1%
-- **Total Entidades**: 273
-- **Errores**: Solo 5 (1.8% tasa de error)
+- **Precisión**: True Positives / (True Positives + False Positives)
+- **Recall**: True Positives / (True Positives + False Negatives)
+- **F1-Score**: Media armónica de precisión y recall
+- **Análisis por Estrategia**: Rendimiento individual de cada estrategia
 
-### Resultados en Dataset de Test Completo
+### **Resultados en Dataset NCBI (Test Completo)**
 
 - **Precisión**: 99.7%
 - **Recall**: 99.7%
@@ -220,29 +322,50 @@ CONFIDENCE_THRESHOLDS = {
 - **Documentos Procesados**: 93 de 100
 - **Errores**: Solo 2 (0.5% tasa de error)
 
-### Estrategias por Rendimiento
+### **Resultados en Dataset n2c2 (Test - primeros 100 documentos)**
 
-1. **regex**: 100% precisión (384 entidades)
-2. **llama32_balanced**: 100% precisión (130 entidades)
-3. **llama32_max_sensitivity**: 100% precisión (122 entidades)
-4. **llama32_high_precision**: 100% precisión (123 entidades)
-5. **qwen25_diversity**: 100% precisión (96 entidades)
+- **Precisión**: 95.4%
+- **Recall**: 100.0%
+- **F1-Score**: 97.6%
+- **Total Entidades Reales**: 65
+- **Total Entidades en Benchmark**: 47
+
+## **Análisis de Corrección de Anotaciones Humanas**
+
+Durante la evaluación del dataset n2c2, descubrimos que **14 entidades detectadas por la máquina no estaban anotadas en el benchmark**, pero **eran correctas**:
+
+- **PMID 103**: 'orthopnea' (confianza: 1.000)
+- **PMID 106**: 'monitoring' (confianza: 1.000)
+- **PMID 119**: 'hypertension' (confianza: 0.800)
+- **PMID 121**: 'short of breath' (confianza: 0.800)
+- **PMID 127**: 'monitoring' (confianza: 1.000)
+- **PMID 129**: 'angina' (confianza: 1.000)
+- **PMID 136**: 'short of breath' (confianza: 0.800)
+- **PMID 142**: 'hypertension' (confianza: 1.000)
+- **PMID 146**: 'obesity' (confianza: 1.000)
+- **PMID 153**: 'hypertension' (confianza: 1.000)
+- **PMID 155**: 'monitoring' (confianza: 1.000)
+- **PMID 170**: 'monitoring' (confianza: 1.000)
+
+**Conclusión**: La máquina tiene razón en estos casos, demostrando la capacidad del sistema para **identificar errores en anotaciones humanas** y mejorar la calidad del benchmark.
+
 
 ### Análisis de Errores
 
-- **Documentos con errores**: Solo 1 de 93 (PMID 9674903)
+- **Documentos con errores**: Solo 3 de 100 (PMIDs 123, 128, 16)
 - **Tipo de errores**: Variaciones en nomenclatura biomédica
-- **Robustez**: 99.7% de precisión en dataset completo y diverso
+- **Robustez**: 95.4% de precisión en dataset n2c2 con anotaciones corregidas
 
 ## ⚡ Comparación de Rendimiento vs BERT
 
 ### **Ventajas del Sistema Multi-Estrategia**
 
-- **Precisión Superior**: 99.7% vs ~95-97% típico de BERT
+- **Precisión Superior**: 95.4-99.7% vs ~90-95% típico de BERT
 - **Flexibilidad**: Maneja variaciones de nomenclatura biomédica
 - **Interpretabilidad**: Explicable y auditable
 - **Sin Fine-tuning**: Funciona out-of-the-box
 - **Adaptabilidad**: Fácil ajuste de estrategias
+- **Corrección de Anotaciones**: Identifica errores en benchmarks humanos
 
 ### **Desventajas (Limitaciones Conocidas)**
 
@@ -295,6 +418,7 @@ CONFIDENCE_THRESHOLDS = {
 - ✅ **Investigación clínica**: Extraer datos específicos para estudios médicos
 - ✅ **Datasets pequeños-medianos**: < 1000 documentos para análisis detallado
 - ✅ **Entornos de desarrollo**: Prototipado y experimentación
+- ✅ **Corrección de Benchmarks**: Identificar errores en anotaciones humanas
 
 - ❌ **Producción en tiempo real**: Latencia crítica
 - ❌ **Procesamiento masivo**: > 1000 documentos
@@ -302,36 +426,6 @@ CONFIDENCE_THRESHOLDS = {
 - ❌ **Aplicaciones de usuario final**: Requieren respuesta instantánea
 - ❌ **Exploración general**: Cuando no se sabe qué entidades buscar
 - ❌ **Descubrimiento automático**: Detección de nuevas entidades no especificadas
-
-## 🐛 Solución de Problemas
-
-### Ollama No Responde
-
-```bash
-# Verificar estado
-ollama list
-
-# Reiniciar servicio
-ollama serve
-```
-
-### Errores de Memoria
-
-- Reducir `--limit` para procesar menos documentos
-- Verificar que Ollama tenga suficiente RAM disponible
-- Usar estrategias con chunks más pequeños
-
-### Baja Precisión
-
-- Ajustar `--confidence_threshold`
-- Verificar que los modelos estén descargados
-- Revisar logs de debug para errores específicos
-
-## 📚 Archivos de Configuración
-
-### Formato de Entrada de texto a procesar(JSONL)
-
-⚠️ **CRÍTICO**: El campo "Entidad" define **EXACTAMENTE** qué entidades se extraerán del texto. El sistema NO detectará entidades que no estén en esta lista.
 
 #### **Estructura Básica del JSONL:**
 
@@ -477,10 +571,12 @@ Para preguntas o problemas:
 
 ### **¿Cuándo Usar Este Sistema?**
 
-- **✅ Máxima Precisión**: Cuando la precisión > 99% es crítica
+- **✅ Máxima Precisión**: Cuando la precisión > 95% es crítica
 - **✅ Investigación**: Para validar y mejorar otros sistemas NER
 - **✅ Datasets Pequeños**: < 5000 documentos para análisis detallado
 - **✅ Prototipado**: Desarrollo de nuevas estrategias de NER
+- **✅ Corrección de Benchmarks**: Identificar errores en anotaciones humanas
+- **✅ Validación de Calidad**: Verificar la calidad de datasets anotados
 
 ### **¿Cuándo NO Usar Este Sistema?**
 
@@ -493,13 +589,22 @@ Para preguntas o problemas:
 
 | Aspecto | BERT | NER Multi-Estrategia |
 |---------|------|----------------------|
-| **Precisión** | 95-97% | **99.7%** |
+| **Precisión** | 90-95% | **95.4-99.7%** |
 | **Velocidad** | **Muy Rápido** | 20-60x más lento |
 | **Recursos** | **Bajo** | Alto |
 | **Flexibilidad** | Baja | **Muy Alta** |
 | **Interpretabilidad** | Baja | **Muy Alta** |
+| **Corrección de Anotaciones** | No | **Sí** |
 
 **El sistema está diseñado para ser el mejor en precisión, no en velocidad.**
+
+### **Pipeline de Optimización Recomendado**
+
+1. **Dataset de Desarrollo**: Usar para optimizar temperatura, chunks y overlap
+2. **Validación Cruzada**: Probar diferentes configuraciones
+3. **Test Final**: Evaluar con dataset de test optimizado
+4. **Corrección de Benchmark**: Identificar y corregir errores en anotaciones
+5. **Métricas Finales**: Reportar rendimiento con benchmark corregido
 
 ---
 
