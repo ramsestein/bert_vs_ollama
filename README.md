@@ -54,7 +54,7 @@ pip install -r requirements.txt
 
 ```
 bert_vs_ollama/
-├── ner_multi_strategy.py              # 🚀 SISTEMA PRINCIPAL NER (ejecutar desde aquí)
+├── ner_multi_strategy.py              # 🚀 SISTEMA PRINCIPAL NER (ejecutar desde aquí) # main.py *
 ├── old_ner_multi_strategy.py          # 🔄 Sistema original (backup)
 ├── ner_app/                           # 🏗️ Arquitectura modular refactorizada
 ├── tests/                             # 🧪 Suite de tests completa
