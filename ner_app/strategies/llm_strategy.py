@@ -96,6 +96,7 @@ Return ONLY a JSON list like: ["disease1", "disease2"]"""
                             
                             client = get_thread_client()
                             response = client.generate(strategy["model"], system_prompt, prompt, options)
+                            print(f"      [DEBUG] {strategy['name']} -> {response[100]}...")
                             print(f"      [DEBUG] Got response for chunk {chunk_id+1}, length: {len(response)}")
                             
                             # Parse response - try multiple formats

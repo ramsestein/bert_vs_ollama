@@ -60,7 +60,7 @@ def sentence_chunks(text: str, target_tokens: int, overlap_tokens: int,
     chunks = []
     
     if len(tokens) <= target_tokens:
-        return [text]
+        return [" ".join(tokens)]
     
     # Safety check: ensure overlap is less than target_tokens to prevent infinite loops
     if overlap_tokens >= target_tokens:
@@ -78,7 +78,7 @@ def sentence_chunks(text: str, target_tokens: int, overlap_tokens: int,
         # Ensure minimum chunk size
         if len(chunk_tokens) >= min_tokens:
             chunk_text = " ".join(chunk_tokens)
-            if len(chunk_text) <= max_tokens:
+            if len(chunk_tokens) <= max_tokens:
                 chunks.append(chunk_text)
         
         # Move start position with overlap, ensuring we always advance
@@ -96,9 +96,9 @@ def sentence_chunks(text: str, target_tokens: int, overlap_tokens: int,
         print(f"      [WARNING] Reached max iterations in sentence_chunks, forcing completion")
         # Force create at least one chunk
         if not chunks:
-            chunks = [text]
+            chunks = [" ".join(tokens)]
     
-    return chunks if chunks else [text]
+    return chunks if chunks else [" ".join(tokens)]
 
 def create_chunks_from_text(text: str, strategy: dict) -> List[str]:
     """Create chunks from text based on strategy configuration."""
@@ -118,7 +118,7 @@ def create_chunks_from_text(text: str, strategy: dict) -> List[str]:
     
     # Safety check: ensure we have minimum words to process
     if len(words) < strategy["chunk_min"]:
-        chunks = [text]
+        chunks = [" ".join(words)]
         print(f"      [CHUNK] Text too short, using single chunk")
     else:
         start = 0
@@ -133,7 +133,7 @@ def create_chunks_from_text(text: str, strategy: dict) -> List[str]:
             # Ensure minimum chunk size
             if len(chunk_words) >= strategy["chunk_min"]:
                 chunk_text = " ".join(chunk_words)
-                if len(chunk_text) <= strategy["chunk_max"]:
+                if len(chunk_words) <= strategy["chunk_max"]:
                     chunks.append(chunk_text)
                     print(f"      [CHUNK] Created chunk {len(chunks)}: {len(chunk_words)} words")
             
@@ -152,10 +152,10 @@ def create_chunks_from_text(text: str, strategy: dict) -> List[str]:
             print(f"      [WARNING] Reached max iterations, forcing completion")
             # Force create at least one chunk
             if not chunks:
-                chunks = [text]
+                chunks = [" ".join(words)]
     
     if not chunks:
-        chunks = [text]
+        chunks = [" ".join(words)]
         print(f"      [CHUNK] No chunks created, using original text")
     
     print(f"      [CHUNK] Created {len(chunks)} chunks for {strategy['name']}")
