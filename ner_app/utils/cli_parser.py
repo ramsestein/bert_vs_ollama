@@ -28,6 +28,8 @@ def parse_arguments():
                        help="Strategies to use (or 'all' for all strategies)")
     parser.add_argument("--confidence_threshold", type=float, default=0.5,
                        help="Minimum confidence threshold for acceptance")
+    parser.add_argument("--language", type=str, default="en", choices=["en", "es"],
+                       help="Language of the input text: 'en' for English, 'es' for Spanish (default: en)")
     
     # Strategy overrides
     parser.add_argument("--s1_target", type=int, default=None, 

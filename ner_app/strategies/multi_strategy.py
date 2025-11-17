@@ -15,16 +15,24 @@ from ..config.thresholds import CONFIDENCE_THRESHOLDS, get_confidence_rules
 from ..config.settings import MAX_WORKERS, get_system_prompts
 
 def run_multi_strategy_detection(text: str, entity_candidates: List[str], 
-                                strategies: List[Dict], doc_id: str) -> Dict[str, Any]:
-    """Run all detection strategies in parallel and combine results using files for memory efficiency"""
+                                strategies: List[Dict], doc_id: str, language: str = "en") -> Dict[str, Any]:
+    """Run all detection strategies in parallel and combine results using files for memory efficiency
+    
+    Args:
+        text: Input text to process
+        entity_candidates: List of candidate entities to search for
+        strategies: List of strategy configurations
+        doc_id: Document identifier
+        language: Language code ("en" or "es")
+    """
     
     # Strategy 0: Regex detection (baseline) - runs instantly
     print(f"  [STRATEGY] Running regex detection...")
     regex_entities = regex_detection(text, {c: c for c in entity_candidates})
     print(f"    [REGEX] Found {len(regex_entities)} entities")
     
-    # System prompt for LLM strategies
-    system_prompts = get_system_prompts()
+    # System prompt for LLM strategies (language-aware)
+    system_prompts = get_system_prompts(language=language)
     if any(s["model"] == "qwen2.5:3b" for s in strategies):
         system_prompt = system_prompts["qwen2.5:3b"]
     else:

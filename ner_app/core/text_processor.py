@@ -13,8 +13,14 @@ def _fuzzy_match(text1: str, text2: str, threshold: float = 0.8) -> bool:
     if not text1 or not text2:
         return False
     
-    # Remove common words and punctuation
-    common_words = {'the', 'a', 'an', 'and', 'or', 'of', 'in', 'on', 'at', 'to', 'for', 'with', 'by'}
+    # Remove common words and punctuation (English + Spanish)
+    common_words = {
+        # English
+        'the', 'a', 'an', 'and', 'or', 'of', 'in', 'on', 'at', 'to', 'for', 'with', 'by',
+        # Spanish
+        'el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas', 'y', 'o', 'de', 'del', 
+        'en', 'a', 'con', 'por', 'para', 'al'
+    }
     text1_clean = ' '.join([w for w in text1.split() if w.lower() not in common_words])
     text2_clean = ' '.join([w for w in text2.split() if w.lower() not in common_words])
     
@@ -37,16 +43,35 @@ def _fuzzy_match(text1: str, text2: str, threshold: float = 0.8) -> bool:
     similarity = intersection / union
     return similarity >= threshold
 
-def normalize_surface(text: str) -> str:
-    """Normalize text for consistent processing."""
+def normalize_surface(text: str, remove_accents: bool = False) -> str:
+    """Normalize text for consistent processing.
+    
+    Args:
+        text: Text to normalize
+        remove_accents: If True, remove accents for fuzzy matching (useful for Spanish)
+    """
     if not text:
         return ""
+    
     # Remove extra whitespace
     text = re.sub(r'\s+', ' ', text)
+    
     # Normalize quotes and dashes
     text = re.sub(r'["""]', '"', text)
     text = re.sub(r"[''']", "'", text)
     text = re.sub(r'–|—', '-', text)
+    
+    # Optionally remove accents for Spanish matching
+    if remove_accents:
+        # Spanish accent normalization
+        accent_map = {
+            'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ü': 'u',
+            'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ü': 'U',
+            'ñ': 'n', 'Ñ': 'N'
+        }
+        for accented, plain in accent_map.items():
+            text = text.replace(accented, plain)
+    
     return text.strip()
 
 def tokenize(text: str) -> List[str]:
@@ -111,6 +136,14 @@ def create_chunks_from_text(text: str, strategy: dict) -> List[str]:
     target_size = strategy["chunk_target"]
     overlap = strategy["chunk_overlap"]
     
+    # 🔍 DEBUG LOGS
+    print(f"      [CHUNK DEBUG] Text length: {len(text)} characters")
+    print(f"      [CHUNK DEBUG] Total words: {len(words)}")
+    print(f"      [CHUNK DEBUG] Target size: {target_size} words")
+    print(f"      [CHUNK DEBUG] Overlap: {overlap} words")
+    print(f"      [CHUNK DEBUG] Min chunk: {strategy['chunk_min']} words")
+    print(f"      [CHUNK DEBUG] Max chunk: {strategy['chunk_max']} words")
+    
     # Safety check: ensure overlap is less than target_size to prevent infinite loops
     if overlap >= target_size:
         print(f"      [WARNING] Overlap ({overlap}) >= target_size ({target_size}), reducing overlap to {target_size//2}")
@@ -119,8 +152,9 @@ def create_chunks_from_text(text: str, strategy: dict) -> List[str]:
     # Safety check: ensure we have minimum words to process
     if len(words) < strategy["chunk_min"]:
         chunks = [" ".join(words)]
-        print(f"      [CHUNK] Text too short, using single chunk")
+        print(f"      [CHUNK] ⚠️  Text too short ({len(words)} < {strategy['chunk_min']}), using single chunk")
     else:
+        print(f"      [CHUNK DEBUG] ✅ Text has enough words ({len(words)} >= {strategy['chunk_min']}), creating multiple chunks...")
         start = 0
         iteration_count = 0
         
@@ -135,12 +169,19 @@ def create_chunks_from_text(text: str, strategy: dict) -> List[str]:
                 chunk_text = " ".join(chunk_words)
                 if len(chunk_words) <= strategy["chunk_max"]:
                     chunks.append(chunk_text)
-                    print(f"      [CHUNK] Created chunk {len(chunks)}: {len(chunk_words)} words")
+                    print(f"      [CHUNK] ✅ Created chunk {len(chunks)}: {len(chunk_words)} words (start={start}, end={end})")
+                else:
+                    print(f"      [CHUNK] ⚠️  Chunk too large ({len(chunk_words)} > {strategy['chunk_max']}), skipping")
+            else:
+                print(f"      [CHUNK] ⚠️  Chunk too small ({len(chunk_words)} < {strategy['chunk_min']}), skipping")
             
             # Move start position with overlap, ensuring we always advance
             new_start = end - overlap
             if new_start <= start:  # Safety check: ensure we're advancing
                 new_start = start + 1
+                print(f"      [CHUNK DEBUG] ⚠️  new_start <= start, forcing advance to {new_start}")
+            
+            print(f"      [CHUNK DEBUG] Moving to next chunk: old_start={start} -> new_start={new_start} (end={end}, overlap={overlap})")
             
             start = new_start
             
@@ -156,7 +197,10 @@ def create_chunks_from_text(text: str, strategy: dict) -> List[str]:
     
     if not chunks:
         chunks = [" ".join(words)]
-        print(f"      [CHUNK] No chunks created, using original text")
+        print(f"      [CHUNK] ⚠️  No chunks created, using original text as single chunk")
     
-    print(f"      [CHUNK] Created {len(chunks)} chunks for {strategy['name']}")
+    print(f"      [CHUNK] ✅ FINAL RESULT: Created {len(chunks)} total chunks for {strategy['name']}")
+    for i, chunk in enumerate(chunks, 1):
+        print(f"      [CHUNK]    Chunk {i}: {len(chunk.split())} words, {len(chunk)} chars")
+    
     return chunks

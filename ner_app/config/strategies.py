@@ -5,10 +5,10 @@ Defines the 4 main strategies with their specific parameters for
 chunking, temperature, and model selection.
 """
 
-# Strategy 1: llama3.2:3b - Chunks Grandes (Máxima Sensibilidad)
+# Strategy 1: gemma3 - Chunks Grandes (Máxima Sensibilidad)
 STRATEGY_1 = {
-    "name": "llama32_max_sensitivity",
-    "model": "llama3.2:3b",
+    "name": "gemma3_max_sensitivity",
+    "model": "gemma3",
     "chunk_target": 100,
     "chunk_overlap": 40,
     "chunk_min": 50,
@@ -17,10 +17,10 @@ STRATEGY_1 = {
     "weight": 1.0
 }
 
-# Strategy 2: llama3.2:3b - Chunks Medianos (Balance)
+# Strategy 2: gemma3 - Chunks Medianos (Balance)
 STRATEGY_2 = {
-    "name": "llama32_balanced",
-    "model": "llama3.2:3b",
+    "name": "gemma3_balanced",
+    "model": "gemma3",
     "chunk_target": 60,
     "chunk_overlap": 30,
     "chunk_min": 30,
@@ -29,10 +29,10 @@ STRATEGY_2 = {
     "weight": 1.0
 }
 
-# Strategy 3: llama3.2:3b - Chunks Pequeños (Máxima Precisión)
+# Strategy 3: gemma3 - Chunks Pequeños (Máxima Precisión)
 STRATEGY_3 = {
-    "name": "llama32_high_precision",
-    "model": "llama3.2:3b",
+    "name": "gemma3_high_precision",
+    "model": "gemma3",
     "chunk_target": 30,
     "chunk_overlap": 15,
     "chunk_min": 15,

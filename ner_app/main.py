@@ -17,14 +17,14 @@ from .utils.cli_parser import parse_arguments, configure_strategies, print_confi
 from .config.thresholds import update_confidence_thresholds
 
 def process_document(pmid: str, text: str, entity_candidates: List[str], 
-                    strategies: List[Dict]) -> Dict[str, Any]:
+                    strategies: List[Dict], language: str = "en") -> Dict[str, Any]:
     """Process a single document with multi-strategy detection."""
     print(f"[PROCESSING] PMID={pmid} | text_length={len(text)} | candidates={len(entity_candidates)}")
     
     t0 = time.time()
     
-    # Run multi-strategy detection
-    results = run_multi_strategy_detection(text, entity_candidates, strategies, pmid)
+    # Run multi-strategy detection (with language parameter)
+    results = run_multi_strategy_detection(text, entity_candidates, strategies, pmid, language=language)
     
     # Prepare output
     output = {
@@ -186,8 +186,9 @@ def main():
             print(f"[PROCESSING] PMID={doc['pmid']} | text_length={len(doc['text'])}")
             print(f"[INFO] Found {len(doc['entity_candidates'])} entity candidates in this document")
             
-            # Process this document
-            result = process_document(doc['pmid'], doc['text'], doc['entity_candidates'], strategies)
+            # Process this document (with language from args)
+            result = process_document(doc['pmid'], doc['text'], doc['entity_candidates'], 
+                                     strategies, language=args.language)
             results.append(result)
             
             print(f"[COMPLETED] Document {i} processed successfully")
