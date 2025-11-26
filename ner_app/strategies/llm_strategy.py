@@ -67,9 +67,19 @@ def llm_detection_strategy_file(text: str, strategy: Dict, entity_candidates: Li
 EXTRACT disease names. Return ONLY: ["disease1", "disease2"]"""
                     else:
                         # Standard prompt for other models
-                        prompt = f"""Diseases in this text: {chunk}
+                        prompt = f"""You are a medical text assistant. Extract disease names mentioned in the following text.
 
-Return ONLY a JSON list like: ["disease1", "disease2"]"""
+TEXT:
+{chunk}
+
+Instructions:
+1. Return ONLY terms that appear verbatim in the text.
+2. Do NOT return placeholders, examples, or invented diseases.
+3. If no diseases are found, return an empty list: [].
+4. Return ONLY a JSON array of disease names.
+
+Example of JSON output: []
+"""
                     
                     print(f"      [DEBUG] Built prompt for chunk {chunk_id+1}, calling LLM...")
                     
@@ -167,8 +177,14 @@ Return ONLY a JSON list like: ["disease1", "disease2"]"""
                             # Modify prompt slightly to encourage entity detection
                             enhanced_prompt = f"""TEXT: {chunk}
 
-EXTRACT disease names. If you find any diseases, return them as: ["disease1", "disease2"]
-If you find NO diseases, return: []"""
+Instructions:
+1. Extract disease names mentioned in the text.
+2. Return ONLY terms that appear verbatim in the text.
+3. Do NOT return placeholders, examples, or invented diseases.
+4. If no diseases are found, return an empty list: [].
+5. Return ONLY a JSON array of disease names.
+"""
+
                             
                             client = get_thread_client()
                             response = client.generate(strategy["model"], system_prompt, enhanced_prompt, options)

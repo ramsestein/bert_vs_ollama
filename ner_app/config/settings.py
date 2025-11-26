@@ -14,7 +14,7 @@ STRATEGY_FILE_PREFIX = "strategy_"
 # LLM client settings
 DEFAULT_HOST = "localhost"
 DEFAULT_PORT = 11434
-DEFAULT_TIMEOUT = 30  # seconds
+DEFAULT_TIMEOUT = 600  # seconds (increased to handle slow model responses)
 
 # Caching settings
 CACHE_MAX_SIZE = 1000

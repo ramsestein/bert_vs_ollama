@@ -41,15 +41,15 @@ STRATEGY_3 = {
     "weight": 1.0
 }
 
-# Strategy 4: qwen2.5:3b - Chunks Pequeños (Diversidad)
+# Strategy 4: qwen2.5:3b - Chunks Medianos (Diversidad Optimizada)
 STRATEGY_4 = {
     "name": "qwen25_diversity",
     "model": "qwen2.5:3b",
-    "chunk_target": 20,
-    "chunk_overlap": 10,
-    "chunk_min": 10,
-    "chunk_max": 30,
-    "temperature": 0.5,
+    "chunk_target": 30,
+    "chunk_overlap": 15,
+    "chunk_min": 15,
+    "chunk_max": 45,
+    "temperature": 0.3,
     "weight": 0.5
 }
 

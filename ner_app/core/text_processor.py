@@ -161,6 +161,12 @@ def create_chunks_from_text(text: str, strategy: dict) -> List[str]:
         while start < len(words) and iteration_count < MAX_CHUNK_ITERATIONS:
             iteration_count += 1
             
+            # Stop early if remaining words can't form a valid chunk
+            remaining_words = len(words) - start
+            if remaining_words < strategy["chunk_min"]:
+                print(f"      [CHUNK DEBUG] ⏹️  Stopping: remaining words ({remaining_words}) < min_chunk ({strategy['chunk_min']})")
+                break
+            
             end = min(start + target_size, len(words))
             chunk_words = words[start:end]
             

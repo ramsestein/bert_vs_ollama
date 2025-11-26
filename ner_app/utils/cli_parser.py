@@ -22,6 +22,8 @@ def parse_arguments():
     # Optional arguments
     parser.add_argument("--out_pred", default="results_multi_strategy.jsonl", 
                        help="Output file")
+    parser.add_argument("--log_file", default=None, 
+                       help="Log file path (default: auto-generated with timestamp)")
     parser.add_argument("--limit", type=int, default=0, 
                        help="Limit number of documents (0 = all)")
     parser.add_argument("--strategies", nargs="+", default=["all"], 

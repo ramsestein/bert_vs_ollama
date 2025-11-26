@@ -8,6 +8,9 @@ Main entry point for the NER application with modular architecture.
 import json
 import time
 import gc
+import logging
+import sys
+from datetime import datetime
 from collections import defaultdict
 from typing import List, Dict, Any
 
@@ -15,6 +18,56 @@ from .core.file_manager import ensure_temp_dir, cleanup_temp_files
 from .strategies.multi_strategy import run_multi_strategy_detection
 from .utils.cli_parser import parse_arguments, configure_strategies, print_configuration, validate_arguments
 from .config.thresholds import update_confidence_thresholds
+
+def setup_logging(log_file: str = None):
+    """Configure logging to write to both console and file.
+    
+    Args:
+        log_file: Path to log file. If None, auto-generates timestamp-based name.
+    """
+    import threading
+    
+    if log_file is None:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        log_file = f"ner_processing_{timestamp}.log"
+    
+    # Open log file for writing
+    log_file_handle = open(log_file, 'w', encoding='utf-8')
+    
+    # Create a tee-like writer that writes to both console and file
+    class TeeWriter:
+        def __init__(self, file_handle, console_handle):
+            self.file = file_handle
+            self.console = console_handle
+            self.lock = threading.Lock()  # Thread-safe logging
+        
+        def write(self, message):
+            with self.lock:
+                # Write to console
+                self.console.write(message)
+                self.console.flush()
+                # Write to file with timestamp for non-empty lines
+                if message.strip():
+                    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    self.file.write(f"{timestamp} - {message}")
+                else:
+                    self.file.write(message)
+                self.file.flush()
+        
+        def flush(self):
+            with self.lock:
+                self.console.flush()
+                self.file.flush()
+    
+    # Save original stdout and stderr
+    original_stdout = sys.stdout
+    original_stderr = sys.stderr
+    
+    # Redirect stdout and stderr to capture ALL print statements
+    sys.stdout = TeeWriter(log_file_handle, original_stdout)
+    sys.stderr = TeeWriter(log_file_handle, original_stderr)
+    
+    return log_file
 
 def process_document(pmid: str, text: str, entity_candidates: List[str], 
                     strategies: List[Dict], language: str = "en") -> Dict[str, Any]:
@@ -158,6 +211,13 @@ def main():
             print("[ERROR] Invalid arguments provided")
             return 1
         
+        # Setup logging
+        log_file = setup_logging(args.log_file)
+        print(f"[INFO] Logging to file: {log_file}")
+        print(f"="*80)
+        print(f"NER Multi-Strategy Processing - Started at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"="*80)
+        
         # Configure strategies and thresholds
         strategies = configure_strategies(args)
         update_confidence_thresholds(args.confidence_threshold)
@@ -206,6 +266,10 @@ def main():
         cleanup_temp_files()
         
         print(f"\n[SUCCESS] Processing completed successfully!")
+        print(f"="*80)
+        print(f"Processing completed at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"Log saved to: {log_file}")
+        print(f"="*80)
         return 0
         
     except KeyboardInterrupt:
