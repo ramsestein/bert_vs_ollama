@@ -168,7 +168,8 @@ def print_summary(results: List[Dict[str, Any]], strategies: List[Dict]):
         for r in results:
             for ent in r["Entidad"]:
                 all_confidences.append(ent["confidence"])
-        avg_confidence = sum(all_confidences) / len(all_confidences)
+        if all_confidences:
+            avg_confidence = sum(all_confidences) / len(all_confidences)
     
     print(f"[SUMMARY] Total entities detected: {total_entities}")
     print(f"[SUMMARY] Average confidence: {avg_confidence:.3f}")
@@ -224,6 +225,21 @@ def main():
         
         # Print configuration
         print_configuration(args, strategies)
+        
+        # Log strategy details
+        print(f"\n{'='*80}")
+        print(f"[STRATEGIES CONFIGURATION]")
+        print(f"{'='*80}")
+        for i, strategy in enumerate(strategies, 1):
+            print(f"\n  Strategy {i}: {strategy['name']}")
+            print(f"    Model: {strategy.get('model', 'N/A')}")
+            print(f"    Chunk target: {strategy.get('chunk_target', 'N/A')} words")
+            print(f"    Chunk overlap: {strategy.get('chunk_overlap', 'N/A')} words")
+            print(f"    Chunk min: {strategy.get('chunk_min', 'N/A')} words")
+            print(f"    Chunk max: {strategy.get('chunk_max', 'N/A')} words")
+            print(f"    Temperature: {strategy.get('temperature', 'N/A')}")
+            print(f"    Weight: {strategy.get('weight', 'N/A')}")
+        print(f"{'='*80}\n")
         
         # Setup temporary directory
         ensure_temp_dir()
