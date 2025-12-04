@@ -136,7 +136,7 @@ def create_chunks_from_text(text: str, strategy: dict) -> List[str]:
     target_size = strategy["chunk_target"]
     overlap = strategy["chunk_overlap"]
     
-    # 🔍 DEBUG LOGS
+    # DEBUG LOGS
     print(f"      [CHUNK DEBUG] Text length: {len(text)} characters")
     print(f"      [CHUNK DEBUG] Total words: {len(words)}")
     print(f"      [CHUNK DEBUG] Target size: {target_size} words")
@@ -152,20 +152,14 @@ def create_chunks_from_text(text: str, strategy: dict) -> List[str]:
     # Safety check: ensure we have minimum words to process
     if len(words) < strategy["chunk_min"]:
         chunks = [" ".join(words)]
-        print(f"      [CHUNK] ⚠️  Text too short ({len(words)} < {strategy['chunk_min']}), using single chunk")
+        print(f"      [CHUNK] [WARN] Text too short ({len(words)} < {strategy['chunk_min']}), using single chunk")
     else:
-        print(f"      [CHUNK DEBUG] ✅ Text has enough words ({len(words)} >= {strategy['chunk_min']}), creating multiple chunks...")
+        print(f"      [CHUNK DEBUG] [OK] Text has enough words ({len(words)} >= {strategy['chunk_min']}), creating multiple chunks...")
         start = 0
         iteration_count = 0
         
         while start < len(words) and iteration_count < MAX_CHUNK_ITERATIONS:
             iteration_count += 1
-            
-            # Stop early if remaining words can't form a valid chunk
-            remaining_words = len(words) - start
-            if remaining_words < strategy["chunk_min"]:
-                print(f"      [CHUNK DEBUG] ⏹️  Stopping: remaining words ({remaining_words}) < min_chunk ({strategy['chunk_min']})")
-                break
             
             end = min(start + target_size, len(words))
             chunk_words = words[start:end]
@@ -175,17 +169,17 @@ def create_chunks_from_text(text: str, strategy: dict) -> List[str]:
                 chunk_text = " ".join(chunk_words)
                 if len(chunk_words) <= strategy["chunk_max"]:
                     chunks.append(chunk_text)
-                    print(f"      [CHUNK] ✅ Created chunk {len(chunks)}: {len(chunk_words)} words (start={start}, end={end})")
+                    print(f"      [CHUNK] [OK] Created chunk {len(chunks)}: {len(chunk_words)} words (start={start}, end={end})")
                 else:
-                    print(f"      [CHUNK] ⚠️  Chunk too large ({len(chunk_words)} > {strategy['chunk_max']}), skipping")
+                    print(f"      [CHUNK] [WARN] Chunk too large ({len(chunk_words)} > {strategy['chunk_max']}), skipping")
             else:
-                print(f"      [CHUNK] ⚠️  Chunk too small ({len(chunk_words)} < {strategy['chunk_min']}), skipping")
+                print(f"      [CHUNK] [WARN] Chunk too small ({len(chunk_words)} < {strategy['chunk_min']}), skipping")
             
             # Move start position with overlap, ensuring we always advance
             new_start = end - overlap
             if new_start <= start:  # Safety check: ensure we're advancing
                 new_start = start + 1
-                print(f"      [CHUNK DEBUG] ⚠️  new_start <= start, forcing advance to {new_start}")
+                print(f"      [CHUNK DEBUG] [WARN] new_start <= start, forcing advance to {new_start}")
             
             print(f"      [CHUNK DEBUG] Moving to next chunk: old_start={start} -> new_start={new_start} (end={end}, overlap={overlap})")
             
@@ -203,9 +197,9 @@ def create_chunks_from_text(text: str, strategy: dict) -> List[str]:
     
     if not chunks:
         chunks = [" ".join(words)]
-        print(f"      [CHUNK] ⚠️  No chunks created, using original text as single chunk")
+        print(f"      [CHUNK] [WARN] No chunks created, using original text as single chunk")
     
-    print(f"      [CHUNK] ✅ FINAL RESULT: Created {len(chunks)} total chunks for {strategy['name']}")
+    print(f"      [CHUNK] [OK] FINAL RESULT: Created {len(chunks)} total chunks for {strategy['name']}")
     for i, chunk in enumerate(chunks, 1):
         print(f"      [CHUNK]    Chunk {i}: {len(chunk.split())} words, {len(chunk)} chars")
     

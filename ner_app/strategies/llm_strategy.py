@@ -120,7 +120,7 @@ Example of JSON output: []
                                     if isinstance(result, list):
                                         present = result
                                         final_attempt = attempt + 1
-                                        print(f"      [DEBUG] ✓ SUCCESS! Found JSON array with {len(present)} items: {present}")
+                                        print(f"      [DEBUG] [OK] SUCCESS! Found JSON array with {len(present)} items: {present}")
                                         break  # Success, exit retry loop
                                     else:
                                         print(f"      [DEBUG] JSON array is not a list, retrying...")
@@ -139,7 +139,7 @@ Example of JSON output: []
                                         present = result.get("present", [])
                                         if isinstance(present, list):
                                             final_attempt = attempt + 1
-                                            print(f"      [DEBUG] ✓ SUCCESS! Found JSON object with 'present' field: {len(present)} items: {present}")
+                                            print(f"      [DEBUG] [OK] SUCCESS! Found JSON object with 'present' field: {len(present)} items: {present}")
                                             break  # Success, exit retry loop
                                         else:
                                             print(f"      [DEBUG] 'present' field is not a list, retrying...")
@@ -197,7 +197,7 @@ Instructions:
                                     if isinstance(result, list):
                                         present = result
                                         final_attempt = 4  # Mark as 4th attempt (empty retry)
-                                        print(f"      [DEBUG] ✓ SUCCESS on empty retry! Found {len(present)} items: {present}")
+                                        print(f"      [DEBUG] [OK] SUCCESS on empty retry! Found {len(present)} items: {present}")
                                 except json.JSONDecodeError:
                                     print(f"      [DEBUG] Empty retry failed to parse JSON")
                         except Exception as e:
@@ -242,22 +242,22 @@ Instructions:
                                     
                                     if candidate_lower == entity_lower:
                                         detected_entities.add(candidate)  # Use original candidate text
-                                        print(f"      [DEBUG] ✓ MATCH! Found entity: {candidate} (matched: {entity})")
+                                        print(f"      [DEBUG] [OK] MATCH! Found entity: {candidate} (matched: {entity})")
                                         break
                                     elif entity_lower in candidate_lower or candidate_lower in entity_lower:
                                         print(f"      [DEBUG] ~ PARTIAL MATCH: '{entity_lower}' vs '{candidate_lower}'")
                                         # Add partial matches with lower confidence
                                         detected_entities.add(candidate)
-                                        print(f"      [DEBUG] ✓ PARTIAL MATCH! Added: {candidate}")
+                                        print(f"      [DEBUG] [OK] PARTIAL MATCH! Added: {candidate}")
                                         break
                                     # Add fuzzy matching for similar terms
                                     elif _fuzzy_match(entity_lower, candidate_lower):
                                         print(f"      [DEBUG] ~ FUZZY MATCH: '{entity_lower}' vs '{candidate_lower}'")
                                         detected_entities.add(candidate)
-                                        print(f"      [DEBUG] ✓ FUZZY MATCH! Added: {candidate}")
+                                        print(f"      [DEBUG] [OK] FUZZY MATCH! Added: {candidate}")
                                         break
                                     else:
-                                        print(f"      [DEBUG] ✗ NO MATCH: '{entity_lower}' vs '{candidate_lower}'")
+                                        print(f"      [DEBUG] [X] NO MATCH: '{entity_lower}' vs '{candidate_lower}'")
                         
                         print(f"      [DEBUG] Parsed {len(present)} entities from chunk {chunk_id+1}, {len(detected_entities)} matched candidates")
                     else:

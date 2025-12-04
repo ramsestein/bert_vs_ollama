@@ -52,7 +52,7 @@ def fuzzy_match(predicted: str, reference: str, threshold: float = 0.8) -> bool:
 def evaluate_ner_performance(predictions_file: str, reference_file: str = None) -> Dict:
     """Evalúa el rendimiento NER comparando predicciones con referencias"""
     
-    print(f"📊 EVALUANDO RENDIMIENTO NER: {predictions_file}")
+    print(f"[NER EVAL] Evaluando: {predictions_file}")
     
     # Cargar predicciones
     predictions = []
@@ -61,12 +61,12 @@ def evaluate_ner_performance(predictions_file: str, reference_file: str = None) 
             if line.strip():
                 predictions.append(json.loads(line))
     
-    print(f"📁 Predicciones cargadas: {len(predictions)} documentos")
+    print(f"[LOADED] Predicciones: {len(predictions)} documentos")
     
     # Si no hay archivo de referencia, usar las entidades del mismo archivo
     if not reference_file:
         reference_file = predictions_file
-        print("ℹ️  Usando entidades del mismo archivo como referencia")
+        print("[INFO] Usando entidades del mismo archivo como referencia")
     
     # Cargar referencias
     references = []
@@ -75,7 +75,7 @@ def evaluate_ner_performance(predictions_file: str, reference_file: str = None) 
             if line.strip():
                 references.append(json.loads(line))
     
-    print(f"📁 Referencias cargadas: {len(references)} documentos")
+    print(f"[LOADED] Referencias: {len(references)} documentos")
     
     # Crear diccionario de referencias por PMID
     ref_by_pmid = {}
@@ -88,7 +88,7 @@ def evaluate_ner_performance(predictions_file: str, reference_file: str = None) 
                     entities.append(normalize_text(ent["texto"]))
             ref_by_pmid[pmid] = entities
     
-    print(f"🔍 Referencias indexadas por PMID: {len(ref_by_pmid)} documentos")
+    print(f"[INDEXED] Referencias por PMID: {len(ref_by_pmid)} documentos")
     
     # Evaluar cada predicción
     total_tp = 0  # True Positives
@@ -110,7 +110,7 @@ def evaluate_ner_performance(predictions_file: str, reference_file: str = None) 
         reference_entities = ref_by_pmid.get(pmid, [])
         
         if not reference_entities:
-            print(f"⚠️  No se encontraron referencias para PMID {pmid}")
+            print(f"[WARNING] No se encontraron referencias para PMID {pmid}")
             continue
         
         # Calcular métricas para este documento
@@ -156,7 +156,7 @@ def evaluate_ner_performance(predictions_file: str, reference_file: str = None) 
         }
         detailed_results.append(doc_result)
         
-        print(f"📄 PMID {pmid}: TP={tp}, FP={fp}, FN={fn}, P={doc_result['precision']:.3f}, R={doc_result['recall']:.3f}")
+        print(f"[DOC] PMID {pmid}: TP={tp}, FP={fp}, FN={fn}, P={doc_result['precision']:.3f}, R={doc_result['recall']:.3f}")
     
     # Calcular métricas globales
     precision = total_tp / (total_tp + total_fp) if (total_tp + total_fp) > 0 else 0.0
@@ -226,35 +226,35 @@ def print_results(results: Dict):
     """Imprime los resultados de la evaluación"""
     
     print("\n" + "="*60)
-    print("🏆 RESULTADOS DE EVALUACIÓN NER")
+    print("RESULTADOS DE EVALUACION NER")
     print("="*60)
     
     overall = results["overall"]
     summary = results["summary"]
     
-    print(f"\n📊 MÉTRICAS GLOBALES:")
+    print(f"\nMETRICAS GLOBALES:")
     print(f"   Precisión: {overall['precision']:.3f} ({overall['precision']*100:.1f}%)")
     print(f"   Recall:    {overall['recall']:.3f} ({overall['recall']*100:.1f}%)")
     print(f"   F1-Score:  {overall['f1']:.3f} ({overall['f1']*100:.1f}%)")
     
-    print(f"\n📈 CONTEO DE ENTIDADES:")
+    print(f"\nCONTEO DE ENTIDADES:")
     print(f"   True Positives (TP):  {overall['tp']}")
     print(f"   False Positives (FP): {overall['fp']}")
     print(f"   False Negatives (FN): {overall['fn']}")
     
-    print(f"\n📁 RESUMEN DEL DATASET:")
+    print(f"\nRESUMEN DEL DATASET:")
     print(f"   Documentos procesados: {summary['total_documents']}")
     print(f"   Entidades predichas:   {summary['total_predictions']}")
     print(f"   Entidades de referencia: {summary['total_references']}")
     
-    print(f"\n🎯 RENDIMIENTO POR ESTRATEGIA:")
+    print(f"\nRENDIMIENTO POR ESTRATEGIA:")
     for strategy, metrics in results["strategy_metrics"].items():
         p = metrics["precision"]
         tp = metrics["tp"]
         fp = metrics["fp"]
         print(f"   {strategy:20}: P={p:.3f} ({p*100:.1f}%) | TP={tp}, FP={fp}")
     
-    print(f"\n📊 ANÁLISIS DETALLADO:")
+    print(f"\nANALISIS DETALLADO:")
     print("   Los primeros 5 documentos:")
     for i, doc in enumerate(results["detailed_results"][:5]):
         print(f"   {i+1}. PMID {doc['pmid']}: P={doc['precision']:.3f}, R={doc['recall']:.3f}")
@@ -281,10 +281,10 @@ def main():
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(results, f, ensure_ascii=False, indent=2)
         
-        print(f"\n💾 Resultados guardados en: {output_file}")
+        print(f"\n[SAVED] Resultados guardados en: {output_file}")
         
     except Exception as e:
-        print(f"❌ Error durante la evaluación: {e}")
+        print(f"[ERROR] Error durante la evaluacion: {e}")
         import traceback
         traceback.print_exc()
 

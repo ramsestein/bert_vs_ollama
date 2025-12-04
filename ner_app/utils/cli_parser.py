@@ -28,6 +28,10 @@ def parse_arguments():
                        help="Limit number of documents (0 = all)")
     parser.add_argument("--strategies", nargs="+", default=["all"], 
                        help="Strategies to use (or 'all' for all strategies)")
+    parser.add_argument("--model", type=str, default=None,
+                       help="Model name for dynamic strategy creation (e.g., 'qwen', 'gemma', 'llama'). Overrides --strategies.")
+    parser.add_argument("--model-id", type=str, default=None,
+                       help="Full model ID for Ollama (e.g., 'qwen2.5:3b', 'gemma2:9b'). Used with --model.")
     parser.add_argument("--confidence_threshold", type=float, default=0.5,
                        help="Minimum confidence threshold for acceptance")
     parser.add_argument("--language", type=str, default="en", choices=["en", "es"],
@@ -59,11 +63,37 @@ def parse_arguments():
 
 def configure_strategies(args) -> List[Dict]:
     """Configure strategies based on command-line arguments."""
-    # Select strategies
-    if "all" in args.strategies:
-        strategies = ALL_STRATEGIES.copy()
+    # If --model is specified, create a dynamic strategy (independent of strategies.py)
+    if args.model:
+        # Map common model names to their Ollama IDs
+        model_id_map = {
+            "qwen": "qwen2.5:3b",
+            "gemma": "gemma2:9b",
+            "llama": "llama3.2:3b",
+            "gemma3": "gemma2:9b"
+        }
+        
+        # Use provided model-id or map from model name
+        model_id = args.model_id if args.model_id else model_id_map.get(args.model.lower(), args.model)
+        
+        # Create a dynamic strategy with default parameters
+        strategies = [{
+            "name": f"{args.model}_dynamic",
+            "model": model_id,
+            "chunk_target": 50,  # Default, will be overridden by grid search
+            "chunk_overlap": 10,  # Default, will be overridden by grid search
+            "chunk_min": 10,
+            "chunk_max": 150,
+            "temperature": 0.3  # Default, will be overridden by grid search
+        }]
+        
+        print(f"[CONFIG] Created dynamic strategy for model: {model_id}")
     else:
-        strategies = [s for s in ALL_STRATEGIES if s["name"] in args.strategies]
+        # Original behavior: use predefined strategies from strategies.py
+        if "all" in args.strategies:
+            strategies = ALL_STRATEGIES.copy()
+        else:
+            strategies = [s for s in ALL_STRATEGIES if s["name"] in args.strategies]
     
     # Apply overrides
     name_to_strategy = {s["name"]: s for s in strategies}

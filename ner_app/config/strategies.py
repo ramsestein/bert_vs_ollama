@@ -50,8 +50,7 @@ STRATEGY_4 = {
     "chunk_min": 10,
     "chunk_max": 30,
     "temperature": 0.5,
-    "top_p": 0.95,
-    "weight": 1.0
+    "weight": 0.5
 }
 
 # All strategies (4 for maximum recovery)

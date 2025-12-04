@@ -90,7 +90,8 @@ def run_multi_strategy_detection(text: str, entity_candidates: List[str],
     for strategy_name, detected_entities in all_detections.items():
         strategy_weight = 1.0
         if strategy_name != "regex":
-            strategy_weight = next(s["weight"] for s in strategies if s["name"] == strategy_name)
+            # Get weight from strategy, default to 1.0 if not present (for dynamic strategies)
+            strategy_weight = next((s.get("weight", 1.0) for s in strategies if s["name"] == strategy_name), 1.0)
         
         for entity in detected_entities:
             if entity not in entity_confidence:

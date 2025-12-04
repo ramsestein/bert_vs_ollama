@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """
-Script para analizar falsos negativos del resultado limpio de n2c2
+Script para analizar falsos negativos comparando predicciones con benchmark
 """
 
 import json
 import os
+import argparse
 
-def analyze_false_negatives(predictions_file, benchmark_file):
+def analyze_false_negatives(predictions_file, benchmark_file, output_file="false_negatives_analysis.json"):
     """Analiza los falsos negativos comparando benchmark con predicciones"""
-    print(f"=== ANÁLISIS DE FALSOS NEGATIVOS (100 documentos procesados) ===\n")
+    print(f"=== ANÁLISIS DE FALSOS NEGATIVOS ===")
     
     # Cargar archivos
     print(f"[INFO] Cargando predicciones: {predictions_file}")
@@ -80,7 +81,7 @@ def analyze_false_negatives(predictions_file, benchmark_file):
                 })
     
     # Mostrar resultados
-    print(f"\n=== RESULTADOS (100 documentos procesados) ===\n")
+    print(f"\n=== RESULTADOS ({len(processed_pmids)} documentos procesados) ===\n")
     print(f"Total entidades en benchmark (filtrado): {total_benchmark_entities}")
     print(f"Total entidades detectadas: {total_detected_entities}")
     print(f"Total falsos negativos: {len(false_negatives)}")
@@ -112,7 +113,6 @@ def analyze_false_negatives(predictions_file, benchmark_file):
             print()
         
         # Guardar resultados en JSON
-        output_file = "false_negatives_clean_analysis.json"
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump({
                 "summary": {
@@ -136,18 +136,36 @@ def analyze_false_negatives(predictions_file, benchmark_file):
 
 def main():
     """Función principal"""
-    predictions_file = "results_n2c2_clean_100.jsonl"
-    benchmark_file = "datasets/n2c2_test.jsonl"
+    parser = argparse.ArgumentParser(
+        description="Analiza falsos negativos comparando predicciones con benchmark"
+    )
+    parser.add_argument(
+        "--predictions",
+        required=True,
+        help="Archivo JSONL con predicciones del modelo"
+    )
+    parser.add_argument(
+        "--benchmark",
+        required=True,
+        help="Archivo JSONL con entidades de referencia (ground truth)"
+    )
+    parser.add_argument(
+        "--output",
+        default="false_negatives_analysis.json",
+        help="Archivo de salida para el análisis (default: false_negatives_analysis.json)"
+    )
     
-    if not os.path.exists(predictions_file):
-        print(f"[ERROR] Archivo de predicciones no encontrado: {predictions_file}")
+    args = parser.parse_args()
+    
+    if not os.path.exists(args.predictions):
+        print(f"[ERROR] Archivo de predicciones no encontrado: {args.predictions}")
         return
     
-    if not os.path.exists(benchmark_file):
-        print(f"[ERROR] Archivo de benchmark no encontrado: {benchmark_file}")
+    if not os.path.exists(args.benchmark):
+        print(f"[ERROR] Archivo de benchmark no encontrado: {args.benchmark}")
         return
     
-    analyze_false_negatives(predictions_file, benchmark_file)
+    analyze_false_negatives(args.predictions, args.benchmark, args.output)
 
 if __name__ == "__main__":
     main()

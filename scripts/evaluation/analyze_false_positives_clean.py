@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-Script para analizar falsos positivos del resultado limpio de n2c2
+Script para analizar falsos positivos comparando predicciones con benchmark
 """
 
 import json
 import os
+import argparse
 
-def analyze_false_positives(predictions_file, benchmark_file):
+def analyze_false_positives(predictions_file, benchmark_file, output_file="false_positives_analysis.json"):
     """Analiza los falsos positivos comparando predicciones con benchmark"""
     print(f"=== ANÁLISIS DE FALSOS POSITIVOS ===\n")
     
@@ -96,7 +97,6 @@ def analyze_false_positives(predictions_file, benchmark_file):
             print(f"{strategy}: {len(fps)} falsos positivos")
         
         # Guardar resultados en JSON
-        output_file = "false_positives_clean_analysis.json"
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump({
                 "summary": {
@@ -117,18 +117,36 @@ def analyze_false_positives(predictions_file, benchmark_file):
 
 def main():
     """Función principal"""
-    predictions_file = "results_n2c2_clean_100.jsonl"
-    benchmark_file = "datasets/n2c2_test.jsonl"
+    parser = argparse.ArgumentParser(
+        description="Analiza falsos positivos comparando predicciones con benchmark"
+    )
+    parser.add_argument(
+        "--predictions",
+        required=True,
+        help="Archivo JSONL con predicciones del modelo"
+    )
+    parser.add_argument(
+        "--benchmark",
+        required=True,
+        help="Archivo JSONL con entidades de referencia (ground truth)"
+    )
+    parser.add_argument(
+        "--output",
+        default="false_positives_analysis.json",
+        help="Archivo de salida para el análisis (default: false_positives_analysis.json)"
+    )
     
-    if not os.path.exists(predictions_file):
-        print(f"[ERROR] Archivo de predicciones no encontrado: {predictions_file}")
+    args = parser.parse_args()
+    
+    if not os.path.exists(args.predictions):
+        print(f"[ERROR] Archivo de predicciones no encontrado: {args.predictions}")
         return
     
-    if not os.path.exists(benchmark_file):
-        print(f"[ERROR] Archivo de benchmark no encontrado: {benchmark_file}")
+    if not os.path.exists(args.benchmark):
+        print(f"[ERROR] Archivo de benchmark no encontrado: {args.benchmark}")
         return
     
-    analyze_false_positives(predictions_file, benchmark_file)
+    analyze_false_positives(args.predictions, args.benchmark, args.output)
 
 if __name__ == "__main__":
     main()
