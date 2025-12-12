@@ -59,15 +59,20 @@ def llm_detection_strategy_file(text: str, strategy: Dict, entity_candidates: Li
                     
                     print(f"      [DEBUG] Chunk {chunk_id+1} length: {len(chunk)} chars")
                     
+                    # Prepare candidates string
+                    candidates_str = ""
+                    if entity_candidates:
+                        candidates_str = f"\n\nCandidate entities to look for: {', '.join(sorted(set(entity_candidates)))}"
+                    
                     # Build simplified prompt for stability
                     if strategy["model"] == "qwen2.5:3b":
                         # Special prompt for qwen2.5:3b to avoid reasoning
-                        prompt = f"""TEXT: {chunk}
+                        prompt = f"""TEXT: {chunk}{candidates_str}
 
 EXTRACT disease names. Return ONLY: ["disease1", "disease2"]"""
                     else:
                         # Standard prompt for other models
-                        prompt = f"""You are a medical text assistant. Extract disease names mentioned in the following text.
+                        prompt = f"""You are a medical text assistant. Extract disease names mentioned in the following text.{candidates_str}
 
 TEXT:
 {chunk}

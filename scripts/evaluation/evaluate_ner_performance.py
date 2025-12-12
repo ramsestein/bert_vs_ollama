@@ -266,6 +266,7 @@ def main():
     parser = argparse.ArgumentParser(description="Evaluador de rendimiento NER")
     parser.add_argument("--predictions", required=True, help="Archivo de predicciones JSONL")
     parser.add_argument("--reference", help="Archivo de referencia JSONL (opcional)")
+    parser.add_argument("--output", default="ner_evaluation_results.json", help="Archivo de salida JSON (default: ner_evaluation_results.json)")
     
     args = parser.parse_args()
     
@@ -277,7 +278,7 @@ def main():
         print_results(results)
         
         # Guardar resultados en archivo
-        output_file = "ner_evaluation_results.json"
+        output_file = args.output
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(results, f, ensure_ascii=False, indent=2)
         
