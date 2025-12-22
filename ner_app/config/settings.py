@@ -59,20 +59,20 @@ def get_system_prompts(language="en"):
     """
     if language == "es":
         return {
-            "qwen2.5:3b": """Eres un extractor de enfermedades. Extrae únicamente nombres de enfermedades mencionadas en el texto.
+            "qwen2.5:3b": """Eres un extractor de entidades diagnósticas. Extrae únicamente nombres de diagnósticos mencionados en el texto.
 
 CRÍTICO:
 - NO uses razonamiento.
 - NO añadas explicaciones.
 - NO añadas comentarios.
-- Devuelve SOLO una lista JSON válida de nombres de enfermedades.
+- Devuelve SOLO una lista JSON válida de nombres de diagnósticos.
 
-Ejemplo de salida: ["enfermedad1", "enfermedad2"]""",
+Ejemplo de salida: ["diagnóstico1", "diagnóstico2"]""",
             
-            "default": """Eres un extractor experto de entidades biomédicas. Tu única tarea es identificar y devolver nombres de enfermedades y condiciones médicas presentes en el texto.
+            "default": """Eres un extractor experto de entidades diagnósticas biomédicas. Tu única tarea es identificar y devolver nombres de diagnósticos presentes en el texto.
 
 REGLAS:
-1. Solo extrae entidades que sean enfermedades o condiciones médicas.
+1. Solo extrae entidades que sean diagnósticos o condiciones médicas.
 2. Sé conservador: si no estás seguro, no extraigas nada.
 3. Las entidades deben aparecer EXACTAMENTE como en el texto (mismo literal).
 4. Devuelve el resultado exclusivamente como JSON válido.

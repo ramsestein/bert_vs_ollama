@@ -59,29 +59,12 @@ def llm_detection_strategy_file(text: str, strategy: Dict, entity_candidates: Li
                     
                     print(f"      [DEBUG] Chunk {chunk_id+1} length: {len(chunk)} chars")
                     
-                    # Build simplified prompt for stability
-                    if strategy["model"] == "qwen2.5:3b":
-                        # Special prompt for qwen2.5:3b to avoid reasoning
-                        prompt = f"""TEXT: {chunk}
-
-EXTRACT disease names. Return ONLY: ["disease1", "disease2"]"""
-                    else:
-                        # Standard prompt for other models
-                        prompt = f"""You are a medical text assistant. Extract disease names mentioned in the following text.
-
-TEXT:
-{chunk}
-
-Instructions:
-1. Return ONLY terms that appear verbatim in the text.
-2. Do NOT return placeholders, examples, or invented diseases.
-3. If no diseases are found, return an empty list: [].
-4. Return ONLY a JSON array of disease names.
-
-Example of JSON output: []
-"""
+                    # Build simple user prompt - system_prompt already has instructions
+                    prompt = f"""TEXT: {chunk}"""
                     
-                    print(f"      [DEBUG] Built prompt for chunk {chunk_id+1}, calling LLM...")
+                    print(f"      [DEBUG] System prompt being used:\n{system_prompt}")
+                    print(f"      [DEBUG] User prompt for chunk {chunk_id+1}:\n{prompt[:200]}...")
+                    print(f"      [DEBUG] Calling LLM...")
                     
                     # Generate response with simplified options for stability
                     options = {
