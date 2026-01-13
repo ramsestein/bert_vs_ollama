@@ -77,16 +77,16 @@ def convert_document(input_path: Path) -> Dict:
     return output_doc
 
 
-def split_dataset(documents: List[Dict], train_size: int = 100, 
-                  validation_size: int = 100, test_size: int = 100) -> Tuple[List[Dict], List[Dict], List[Dict]]:
+def split_dataset(documents: List[Dict], train_size: int = 500, 
+                  validation_size: int = 500, test_size: int = 500) -> Tuple[List[Dict], List[Dict], List[Dict]]:
     """
     Divide los documentos en conjuntos de train, validation y test.
     
     Args:
         documents: Lista de documentos
-        train_size: Número de documentos para entrenamiento (por defecto 100)
-        validation_size: Número de documentos para validación (por defecto 100)
-        test_size: Número de documentos para prueba (por defecto 100)
+        train_size: Número de documentos para entrenamiento (por defecto 500)
+        validation_size: Número de documentos para validación (por defecto 500)
+        test_size: Número de documentos para prueba (por defecto 500)
         
     Returns:
         Tupla con (train_docs, validation_docs, test_docs)
@@ -105,6 +105,26 @@ def split_dataset(documents: List[Dict], train_size: int = 100,
     test_docs = documents[train_size + validation_size:train_size + validation_size + test_size]
     
     return train_docs, validation_docs, test_docs
+
+
+def write_test_subsets(test_docs: List[Dict], output_prefix: str):
+    """
+    Divide el conjunto de test en 4 subconjuntos de 125 documentos cada uno.
+    
+    Args:
+        test_docs: Lista de 500 documentos de test
+        output_prefix: Prefijo para los archivos de salida
+    """
+    subset_size = 125
+    num_subsets = 4
+    
+    for i in range(num_subsets):
+        start_idx = i * subset_size
+        end_idx = start_idx + subset_size
+        subset_docs = test_docs[start_idx:end_idx]
+        
+        subset_name = f"test{i+1}"
+        write_dataset_files(subset_docs, output_prefix, subset_name)
 
 
 def write_dataset_files(documents: List[Dict], output_prefix: str, split_name: str):
@@ -219,6 +239,10 @@ def convert_folder(input_folder: str, output_prefix: str, seed: int = 42):
     write_dataset_files(train_docs, output_prefix, "train")
     write_dataset_files(validation_docs, output_prefix, "validation")
     write_dataset_files(test_docs, output_prefix, "test")
+    
+    # Dividir test en 4 subconjuntos de 125 documentos cada uno
+    print("\n[TEST SUBSETS] Generando 4 subconjuntos de test (125 docs cada uno)...")
+    write_test_subsets(test_docs, output_prefix)
 
 
 def main():
@@ -233,13 +257,21 @@ def main():
     print(f"Carpeta de entrada: {input_folder}")
     print(f"Prefijo de salida: {output_prefix}")
     print()
-    print("Se generarán 6 archivos con 100 documentos cada uno:")
-    print("  - spanish_clinical_train.jsonl (100 docs con entidades)")
-    print("  - spanish_clinical_train_input.jsonl (100 docs con entidades)")
-    print("  - spanish_clinical_validation.jsonl (100 docs con entidades)")
-    print("  - spanish_clinical_validation_input.jsonl (100 docs con entidades)")
-    print("  - spanish_clinical_test.jsonl (100 docs con entidades)")
-    print("  - spanish_clinical_test_input.jsonl (100 docs con entidades)")
+    print("Se generarán archivos con 500 documentos para train, validation y test:")
+    print("  - spanish_clinical_train.jsonl (500 docs con entidades)")
+    print("  - spanish_clinical_train_input.jsonl (500 docs con entidades)")
+    print("  - spanish_clinical_validation.jsonl (500 docs con entidades)")
+    print("  - spanish_clinical_validation_input.jsonl (500 docs con entidades)")
+    print("  - spanish_clinical_test.jsonl (500 docs con entidades)")
+    print("  - spanish_clinical_test_input.jsonl (500 docs con entidades)")
+    print("  - spanish_clinical_test1.jsonl (125 docs - subconjunto 1/4)")
+    print("  - spanish_clinical_test1_input.jsonl (125 docs - subconjunto 1/4)")
+    print("  - spanish_clinical_test2.jsonl (125 docs - subconjunto 2/4)")
+    print("  - spanish_clinical_test2_input.jsonl (125 docs - subconjunto 2/4)")
+    print("  - spanish_clinical_test3.jsonl (125 docs - subconjunto 3/4)")
+    print("  - spanish_clinical_test3_input.jsonl (125 docs - subconjunto 3/4)")
+    print("  - spanish_clinical_test4.jsonl (125 docs - subconjunto 4/4)")
+    print("  - spanish_clinical_test4_input.jsonl (125 docs - subconjunto 4/4)")
     print("=" * 70)
     print()
     

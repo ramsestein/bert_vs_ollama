@@ -149,13 +149,28 @@ def load_documents(input_file: str, limit: int = 0) -> List[Dict[str, Any]]:
     
     return documents
 
-def save_results(results: List[Dict[str, Any]], output_file: str):
-    """Save results to output file."""
-    with open(output_file, 'w', encoding='utf-8') as f:
-        for result in results:
-            f.write(json.dumps(result, ensure_ascii=False) + '\n')
+def load_processed_pmids(output_file: str) -> set:
+    """Load PMIDs that have already been processed."""
+    import os
+    processed_pmids = set()
     
-    print(f"[INFO] Results saved to {output_file}")
+    if os.path.exists(output_file):
+        try:
+            with open(output_file, 'r', encoding='utf-8') as f:
+                for line in f:
+                    if line.strip():
+                        doc = json.loads(line)
+                        processed_pmids.add(str(doc.get("PMID", "")))
+            print(f"[INFO] Found {len(processed_pmids)} already processed documents")
+        except Exception as e:
+            print(f"[WARNING] Could not read existing output file: {e}")
+    
+    return processed_pmids
+
+def save_single_result(result: Dict[str, Any], output_file: str):
+    """Append a single result to output file."""
+    with open(output_file, 'a', encoding='utf-8') as f:
+        f.write(json.dumps(result, ensure_ascii=False) + '\n')
 
 def print_summary(results: List[Dict[str, Any]], strategies: List[Dict]):
     """Print processing summary."""
@@ -253,12 +268,23 @@ def main():
             print("[ERROR] No valid documents found")
             return 1
         
+        # Load already processed PMIDs
+        processed_pmids = load_processed_pmids(args.out_pred)
+        
+        # Filter out already processed documents
+        documents_to_process = [doc for doc in documents if doc['pmid'] not in processed_pmids]
+        
+        if not documents_to_process:
+            print(f"[INFO] All documents already processed. Nothing to do.")
+            return 0
+        
+        print(f"[INFO] Processing {len(documents_to_process)} documents ({len(processed_pmids)} already done)...")
+        
         # Process documents
-        print(f"[INFO] Processing documents with minimal memory usage...")
         results = []
         
-        for i, doc in enumerate(documents, 1):
-            print(f"\n[PROGRESS] {i}/{len(documents)} (line {doc['line_num']})")
+        for i, doc in enumerate(documents_to_process, 1):
+            print(f"\n[PROGRESS] {i}/{len(documents_to_process)} (line {doc['line_num']})")
             print(f"[PROCESSING] PMID={doc['pmid']} | text_length={len(doc['text'])}")
             print(f"[INFO] Found {len(doc['entity_candidates'])} entity candidates in this document")
             
@@ -267,13 +293,13 @@ def main():
                                      strategies, language=args.language)
             results.append(result)
             
-            print(f"[COMPLETED] Document {i} processed successfully")
+            # Save immediately after processing
+            save_single_result(result, args.out_pred)
+            
+            print(f"[COMPLETED] Document {i} processed and saved successfully")
             
             # Force garbage collection to free memory
             gc.collect()
-        
-        # Save results
-        save_results(results, args.out_pred)
         
         # Print summary
         print_summary(results, strategies)
