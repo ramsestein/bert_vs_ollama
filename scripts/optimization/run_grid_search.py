@@ -39,8 +39,8 @@ DATASET_CONFIG = {
 # Mapeo de nombres de modelos a IDs de Ollama
 MODEL_ID_MAP = {
     "qwen": "qwen2.5:3b",
-    "gemma": "gemma2:9b",
-    "gemma3": "gemma2:9b",
+    "gemma": "gemma3:4b",
+    "gemma3": "gemma3:4b",
     "llama": "llama3.2:3b"
 }
 

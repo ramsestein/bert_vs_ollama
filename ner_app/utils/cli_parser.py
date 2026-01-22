@@ -31,7 +31,7 @@ def parse_arguments():
     parser.add_argument("--model", type=str, default=None,
                        help="Model name for dynamic strategy creation (e.g., 'qwen', 'gemma', 'llama'). Overrides --strategies.")
     parser.add_argument("--model-id", type=str, default=None,
-                       help="Full model ID for Ollama (e.g., 'qwen2.5:3b', 'gemma2:9b'). Used with --model.")
+                       help="Full model ID for Ollama (e.g., 'qwen2.5:3b', 'gemma3:4b'). Used with --model.")
     parser.add_argument("--confidence_threshold", type=float, default=0.5,
                        help="Minimum confidence threshold for acceptance")
     parser.add_argument("--language", type=str, default="en", choices=["en", "es"],
@@ -68,9 +68,9 @@ def configure_strategies(args) -> List[Dict]:
         # Map common model names to their Ollama IDs
         model_id_map = {
             "qwen": "qwen2.5:3b",
-            "gemma": "gemma2:9b",
+            "gemma": "gemma3:4b",
             "llama": "llama3.2:3b",
-            "gemma3": "gemma2:9b"
+            "gemma3": "gemma3:4b"
         }
         
         # Use provided model-id or map from model name

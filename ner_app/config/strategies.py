@@ -8,7 +8,7 @@ chunking, temperature, and model selection.
 # Strategy 1: gemma3 - Chunks Grandes (Máxima Sensibilidad)
 STRATEGY_1 = {
     "name": "gemma3_max_sensitivity",
-    "model": "gemma3",
+    "model": "gemma3:4b",
     "chunk_target": 100,
     "chunk_overlap": 40,
     "chunk_min": 50,
@@ -20,7 +20,7 @@ STRATEGY_1 = {
 # Strategy 2: gemma3 - Chunks Medianos (Balance)
 STRATEGY_2 = {
     "name": "gemma3_balanced",
-    "model": "gemma3",
+    "model": "gemma3:4b",
     "chunk_target": 60,
     "chunk_overlap": 30,
     "chunk_min": 30,
@@ -32,7 +32,7 @@ STRATEGY_2 = {
 # Strategy 3: gemma3 - Chunks Pequeños (Máxima Precisión)
 STRATEGY_3 = {
     "name": "gemma3_high_precision",
-    "model": "gemma3",
+    "model": "gemma3:4b",
     "chunk_target": 30,
     "chunk_overlap": 15,
     "chunk_min": 15,
