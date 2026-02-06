@@ -63,11 +63,13 @@ def normalize_surface(text: str, remove_accents: bool = False) -> str:
     
     # Optionally remove accents for Spanish matching
     if remove_accents:
-        # Spanish accent normalization
+        # Spanish accent normalization (lowercase-only map; omitted Ü and Ñ per request)
         accent_map = {
-            'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ü': 'u',
-            'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ü': 'U',
-            'ñ': 'n', 'Ñ': 'N'
+            'á': 'a',
+            'é': 'e',
+            'í': 'i',
+            'ó': 'o',
+            'ú': 'u'
         }
         for accented, plain in accent_map.items():
             text = text.replace(accented, plain)
