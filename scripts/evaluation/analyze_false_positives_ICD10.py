@@ -24,9 +24,10 @@ ENTITIES = {
         "dlp"
     ],
     
-    "Z87.891": [  # Exfumador
-        "exfumador"
-    ],
+    #"Z87.891": [  # Exfumador
+    #    "exfumador",
+    #    "ex-fumador"
+    #],
     
     "E11.9": [  # Diabetes mellitus tipo 2
         "dm2",
@@ -35,10 +36,10 @@ ENTITIES = {
         "dm"
     ],
     
-    "F17.210": [  # Fumador
-        "fumador",
-        "tabaquismo"
-    ],
+    #"F17.210": [  # Fumador
+    #    "fumador",
+    #    "tabaquismo"
+    #],
     
     "Z79.01": [  # Anticoagulado
         "anticoagulado",
@@ -75,9 +76,9 @@ ENTITIES = {
 ICD10_NAMES = {
     'I10': 'Hipertensión arterial',
     'E78.5': 'Dislipemia',
-    'Z87.891': 'Exfumador',
+    #'Z87.891': 'Exfumador',
     'E11.9': 'Diabetes mellitus tipo 2',
-    'F17.210': 'Fumador',
+    #'F17.210': 'Fumador',
     'Z79.01': 'Anticoagulado',
     'I25.10': 'Cardiopatía isquémica',
     'Z79.82': 'AAS',
@@ -151,8 +152,11 @@ def analyze_false_positives_icd10(predictions_file, benchmark_file, output_file=
                         icd10_codes.add(code)
         benchmark_dict[pmid] = icd10_codes
     
-    # Analizar falsos positivos
+    # === ANÁLISIS: Lista detallada de entidades + agrupación por documento ===
     false_positives = []
+    fp_by_document = []
+    total_fp_codes = 0  # Total de códigos FP (agrupados por documento)
+    fp_by_code_global = defaultdict(int)  # Contador global por código
     total_predictions = 0
     total_benchmark = 0
     unmapped_predictions = defaultdict(int)
@@ -199,6 +203,7 @@ def analyze_false_positives_icd10(predictions_file, benchmark_file, output_file=
         # Identificar falsos positivos (predichos pero no en benchmark)
         fp_codes = predicted_codes - benchmark_codes
         
+        # === LISTA DETALLADA: Añadir cada entidad textual como FP ===
         for code in fp_codes:
             entities_info = predicted_entities_by_code[code]
             for ent_info in entities_info:
@@ -212,12 +217,30 @@ def analyze_false_positives_icd10(predictions_file, benchmark_file, output_file=
                     "confidence": ent_info["confidence"],
                     "strategies": ent_info["strategies"]
                 })
+        
+        # === AGRUPACIÓN POR DOCUMENTO: Contar códigos únicos FP ===
+        num_fp = len(fp_codes)
+        total_fp_codes += num_fp
+        
+        for code in fp_codes:
+            fp_by_code_global[code] += 1
+        
+        if num_fp > 0:
+            fp_by_document.append({
+                "PMID": pmid,
+                "fp_count": num_fp,
+                "fp_codes": sorted(list(fp_codes)),
+                "fp_codes_names": [ICD10_NAMES.get(c, "Desconocido") for c in sorted(fp_codes)],
+                "predicted_codes": sorted(list(predicted_codes)),
+                "benchmark_codes": sorted(list(benchmark_codes))
+            })
     
     # Mostrar resultados
     print(f"\n=== RESULTADOS ===\n")
     print(f"Total códigos predichos: {total_predictions}")
     print(f"Total códigos en benchmark: {total_benchmark}")
-    print(f"Total falsos positivos: {len(false_positives)}")
+    print(f"Total falsos positivos (entidades individuales): {len(false_positives)}")
+    print(f"Total falsos positivos (códigos agrupados): {total_fp_codes}")
     print(f"Total entidades sin mapeo: {sum(unmapped_predictions.values())}")
     
     if unmapped_predictions:
@@ -228,7 +251,7 @@ def analyze_false_positives_icd10(predictions_file, benchmark_file, output_file=
     if false_positives:
         print(f"\n=== FALSOS POSITIVOS DETALLADOS ===\n")
         
-        for i, fp in enumerate(false_positives, 1):
+        for i, fp in enumerate(false_positives[:10], 1):  # Mostrar primeros 10
             print(f"**Caso {i}:**")
             print(f"  PMID: {fp['PMID']}")
             print(f"  Código predicho: {fp['predicted_code']} ({fp['predicted_code_name']})")
@@ -239,6 +262,9 @@ def analyze_false_positives_icd10(predictions_file, benchmark_file, output_file=
             print(f"  Nombres benchmark: {fp['benchmark_names']}")
             print()
         
+        if len(false_positives) > 10:
+            print(f"... y {len(false_positives) - 10} casos más\n")
+        
         # Análisis por código ICD10
         code_fps = defaultdict(list)
         for fp in false_positives:
@@ -248,7 +274,7 @@ def analyze_false_positives_icd10(predictions_file, benchmark_file, output_file=
         for code in sorted(code_fps.keys()):
             fps = code_fps[code]
             name = ICD10_NAMES.get(code, "Desconocido")
-            print(f"{code} ({name}): {len(fps)} falsos positivos")
+            print(f"{code} ({name}): {len(fps)} entidades FP")
         
         # Análisis por estrategia
         strategy_fps = defaultdict(list)
@@ -259,7 +285,17 @@ def analyze_false_positives_icd10(predictions_file, benchmark_file, output_file=
         print(f"\n=== ANÁLISIS POR ESTRATEGIA ===\n")
         for strategy in sorted(strategy_fps.keys()):
             fps = strategy_fps[strategy]
-            print(f"{strategy}: {len(fps)} falsos positivos")
+            print(f"{strategy}: {len(fps)} entidades FP")
+        
+        print(f"\n=== AGRUPACIÓN POR DOCUMENTO ===")
+        print(f"(Cuenta cada código ICD10 una vez por documento)\n")
+        print(f"Total documentos con FP: {len(fp_by_document)}")
+        print(f"Total FP (códigos agrupados): {total_fp_codes}")
+        print(f"\nDesglose por código:")
+        for code in sorted(fp_by_code_global.keys()):
+            count = fp_by_code_global[code]
+            name = ICD10_NAMES.get(code, "Desconocido")
+            print(f"  {code} ({name}): {count} documentos")
         
         # Guardar resultados en JSON
         with open(output_file, 'w', encoding='utf-8') as f:
@@ -268,15 +304,20 @@ def analyze_false_positives_icd10(predictions_file, benchmark_file, output_file=
                     "total_predictions": total_predictions,
                     "total_benchmark": total_benchmark,
                     "total_false_positives": len(false_positives),
+                    "total_false_positives_grouped": total_fp_codes,
                     "total_unmapped": sum(unmapped_predictions.values())
                 },
                 "false_positives": false_positives,
                 "by_code": {code: len(fps) for code, fps in code_fps.items()},
                 "by_strategy": {strategy: len(fps) for strategy, fps in strategy_fps.items()},
+                "by_document": fp_by_document,
+                "by_code_grouped": dict(fp_by_code_global),
                 "unmapped_predictions": dict(unmapped_predictions)
             }, f, ensure_ascii=False, indent=2)
         
         print(f"\n[INFO] Análisis guardado en: {output_file}")
+        print(f"\n[VALIDACIÓN] 'total_false_positives_grouped' ({total_fp_codes}) debe coincidir")
+        print(f"             con 'overall.fp' en ner_evaluation_results")
         
     else:
         print(f"\n✅ ¡No se encontraron falsos positivos!")

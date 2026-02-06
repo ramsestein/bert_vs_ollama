@@ -24,9 +24,10 @@ ENTITIES = {
         "dlp"
     ],
     
-    "Z87.891": [  # Exfumador
-        "exfumador"
-    ],
+    #"Z87.891": [  # Exfumador
+    #    "exfumador",
+    #    "ex-fumador"
+    #],
     
     "E11.9": [  # Diabetes mellitus tipo 2
         "dm2",
@@ -35,10 +36,10 @@ ENTITIES = {
         "dm"
     ],
     
-    "F17.210": [  # Fumador
-        "fumador",
-        "tabaquismo"
-    ],
+    #"F17.210": [  # Fumador
+    #    "fumador",
+    #    "tabaquismo"
+    #],
     
     "Z79.01": [  # Anticoagulado
         "anticoagulado",
@@ -75,9 +76,9 @@ ENTITIES = {
 ICD10_NAMES = {
     'I10': 'Hipertensión arterial',
     'E78.5': 'Dislipemia',
-    'Z87.891': 'Exfumador',
+    #'Z87.891': 'Exfumador',
     'E11.9': 'Diabetes mellitus tipo 2',
-    'F17.210': 'Fumador',
+    #'F17.210': 'Fumador',
     'Z79.01': 'Anticoagulado',
     'I25.10': 'Cardiopatía isquémica',
     'Z79.82': 'AAS',

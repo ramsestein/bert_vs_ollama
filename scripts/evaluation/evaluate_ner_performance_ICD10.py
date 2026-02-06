@@ -23,9 +23,10 @@ ENTITIES = {
         "dlp"
     ],
     
-    "Z87.891": [  # Exfumador
-        "exfumador"
-    ],
+    #"Z87.891": [  # Exfumador
+    #    "exfumador",
+    #    "ex-fumador"
+    #],
     
     "E11.9": [  # Diabetes mellitus tipo 2
         "dm2",
@@ -34,10 +35,10 @@ ENTITIES = {
         "dm"
     ],
     
-    "F17.210": [  # Fumador
-        "fumador",
-        "tabaquismo"
-    ],
+    #"F17.210": [  # Fumador
+    #    "fumador",
+    #    "tabaquismo"
+    #],
     
     "Z79.01": [  # Anticoagulado
         "anticoagulado",

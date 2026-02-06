@@ -17,7 +17,7 @@ import argparse
 ENTITIES = {
     "I10": ["hta", "hipertensión arterial", "hipertensión"],
     "E78.5": ["dislipemia", "dlp"],
-    "Z87.891": ["exfumador"],
+    "Z87.891": ["exfumador", "ex-fumador"],
     "E11.9": ["dm2", "diabetes mellitus tipo 2", "diabetes mellitus", "dm"],
     "F17.210": ["fumador", "tabaquismo"],
     "Z79.01": ["anticoagulado", "anticoagulante", "sintrom"],
@@ -65,8 +65,8 @@ def process(input_file: str, output_file: str):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Create input JSONL with all entity variants')
-    parser.add_argument('--input', default='datasets/spanish_clinical_filtered_clean.jsonl', help='Input cleaned JSONL')
-    parser.add_argument('--output', default='datasets/spanish_clinical_filtered_clean_input.jsonl', help='Output JSONL to generate')
+    parser.add_argument('--input', default='datasets/spanish_clinical_filtered.jsonl', help='Input cleaned JSONL')
+    parser.add_argument('--output', default='datasets/spanish_clinical_filtered_input_final.jsonl', help='Output JSONL to generate')
     args = parser.parse_args()
 
     process(args.input, args.output)
