@@ -14,7 +14,7 @@
 
 ## Visión General
 
-El sistema NER (Named Entity Recognition) Multi-Estrategia es una pipeline modular diseñada para detectar entidades médicas en textos clínicos combinando múltiples estrategias de detección: una baseline de regex y cuatro modelos LLM ejecutados en paralelo.
+El sistema NER (Named Entity Recognition) Multi-Estrategia es una pipeline modular diseñada para detectar entidades médicas en textos clínicos, combinando múltiples estrategias de detección: una baseline de regex y cuatro modelos LLM ejecutados en paralelo. No está orientado a la detección general de entidades, sino a una detección dirigida y focalizada. 
 
 ### Características Principales
 - **Multi-estrategia**: Combina regex + 4 LLMs en paralelo
@@ -22,7 +22,7 @@ El sistema NER (Named Entity Recognition) Multi-Estrategia es una pipeline modul
 - **Eficiencia de memoria**: Uso de archivos temporales para grandes volúmenes
 - **Sistema de confianza avanzado**: Scoring basado en múltiples factores
 - **Procesamiento incremental**: Guarda resultados tras cada documento
-- **Reinicio automático**: Detecta documentos ya procesados
+- **Reinicio automático**: Detecta documentos ya procesados, evitando repetir trabajo ya completado
 
 ---
 
@@ -43,30 +43,39 @@ ner_app/
 │   ├── regex_strategy.py     # Estrategia baseline (regex)
 │   └── llm_strategy.py       # Estrategia basada en LLMs
 └── utils/
-    └── cli_parser.py         # Parser de argumentos CLI
+    ├── cli_parser.py         # Parser de argumentos CLI
+    ├── confidence_scorer.py         # Calcula y normaliza scores de confianza para entidades
+    └── entity_matcher.py         # Empareja detecciones con candidatos y valida duplicados
 ```
 
 ---
 
 ## Flujo de Procesamiento Detallado
 
-### 1. Inicialización del Sistema
+### 1. Inicialización del Sistema (main.py)
 
 #### 1.1 Punto de Entrada
 
-La fase de inicialización prepara el entorno de ejecución y las variables globales necesarias para el resto del pipeline. Concretamente se realizan, en orden:
+El objetivo de esta fase es preparar el entorno y las variables globales para el pipeline:
 
-- Parseo de argumentos CLI (archivo de entrada, salida, límites, idioma, estrategias/`--model`, umbrales).
-- Validación de los argumentos y comprobaciones rápidas de existencia de ficheros.
-- Configuración del logging mediante `TeeWriter` (salida a consola y a fichero con timestamps).
-- Carga de la configuración de estrategias: IMPORTANTE! si no se pasa `--model` ni `--strategies`, se utilizan las cuatro estrategias definidas en `ner_app/config/strategies.py`; si se pasa `--model`, se crea una estrategia dinámica con parámetros por defecto.
-- Actualización de los umbrales de confianza desde `ner_app/config/thresholds.py` o desde el valor `--confidence_threshold` en la CLI.
+1. Parseo de argumentos CLI. ⚠️ Importante! Durante toda la ejecución se ha utilizado el comando:
+```
+python -m ner_app.main --input_jsonl datasets/<input_file>.jsonl  --out_pred <output_file>.jsonl --language <es|en>  --limit <num_docs>   
+```
+2. Validación de argumentos y existencia de ficheros.
+3. Configuración del logging mediante `TeeWriter` (salida a consola y archivo con timestamps).
+4. Carga de la configuración de estrategias: 
+    * Si no se pasa `--model` ni `--strategies`, se utilizan las cuatro estrategias definidas en `ner_app/config/strategies.py`
+    * Si se pasa `--model`, se crea una estrategia dinámica con parámetros por defecto.
+5. Actualización de los umbrales de confianza desde `ner_app/config/thresholds.py` o desde el valor `--confidence_threshold` en la CLI.
 
 Estos pasos no realizan todavía procesamiento sobre los documentos: su objetivo es dejar listas las variables `strategies`, `confidence_thresholds` y las rutas de entrada/salida para el bucle principal.
 
+Dado que no se hacen especificaciones en el CLI parser, el sistema utiliza los valores predeterminados configurados en la pipeline interna, según las estrategias y parámetros definidos en el código.
+
 Pseudocódigo (ubicación: `ner_app/main.py`):
 
-```
+```python
 # main.py
 args = parse_arguments()
 setup_logging(args.log_file)
@@ -80,8 +89,9 @@ for doc in documents:
   save_single_result(result, args.out_pred)
 ```
 
+
 #### 1.2 Configuración de Estrategias
-Las estrategias se configuran en base a los argumentos CLI. **Configuración por defecto** (IMPORTANTE! cuando no se pasan parámetros `--strategies`, se usa `--strategies all`, que carga todas las estrategias definidas en [ner_app/config/strategies.py](../ner_app/config/strategies.py)):
+**Configuración por defecto** (IMPORTANTE! Dado que no se pasan parámetros `--strategies`, se usa `--strategies all`, que carga todas las estrategias definidas en [ner_app/config/strategies.py](../ner_app/config/strategies.py)):
 
 ```python
 # Strategy 1: gemma3 - Chunks Grandes (Máxima Sensibilidad)
@@ -132,7 +142,6 @@ STRATEGY_4 = {
     "weight": 0.5
 }
 
-# Default: ALL_STRATEGIES = [STRATEGY_1, STRATEGY_2, STRATEGY_3, STRATEGY_4]
 ```
 
 **Parámetros explicados:**
@@ -146,17 +155,22 @@ STRATEGY_4 = {
 
 ### 2. Carga de Documentos
 
-#### 2.1 Carga de documentos
+#### 2.1 Lectura del JSONL
 
-El loader lee el archivo `JSONL` línea a línea y normaliza la información en una estructura interna por documento. Para cada línea (documento) se extraen:
+El loader procesa el archivo `JSONL` línea a línea, convirtiendo cada documento en una estructura interna estandarizada. Para cada línea (documento) se extraen los siguientes elementos:
 
-- `PMID` (si no existe, se genera un identificador interno basado en el número de línea).
-- `Texto`: el texto completo que se va a analizar.
-- `Entidad`: la lista de variantes candidatas (sinónimos, abreviaciones, formas con/ sin acentos) que sirven como "diana" para la búsqueda.
+- `PMID`: Si no está presente, se genera un identificador interno basado en el número de línea.
+- `Texto`: El contenido completo que será analizado.
+- `Entidad`: Lista de variantes candidatas (sinónimos, abreviaturas, nombres alternativos) que sirven como "diana" para la detección. Durante la carga no se aplican normalizaciones; el loader extrae los valores tal cual aparecen en el JSONL y los almacena en entity_candidates.
 
-Además, durante la carga se normalizan las variantes para facilitar búsquedas posteriores (minúsculas y versión sin acentos para la búsqueda alternativa) y se limita el número de documentos si se pasa `--limit`.
+Si se utiliza el parámetro --limit, el loader detiene la lectura al alcanzar el número máximo de documentos definido.
 
-Ejemplo del formato de entrada (una línea JSON por documento):
+** ⚠️ Nota importante: La normalización y el matching se realizan más adelante, dentro de las estrategias de detección:
+
+- La estrategia `regex` aplica normalización sobre el texto y los aliases mediante `normalize_surface(..., remove_accents=True)` antes de buscar coincidencias (ver `ner_app/strategies/regex_strategy.py`).
+- Las estrategias basadas en LLM utilizan un fuzzy matching definido en `ner_app/core/text_processor.py` (`_fuzzy_match`). Actualmente, este método no elimina tildes, lo que representa una inconsistencia conocida frente a la estrategia regex.
+
+Ejemplo del formato de entrada para un documento:
 
 ```json
 {
@@ -179,20 +193,7 @@ Ejemplo del formato de entrada (una línea JSON por documento):
 
 Resultado interno: una lista de dicts con `pmid`, `text`, `entity_candidates` y metadatos de línea.
 
-Pseudocódigo (ubicación: `ner_app/main.py` / loader):
-
-```
-# load_documents (ner_app/main.py)
-with open(input_jsonl, 'r', encoding='utf-8') as f:
-  for line in f:
-    obj = json.loads(line)
-    pmid = obj.get('PMID') or generate_id()
-    text = obj.get('Texto', '')
-    entity_candidates = [e.get('texto') for e in obj.get('Entidad', [])]
-    yield {"pmid": pmid, "text": text, "entity_candidates": entity_candidates}
-```
-
-#### 2.2 Detección de Documentos Procesados
+#### 2.2 Detección de Documentos ya Procesados
 
 ```python
 def load_processed_pmids(output_file: str) -> set:
@@ -204,18 +205,18 @@ def load_processed_pmids(output_file: str) -> set:
                 processed_pmids.add(str(doc.get("PMID", "")))
 ```
 
-**Funcionalidad:**
-- Lee el archivo de salida si existe
-- Extrae todos los PMIDs ya procesados
-- Permite reiniciar el procesamiento sin duplicar trabajo (permite seguir por donde se quedó la última ejecución)
-
+Esta función gestiona el reinicio automático del procesamiento de documentos:
+- Comprueba si el archivo de salida (`output_file`) ya existe.
+- Si existe, lo lee línea por línea, parsea cada línea como JSON y extrae el campo `PMID`.
+- Todos los PMIDs extraídos se almacenan en un conjunto (`set`) para identificar qué documentos ya han sido procesados.
+- Esto permite que la pipeline continúe exactamente desde donde se quedó en ejecuciones anteriores, evitando procesar documentos duplicados y ahorrando tiempo.
 
 ---
 
 ### 3. Procesamiento de Documentos
 
 #### 3.1 Loop Principal
-
+Este bloque recorre todos los documentos que deben procesarse y aplica la pipeline NER Multi-Estrategia a cada uno.
 ```python
 for i, doc in enumerate(documents_to_process, 1):
     print(f"\n[PROGRESS] {i}/{len(documents_to_process)}")
@@ -235,25 +236,32 @@ for i, doc in enumerate(documents_to_process, 1):
     # Liberar memoria
     gc.collect()
 ```
+Explicación de la lógica:
 
-**Características importantes:**
-- Procesamiento secuencial de documentos
-- Guardado inmediato tras cada documento (evita pérdida de datos)
-- Garbage collection explícito para liberar memoria
-
+- **Procesamiento secuencial**: Cada documento se analiza aplicando todas las estrategias (regex + LLMs).
+- **Guardado inmediato**: Evita pérdida de datos en caso de interrupciones.
+- **Garbage collection explícito**:  (`gc.collect()`) para liberar memoria y mantener el consumo bajo, especialmente útil cuando se procesan textos largos o muchos documentos.
+- **Seguimiento de progreso**:El `print` permite hacer seguimiento de la ejecución.
 ---
 
 ### 4. Procesamiento Individual de Documento
 
 #### 4.1 Procesamiento individual de documento
 
-La función encargada de procesar un documento aplica la orquestación multi-estrategia y empaqueta los resultados. En términos prácticos realiza:
+La función `process_document` es responsable de procesar un solo documento aplicando toda la pipeline multi-estrategia y generar la salida final. En términos prácticos realiza:
 
-- Llamar al orquestador (`run_multi_strategy_detection`) que ejecuta `regex` y las estrategias LLM y devuelve detecciones por estrategia, scores intermedios y mapeos.
-- Construir la salida final del documento, que contiene `PMID`, `Texto`, una lista `Entidad` con las entidades aceptadas (texto normalizado, tipo, `confidence`, y estrategias que las detectaron) y el bloque `_multi_strategy` con todas las trazas y metadatos.
-- Medir y anotar la latencia de procesamiento por documento en `_latency_sec`.
+- **Orquestación multi-estrategia:** Se llama a(`run_multi_strategy_detection`) que ejecuta:
+    - Estrategia `regex` (baseline)
+    - Estrategias LLM (paralelas)
+    
+- **Construcción de la salida final:** 
+    - Contiene `PMID` y `Texto` originales
+    - Una lista `Entidad` con las entidades aceptadas, cada una con texto normalizado, tipo, `confidence`, y estrategias que las detectaron
+    - Y el bloque `_multi_strategy` con todas las trazas y metadatos.
 
-El resultado se escribe inmediatamente en el fichero de salida en formato JSONL.
+- **Medición de latencia**: Tiempo de procesamiento del documento registrado en `_latency_sec`.
+
+- **Guardado inmediato**: El resultado se escribe inmediatamente en el fichero de salida en formato JSONL.
 
 Pseudocódigo (ubicación: `ner_app/main.py` & `ner_app/strategies/multi_strategy.py`):
 
@@ -273,12 +281,60 @@ append_jsonl(output_file, output)
 
 **Paso 1: Detección Regex (baseline)**
 
- La detección regex es una búsqueda literal sobre las variantes candidatas: el sistema normaliza texto y alias a una versión sin acentos y realiza una búsqueda única sobre esa versión no-accentuada usando patrones escapados y límites de palabra. El resultado es el conjunto de coincidencias exactas que actúa como ancla de alta precisión para el scoring.
+ La detección regex es una búsqueda **literal** sobre las variantes candidatas.
 
-Puntos a destacar:
+1. **Normalización de texto y aliases:**Antes de buscar coincidencias se aplica la función de normalización `normalize_surface` tanto al texto completo como a cada alias de entidad. Esto asegura que las comparaciones sean consistentes y robustas frente a variaciones menores de escritura.
 
-- Se usan límites de palabra (`word boundaries`) para evitar coincidencias parciales, lo que puede provocar problemas con tokens que contienen guiones o caracteres no alfabéticos.
-- Se realiza la búsqueda sobre versiones sin acentos para cubrir variantes escritas sin tilde.
+Código real (ubicación: `ner_app/core/text_processor.py`):
+```python
+def normalize_surface(text: str, remove_accents: bool = False) -> str:
+    """Normalize text for consistent processing.
+    
+    Args:
+        text: Text to normalize
+        remove_accents: If True, remove accents for fuzzy matching (useful for Spanish)
+    """
+    if not text:
+        return ""
+    
+    # Remove extra whitespace
+    text = text.lower()
+    text = re.sub(r'\s+', ' ', text)
+    
+    # Normalize quotes and dashes
+    text = re.sub(r'["""]', '"', text)  
+    text = re.sub(r"[''']", "'", text)
+    text = re.sub(r'–|—', '-', text)
+    
+    # Optionally remove accents for Spanish matching
+    if remove_accents:
+        text = unicodedata.normalize('NFD', text)
+        text = ''.join(c for c in text if unicodedata.category(c) != 'Mn')
+    
+    return text.strip()
+```
+
+Reglas aplicadas por `normalize_surface()`:
+- Lowercasing: todo el texto se pasa a minúsculas (`text.lower()`), eliminando diferencias de mayúsculas/minúsculas.
+- Espacios extra: múltiples espacios se reducen a uno solo (`\s+ → ' '`).
+- Comillas: normaliza comillas simples y dobles para evitar diferencias tipográficas
+- Reemplaza guiones largos y medios (`–`, `—`) por guion simple (`-`) para un matching uniforme.
+- Eliminación de acentos: convierte caracteres acentuados a su forma básica (`á → a`, `é → e`…), utilizando la normalización Unicode (`NFD`) y filtrando marcas diacríticas.
+- Trim final: elimina espacios iniciales y finales (`strip()`).
+
+2. **Construcción del patrón regex:** Para cada alias de entidad:
+- Se normaliza el alias (`normalize_surface(alias, remove_accents=True)`)
+- Se escapa cualquier carácter especial de regex (`re.escape`) para evitar conflictos.
+- Se envuelve el patrón con delimitadores de palabra (`\b...\b`) para evitar coincidencias parciales.
+
+3. **Búsqueda en el texto:**
+- Se realiza la búsqueda sobre el texto normalizado y sin acentos usando `re.finditer`.
+-  Se aplica `re.IGNORECASE` para que coincida independientemente de mayúsculas/minúsculas.
+- Cada coincidencia encontrada se mapea al entity canonical correspondiente y se añade al set detected.
+
+4. **Salida:**
+- Devuelve un set de entidades detectadas basado en los valores canónicos del diccionario de aliases
+- No incluye información de alias detectado ni posición en el texto (solo la entidad final).
 
 Código real (ubicación: `ner_app/strategies/regex_strategy.py`):
 
@@ -288,10 +344,6 @@ Regex-based entity detection strategy for the Multi-Strategy NER system.
 
 Provides exact surface matching using regular expressions as a baseline strategy.
 """
-
-import re
-from typing import Dict, Set
-from ..core.text_processor import normalize_surface
 
 def regex_detection(text: str, entity_aliases: Dict[str, str]) -> Set[str]:
     """Strategy 0: Regex-based exact surface matching with Spanish support"""
@@ -318,14 +370,6 @@ def regex_detection(text: str, entity_aliases: Dict[str, str]) -> Set[str]:
     return detected
 ```
 
-Explicación y reglas de normalización (detallado):
-
-- `normalize_surface(text)` se llama para limpiar la superficie (elimina espacios extra y normaliza comillas y guiones); por defecto no elimina tildes.
-- `normalize_surface(text, remove_accents=True)` crea `text_no_accents` sustituyendo solo las vocales acentuadas minúsculas por su equivalente sin tilde (`á->a`, `é->e`, `í->i`, `ó->o`, `ú->u`).
-- Para la estrategia regex se normalizan tanto el texto como los aliases a la versión *no-accent* (`remove_accents=True`), se escapan las formas resultantes con `re.escape()` y se envuelven en delimitadores de palabra literales `\b...\b`.
-- La búsqueda se realiza sobre `text_no_accents` usando la bandera `re.IGNORECASE`
-- Resultado: se devuelve el conjunto de entidades (valores `entity` del dict `entity_aliases`) que tienen coincidencia exacta en la versión no-accent del texto.
-
 **Paso 2: Selección de System Prompt**
 
 ```python
@@ -339,7 +383,7 @@ else:
 
 **Listado de system prompts (por modelo e idioma)**
 
-Los prompts usados por el sistema se definen en `ner_app/config/settings.py` y varían según el idioma (`"en"` o `"es"`) y, en algunos casos, por modelo (p. ej. `qwen2.5:3b` usa un prompt más directo). A continuación se muestran los prompts exactos que se emplean actualmente.
+Los prompts usados por el sistema se definen en `ner_app/config/settings.py` y varían según el idioma (`"en"` o `"es"`) y según el modelo (`qwen2.5:3b` usa un prompt más directo que `gemma3:4b`). A continuación se muestran los prompts exactos que se emplean actualmente.
 
 - Español (`es`):
   - Modelo `qwen2.5:3b`:
@@ -356,7 +400,7 @@ CRÍTICO:
 Ejemplo de salida: ["diagnóstico1", "diagnóstico2"]
 ```
 
-  - Prompt `default` (usado por los demás modelos):
+  - Prompt `default` (usado por los demás modelos (`gemma3:4b`)):
 
 ```
 Eres un extractor experto de entidades diagnósticas biomédicas. Tu única tarea es identificar y devolver nombres de diagnósticos presentes en el texto.
@@ -407,12 +451,12 @@ Notas:
 
 **Paso 3: Ejecución paralela de LLMs**
 
-Cada estrategia LLM se ejecuta en paralelo (hasta 4 hilos) y sigue un flujo controlado:
+Cada estrategia LLM se ejecuta en paralelo (un hilo por estrategia; típicamente hasta 4) y sigue un flujo controlado:
 
-- Dividir el texto en chunks según `chunk_target`, `chunk_overlap`, `chunk_min`/`max` de la estrategia.
-- Enviar cada chunk con el `system_prompt` al modelo correspondiente y parsear la respuesta.
-- Guardar resultados intermedios en archivos temporales para evitar uso excesivo de memoria.
-- Reintentar (hasta N veces) en caso de respuestas no parseables.
+- El texto se divide en chunks solapados según `chunk_target`, `chunk_overlap`, `chunk_min`/`max` de la estrategia.
+- Cada chunk se envía al modelo correspondiente junto con el `system_prompt`, y la respuesta se intenta parsear como JSON.
+- Las detecciones resultantes de cada estrategia se almacenan en un archivo temporal para reducir el uso de memoria.
+- Se aplican reintentos controlados en caso de respuestas no parseables o formatos inválidos.
 
 El orquestador recoge las rutas a los archivos de resultados por estrategia y procede a combinarlos.
 

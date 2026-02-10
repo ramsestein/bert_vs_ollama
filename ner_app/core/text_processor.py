@@ -6,6 +6,7 @@ Contains functions for text normalization, tokenization, chunking, and fuzzy mat
 
 import re
 from typing import List
+import unicodedata
 from ..config.settings import MAX_CHUNK_ITERATIONS, MIN_CHUNK_SIZE, MAX_CHUNK_SIZE
 
 def _fuzzy_match(text1: str, text2: str, threshold: float = 0.8) -> bool:
@@ -54,6 +55,7 @@ def normalize_surface(text: str, remove_accents: bool = False) -> str:
         return ""
     
     # Remove extra whitespace
+    text = text.lower()
     text = re.sub(r'\s+', ' ', text)
     
     # Normalize quotes and dashes
@@ -63,16 +65,8 @@ def normalize_surface(text: str, remove_accents: bool = False) -> str:
     
     # Optionally remove accents for Spanish matching
     if remove_accents:
-        # Spanish accent normalization (lowercase-only map; omitted Ü and Ñ per request)
-        accent_map = {
-            'á': 'a',
-            'é': 'e',
-            'í': 'i',
-            'ó': 'o',
-            'ú': 'u'
-        }
-        for accented, plain in accent_map.items():
-            text = text.replace(accented, plain)
+        text = unicodedata.normalize('NFD', text)
+        text = ''.join(c for c in text if unicodedata.category(c) != 'Mn')
     
     return text.strip()
 
