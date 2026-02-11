@@ -45,7 +45,7 @@ def run_multi_strategy_detection(text: str, entity_candidates: List[str],
     def run_strategy(strategy):
         try:
             print(f"  [STRATEGY] Starting {strategy['name']}...")
-            results_filepath = llm_detection_strategy_file(text, strategy, entity_candidates, system_prompt, doc_id)
+            results_filepath = llm_detection_strategy_file(text, strategy, entity_candidates, system_prompt, doc_id, language=language)
             print(f"    [{strategy['name']}] Completed and saved to file")
             return strategy['name'], results_filepath
         except Exception as e:

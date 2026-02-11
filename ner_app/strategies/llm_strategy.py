@@ -14,7 +14,7 @@ from ..core.text_processor import _fuzzy_match
 from ..config.settings import MAX_LLM_RETRIES, RETRY_DELAY_SECONDS, get_system_prompts
 
 def llm_detection_strategy_file(text: str, strategy: Dict, entity_candidates: List[str], 
-                               system_prompt: str, doc_id: str) -> str:
+                               system_prompt: str, doc_id: str, language: str = "en") -> str:
     """Run LLM-based detection for a specific strategy using files for memory efficiency"""
     try:
         print(f"      [DEBUG] Starting strategy: {strategy['name']}")
@@ -157,16 +157,17 @@ def llm_detection_strategy_file(text: str, strategy: Dict, entity_candidates: Li
                     if not present and retry_reason != "none":
                         print(f"      [DEBUG] Empty entities detected, trying one more time for chunk {chunk_id+1}")
                         try:
-                            # Modify prompt slightly to encourage entity detection
-                            enhanced_prompt = f"""TEXT: {chunk}
+                            # Modify prompt slightly to encourage entity detection (language-aware)
+                            if language == "es":
+                                enhanced_prompt = f"""TEXTO: {chunk}
 
-Instructions:
-1. Extract disease names mentioned in the text.
-2. Return ONLY terms that appear verbatim in the text.
-3. Do NOT return placeholders, examples, or invented diseases.
-4. If no diseases are found, return an empty list: [].
-5. Return ONLY a JSON array of disease names.
-"""
+EXTRAE nombres de diagnósticos. Si encuentras algún diagnóstico, devuelve: ["diagnóstico1", "diagnóstico2"]
+Si NO encuentras ningún diagnóstico, devuelve: []"""
+                            else:
+                                enhanced_prompt = f"""TEXT: {chunk}
+
+EXTRACT disease names. If you find any diseases, return them as: ["disease1", "disease2"]
+If you find NO diseases, return: []"""
 
                             
                             client = get_thread_client()
