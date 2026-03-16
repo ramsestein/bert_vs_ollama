@@ -1,0 +1,575 @@
+{
+  "overall": {
+    "precision": 0.7931034482758621,
+    "recall": 0.9583333333333334,
+    "f1": 0.8679245283018867,
+    "tp": 46,
+    "fp": 12,
+    "fn": 2
+  },
+  "strategy_metrics": {
+    "regex": {
+      "precision": 0.8679245283018868,
+      "tp": 46,
+      "fp": 7
+    },
+    "gemma3_high_precision": {
+      "precision": 0.6875,
+      "tp": 11,
+      "fp": 5
+    },
+    "qwen25_diversity": {
+      "precision": 0.78125,
+      "tp": 25,
+      "fp": 7
+    },
+    "gemma3_balanced": {
+      "precision": 0.6,
+      "tp": 3,
+      "fp": 2
+    }
+  },
+  "detailed_results": [
+    {
+      "pmid": "100",
+      "predicted": [
+        "short of breath",
+        "orthopnea"
+      ],
+      "reference": [
+        "short of breath",
+        "orthopnea"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "101",
+      "predicted": [
+        "hypertension",
+        "hyperlipidemia",
+        "aspirin"
+      ],
+      "reference": [
+        "hypertension",
+        "hyperlipidemia",
+        "aspirin"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "103",
+      "predicted": [
+        "aspirin",
+        "orthopnea"
+      ],
+      "reference": [
+        "aspirin"
+      ],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0
+    },
+    {
+      "pmid": "104",
+      "predicted": [
+        "monitoring"
+      ],
+      "reference": [
+        "monitoring"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "105",
+      "predicted": [
+        "hyperlipidemia"
+      ],
+      "reference": [
+        "hyperlipidemia"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "106",
+      "predicted": [
+        "monitoring",
+        "hypertension",
+        "hyperlipidemia"
+      ],
+      "reference": [
+        "hypertension",
+        "hyperlipidemia"
+      ],
+      "tp": 2,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.6666666666666666,
+      "recall": 1.0
+    },
+    {
+      "pmid": "107",
+      "predicted": [],
+      "reference": [
+        "hypertension"
+      ],
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0
+    },
+    {
+      "pmid": "108",
+      "predicted": [
+        "angina"
+      ],
+      "reference": [
+        "angina"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "111",
+      "predicted": [
+        "nitroglycerin"
+      ],
+      "reference": [
+        "nitroglycerin"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "114",
+      "predicted": [
+        "obesity"
+      ],
+      "reference": [
+        "obesity"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "100",
+      "predicted": [
+        "short of breath",
+        "orthopnea"
+      ],
+      "reference": [
+        "short of breath",
+        "orthopnea"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "101",
+      "predicted": [
+        "hypertension",
+        "hyperlipidemia",
+        "aspirin"
+      ],
+      "reference": [
+        "hypertension",
+        "hyperlipidemia",
+        "aspirin"
+      ],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "103",
+      "predicted": [
+        "aspirin",
+        "orthopnea"
+      ],
+      "reference": [
+        "aspirin"
+      ],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0
+    },
+    {
+      "pmid": "104",
+      "predicted": [
+        "monitoring"
+      ],
+      "reference": [
+        "monitoring"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "105",
+      "predicted": [
+        "hyperlipidemia"
+      ],
+      "reference": [
+        "hyperlipidemia"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "106",
+      "predicted": [
+        "monitoring",
+        "hypertension",
+        "hyperlipidemia"
+      ],
+      "reference": [
+        "hypertension",
+        "hyperlipidemia"
+      ],
+      "tp": 2,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.6666666666666666,
+      "recall": 1.0
+    },
+    {
+      "pmid": "107",
+      "predicted": [],
+      "reference": [
+        "hypertension"
+      ],
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0
+    },
+    {
+      "pmid": "108",
+      "predicted": [
+        "angina"
+      ],
+      "reference": [
+        "angina"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "111",
+      "predicted": [
+        "nitroglycerin"
+      ],
+      "reference": [
+        "nitroglycerin"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "114",
+      "predicted": [
+        "obesity"
+      ],
+      "reference": [
+        "obesity"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "118",
+      "predicted": [
+        "hypertension"
+      ],
+      "reference": [
+        "hypertension"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "123",
+      "predicted": [
+        "angina",
+        "hyperlipidemia",
+        "hypertension"
+      ],
+      "reference": [
+        "angina"
+      ],
+      "tp": 1,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.3333333333333333,
+      "recall": 1.0
+    },
+    {
+      "pmid": "125",
+      "predicted": [
+        "angina",
+        "hypertension"
+      ],
+      "reference": [
+        "angina"
+      ],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0
+    },
+    {
+      "pmid": "129",
+      "predicted": [
+        "angina",
+        "hypertension",
+        "aspirin"
+      ],
+      "reference": [
+        "hypertension",
+        "aspirin"
+      ],
+      "tp": 2,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.6666666666666666,
+      "recall": 1.0
+    },
+    {
+      "pmid": "133",
+      "predicted": [
+        "hypertension"
+      ],
+      "reference": [
+        "hypertension"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "139",
+      "predicted": [
+        "hypertension"
+      ],
+      "reference": [
+        "hypertension"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "140",
+      "predicted": [
+        "hypertension"
+      ],
+      "reference": [
+        "hypertension"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "141",
+      "predicted": [
+        "orthopnea"
+      ],
+      "reference": [
+        "orthopnea"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "142",
+      "predicted": [
+        "hypertension",
+        "aspirin"
+      ],
+      "reference": [
+        "aspirin"
+      ],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0
+    },
+    {
+      "pmid": "146",
+      "predicted": [
+        "hypertension",
+        "obesity",
+        "orthopnea"
+      ],
+      "reference": [
+        "hypertension",
+        "orthopnea"
+      ],
+      "tp": 2,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.6666666666666666,
+      "recall": 1.0
+    },
+    {
+      "pmid": "148",
+      "predicted": [
+        "hypertension"
+      ],
+      "reference": [
+        "hypertension"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "156",
+      "predicted": [
+        "hypertension",
+        "hyperlipidemia"
+      ],
+      "reference": [
+        "hypertension",
+        "hyperlipidemia"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "158",
+      "predicted": [
+        "hypertension"
+      ],
+      "reference": [
+        "hypertension"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "161",
+      "predicted": [
+        "hypertension",
+        "short of breath",
+        "angina"
+      ],
+      "reference": [
+        "hypertension"
+      ],
+      "tp": 1,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.3333333333333333,
+      "recall": 1.0
+    },
+    {
+      "pmid": "162",
+      "predicted": [
+        "orthopnea"
+      ],
+      "reference": [
+        "orthopnea"
+      ],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "pmid": "17",
+      "predicted": [
+        "hypertension",
+        "nitroglycerin"
+      ],
+      "reference": [
+        "hypertension",
+        "nitroglycerin"
+      ],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    }
+  ],
+  "summary": {
+    "total_documents": 36,
+    "total_predictions": 58,
+    "total_references": 48
+  }
+}

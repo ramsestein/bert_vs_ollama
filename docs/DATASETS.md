@@ -195,16 +195,16 @@ python scripts/preprocess_pipeline.py \
 - **Dominio**: Medicina clínica - atención primaria y hospitalaria
 - **Idioma**: Castellano y catalán
 - **Entidades**: 10 códigos ICD10 más frecuentes 
-  - I10: Hipertensión arterial
-  - E78.5: Dislipemia
-  - Z87.891: Exfumador
-  - E11.9: Diabetes mellitus tipo 2
-  - F17.210: Fumador
-  - Z79.01: Anticoagulado
-  - I25.10: Cardiopatía isquémica
-  - Z79.82: AAS (Ácido acetilsalicílico)
-  - N17.9: Insuficiencia renal aguda
-  - I48.91: Fibrilación auricular
+  - I10: Essential (primary) hypertension *(Hipertensión arterial)*
+  - E78.5: Hyperlipidemia, unspecified *(Dislipemia)*
+  - Z87.891: Personal history of nicotine dependence *(Exfumador)*
+  - E11.9: Type 2 diabetes mellitus without complications *(Diabetes mellitus tipo 2)*
+  - F17.210: Nicotine dependence, cigarettes, uncomplicated *(Fumador)*
+  - Z79.01: Long term (current) use of anticoagulants *(Anticoagulado)*
+  - I25.10: Atherosclerotic heart disease of native coronary artery without angina pectoris *(Cardiopatía isquémica)*
+  - Z79.82: Long term (current) use of aspirin *(AAS)*
+  - N17.9: Acute kidney failure, unspecified *(Insuficiencia renal aguda)*
+  - I48.91: Unspecified atrial fibrillation *(Fibrilación auricular)*
 - **Tamaño**: 
   - Corpus original: 158,717 documentos clínicos
   - Dataset final: 93,678 documentos con entidades válidas
@@ -226,9 +226,9 @@ python scripts/preprocess_pipeline.py \
 | **Idioma** | Inglés | Inglés | Español/Catalán |
 | **Entidades** | Enfermedades, genes | Condiciones, síntomas | Top 10 ICD10 diagnósticos |
 | **Complejidad** | Media | Alta | Alta + Multilingüe |
-| **Tamaño** | ~100 docs | ~100 docs | ~93,678 docs |
+| **Tamaño** | ~100 docs | ~100 docs | ~100 docs |
 
-### **Adaptaciones Específicas del Dataset Español**
+### **Adaptaciones Específicas del Dataset Hospital Clínic**
 
 #### **1. Proceso de Filtrado y Validación en 3 Fases**
 
@@ -282,12 +282,9 @@ Esta decisión garantiza un benchmark de alta calidad donde cada documento es co
 - Variantes regionales de términos médicos
 
 **Soluciones Implementadas**:
-- Normalización Unicode (NFD) para remover diacríticos
-- Búsqueda case-insensitive
-- Mapeo de variantes detectadas:
-  - "hipertensió arterial" → "hipertensión arterial" (catalán)
-  - "dislipèmia" → "dislipemia" (catalán)
-  - "cardiopatia" → "cardiopatía" (sin acento)
+- Normalización Unicode (NFD) para remover diacríticos, seguida de eliminación de marcas diacríticas (*Nonspacing Marks*) y conversión a minúsculas. Esto permite comparar "Hipertensión" con "hipertension" o "DIABETES" con "diabetes" sin necesidad de mapeos explícitos.
+- Búsqueda case-insensitive aplicada tanto al término anotado (*REV*) como al texto del episodio.
+- Tanto el texto del documento como el término a buscar se normalizan antes de comparar, de modo que variantes con o sin acento (ej. "hipertension" vs "hipertensión") se tratan como equivalentes sin requerir tablas de conversión específicas.
 
 #### **4. Manejo de Abreviaturas Médicas Españolas**
 
@@ -397,7 +394,7 @@ El fuzzy matching (1.9% del total) capturó variaciones importantes:
 - Variantes morfológicas: "anticoagulat" → "anticoagulado"
 - Abreviaturas no estándar: "d.m." → "dm"
 
-#### **9. Lecciones Aprendidas del Dataset Español**
+#### **9. Lecciones Aprendidas del Dataset Hospital Clínic**
 
 1. **Validación Textual Esencial**: El 8.2% de anotaciones originales no tenían evidencia textual, destacando la importancia de la validación automática
 
@@ -406,8 +403,6 @@ El fuzzy matching (1.9% del total) capturó variaciones importantes:
 3. **Multilingüismo Implícito**: En contextos bilingües (ES/CA), la normalización de acentos es crítica para alcanzar alta cobertura
 
 4. **Balance Precision-Recall**: El fuzzy matching con umbral 0.85 logró capturar variaciones legítimas (1.9%) sin introducir ruido significativo
-
-5. **Escala del Corpus**: Con casi 100K documentos y 200K+ entidades, este dataset permite validación estadísticamente significativa
 
 
 ### **Impacto de las Adaptaciones**

@@ -78,7 +78,7 @@ for doc in documents:
 
 #### 1.2 Configuración de Estrategias
 
-**Configuración por defecto** (IMPORTANTE! Dado que no se pasan parámetros `--strategies`, se usa `--strategies all`, que carga todas las estrategias definidas en `ner_app/config/strategies.py`):
+**Configuración por defecto** (IMPORTANTE! Dado que no se pasan parámetros `--strategies`, se usa `--strategies all` por defecto, que carga todas las estrategias definidas en `ner_app/config/strategies.py`):
 
 ```python
 # Strategy 1: gemma3 - Chunks Grandes (Máxima Sensibilidad)
@@ -134,7 +134,7 @@ STRATEGY_4 = {
 - `chunk_target`: Tamaño objetivo de cada chunk en palabras
 - `chunk_overlap`: Palabras que se solapan entre chunks consecutivos
 - `chunk_min/max`: Límites de tamaño de chunks
-- `temperature`: Creatividad del modelo (0.0 = muy conservador, 0.5 = balanceado)
+- `temperature`: Creatividad del modelo
 - `weight`: Peso en el sistema de scoring (mayor = más confianza en detecciones)
 
 **Filosofía de las estrategias:**
@@ -148,6 +148,17 @@ STRATEGY_4 = {
 
 ---
 
+> **Nota importante sobre los modelos usados en las evaluaciones:**
+>
+> - Los resultados reportados para los datasets **n2c2** y **NCBI** se
+>   obtuvieron ejecutando las mismas estrategias y parámetros, pero
+>   usando el modelo `llama3.2:3b` en lugar de `gemma3`.
+> - El modelo `gemma3` se utilizó únicamente con el dataset del
+>   Hospital Clínic porque `gemma3` ofrece un soporte lingüístico
+>   significativamente más amplio que `llama3.2:3b`. Por ello se
+>   optó por `gemma3` en ese dataset.
+
+
 ### 2. Carga de Documentos
 
 #### 2.1 Lectura del JSONL
@@ -158,7 +169,7 @@ El loader procesa el archivo `JSONL` línea a línea, convirtiendo cada document
 
 - `PMID`: Si no está presente, se genera un identificador interno basado en el número de línea.
 - `Texto`: El contenido completo que será analizado.
-- `Entidad`: Lista de variantes candidatas (sinónimos, abreviaturas, nombres alternativos) que sirven como "diana" para la detección. Durante la carga no se aplican normalizaciones; el loader extrae los valores tal cual aparecen en el JSONL y los almacena en entity_candidates.
+- `Entidad`: Lista de variantes candidatas que sirven como "diana" para la detección. Durante la carga no se aplican normalizaciones; el loader extrae los valores tal cual aparecen en el JSONL y los almacena en entity_candidates.
 
 Si se utiliza el parámetro `--limit`, el loader detiene la lectura al alcanzar el número máximo de documentos definido.
 
@@ -371,12 +382,10 @@ def regex_detection(text: str, entity_aliases: Dict[str, str]) -> Set[str]:
     
     return detected
 ```
-
-**Ventajas:**
-- Velocidad instantánea
-- 100% precisión
-- No requiere llamadas a LLM
-
+La firma `Dict[str,str]` (alias -> entidad) existe porque en la versión antigua `old_ner_multi_strategy.py` se contemplaba que un alias pudiera mapear a una entidad diferente (p.ej. "WD" -> "Wilson disease"), pero en la implementación actual ese mapeo es 1:1. Es decir, en este sistema no existe distinción real entre alias y entidad canónica; cada candidato del campo `Entidad` del JSONL es a la vez el alias que se busca en el texto y el valor canónico que se guarda en el resultado.
+```python
+regex_detection(text: str, {c: c for c in entity_candidates})
+```
 **Limitaciones:**
 - Solo detecta entidades exactamente presentes en el texto
 
@@ -580,38 +589,71 @@ def create_chunks_from_text(text: str, strategy: dict) -> List[str]:
 ```
 
 ---
-
+ 
 ## Sistema de Reintentos Inteligente
-
+ 
 El sistema implementa un mecanismo robusto de reintentos en 3 fases secuenciales para maximizar el recall sin sacrificar precisión. Este enfoque es crítico para manejar las respuestas variables de los LLMs.
-
+ 
 ### Fase 1: Reintentos por Formato JSON
-
+ 
 **Objetivo:** Obtener una respuesta JSON válida del LLM.
-
+ 
 **Implementación:**
 ```python
-max_retries = 3
+max_retries = MAX_LLM_RETRIES
+present = []
+retry_reason = "none"
+ 
 for attempt in range(max_retries):
     try:
-        response = client.generate(model, system_prompt, prompt, options)
-        # Intentar parsear JSON
-        if json_parse_successful:
-            break
-    except:
+        client = get_thread_client()
+        response = client.generate(strategy["model"], system_prompt, prompt, options)
+       
+        # Estrategia de parsing 1: buscar array JSON
+        json_match = re.search(r'\[.*\]', response, re.DOTALL)
+        if json_match:
+            result = json.loads(json_match.group())
+            if isinstance(result, list):
+                present = result
+                break  # Éxito
+            else:
+                retry_reason = "invalid_json_structure"
+        else:
+            # Estrategia de parsing 2: buscar objeto JSON con campo 'present'
+            json_match = re.search(r'\{.*\}', response, re.DOTALL)
+            if json_match:
+                result = json.loads(json_match.group())
+                present = result.get("present", [])
+                if isinstance(present, list):
+                    break  # Éxito
+                else:
+                    retry_reason = "invalid_present_field"
+            else:
+                retry_reason = "no_json_found"
+       
         if attempt < max_retries - 1:
-            time.sleep(1)  # Pausa entre reintentos
+            time.sleep(RETRY_DELAY_SECONDS)
+   
+    except json.JSONDecodeError:
+        retry_reason = "json_parse_error"
+        if attempt < max_retries - 1:
+            time.sleep(RETRY_DELAY_SECONDS)
+    except Exception as e:
+        if attempt < max_retries - 1:
+            time.sleep(RETRY_DELAY_SECONDS)
+        else:
+            break
 ```
-
+ 
 **Casos de reintento:**
 - `invalid_json_structure`: JSON malformado
 - `json_parse_error`: Error de parsing
 - `invalid_present_field`: Campo 'present' inválido
 - `no_json_found`: No se encontró JSON en la respuesta
-
-**Estrategias de parsing:**
-
-1. **Primer intento: buscar un array JSON directamente**
+ 
+**Estrategias de parsing (dentro del mismo intento, sobre la misma respuesta):**
+ 
+1. **Parsing 1: buscar un array JSON directamente**
 ```python
 json_match = re.search(r'\[.*\]', response, re.DOTALL)
 if json_match:
@@ -620,9 +662,9 @@ if json_match:
         present = result  # ✅ éxito
 ```
 - Se espera un array de strings (`["entidad1", "entidad2"]`)
-- Si falla (JSON inválido o no es lista), pasa al siguiente paso
-
-2. **Segundo intento: buscar objeto JSON con campo `present`**
+- Si falla (JSON inválido o no es lista), se prueba el segundo parsing **sin hacer nueva llamada al LLM**
+ 
+2. **Parsing 2: buscar objeto JSON con campo `present`**
 ```python
 json_match = re.search(r'\{.*\}', response, re.DOTALL)
 if json_match:
@@ -632,22 +674,22 @@ if json_match:
         # ✅ éxito
 ```
 - Maneja casos donde el LLM devuelve `{"present": ["entidad1", "entidad2"]}`
-- Si `present` no es una lista o JSON inválido, fallo
-
+- Si `present` no es una lista o JSON inválido, el intento falla y se reintenta llamando al LLM de nuevo
+ 
 **Configuración:**
 - Número máximo de reintentos definido por `MAX_LLM_RETRIES` (definido en `settings.py` como `MAX_LLM_RETRIES = 3`)
 - Entre reintentos se espera `RETRY_DELAY_SECONDS`
-
+ 
 ---
-
+ 
 ### Fase 2: Reintento por Entidades Vacías
-
+ 
 **Objetivo:** Forzar al LLM a detectar entidades cuando la respuesta inicial está vacía.
-
-**Trigger:** Si después de los reintentos la lista `present` queda vacía:
-- Se modifica ligeramente el prompt (más explícito sobre formato JSON y exclusión de placeholders)
-- Se hace un intento extra para forzar detección de entidades
-
+ 
+**Trigger:** `if not present and retry_reason != "none"` — es decir, solo se activa si hubo un fallo de parsing real durante la Fase 1 (no simplemente porque el LLM devolvió una lista vacía `[]`).
+- Se construye un prompt alternativo más directo, con ejemplos concretos del formato esperado
+- Se hace un intento extra llamando al LLM con ese prompt mejorado
+ 
 **Implementación:**
 ```python
 if not present and retry_reason != "none":
@@ -656,33 +698,33 @@ if not present and retry_reason != "none":
         # Modify prompt slightly to encourage entity detection (language-aware)
         if language == "es":
             enhanced_prompt = f"""TEXTO: {chunk}
-
+ 
 EXTRAE nombres de diagnósticos. Si encuentras algún diagnóstico, devuelve: ["diagnóstico1", "diagnóstico2"]
 Si NO encuentras ningún diagnóstico, devuelve: []"""
         else:
             enhanced_prompt = f"""TEXT: {chunk}
-
+ 
 EXTRACT disease names. If you find any diseases, return them as: ["disease1", "disease2"]
 If you find NO diseases, return: []"""
-
+ 
         client = get_thread_client()
         response = client.generate(strategy["model"], system_prompt, enhanced_prompt, options)
         # ... parsing logic ...
 ```
-
+ 
 **Características:**
 - Prompt más explícito y directo
 - Ejemplos concretos del formato esperado
 - Instrucciones claras sobre qué hacer si no hay entidades
-
+ 
 ---
-
+ 
 ### Fase 3: Extracción de Texto Plano (Fallback Final)
-
+ 
 **Objetivo:** Como último recurso, extraer entidades usando patrones regex sobre la respuesta cruda del LLM.
-
-**Trigger:** Si aún no se detectan entidades después de las fases 1 y 2.
-
+ 
+**Trigger:** La condición es `if not present and retry_reason != "none"`, la misma que la Fase 2. Esto es intencional: si la Fase 2 consiguió poblar `present`, esta condición ya sería `False` y la Fase 3 no se ejecutaría. La Fase 3 solo actúa cuando `present` sigue vacío tras la Fase 2 (es decir, cuando ambas fases anteriores han fallado).
+ 
 **Implementación:**
 ```python
 if not present and retry_reason != "none":
@@ -693,42 +735,40 @@ if not present and retry_reason != "none":
         r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\s+(?:G\d+PD|BRCA\d+|ATM|LCAT)\b',
         r'\b(?:G6PD|BRCA1|BRCA2|ATM|LCAT)\b'
     ]
-    
+   
     for pattern in disease_patterns:
         matches = re.findall(pattern, response, re.IGNORECASE)
-        # Procesar matches encontrados
+        for match in matches:
+            # Solo se acepta si el match coincide con algún candidato del documento
+            if match.lower() in [c.lower() for c in entity_candidates]:
+                present.append(match)
 ```
-
+ 
 **Patrones utilizados:**
 - Enfermedades con sufijos comunes: "disease", "syndrome", "cancer", "tumor", etc.
 - Genes y proteínas conocidos: G6PD, BRCA1, BRCA2, ATM, LCAT
 - Condiciones médicas específicas: "anemia", "deficiency", "mutation"
-
+ 
 **Limitaciones:**
 - Solo funciona para entidades con patrones reconocibles
 - Puede generar más falsos positivos que las fases anteriores
 - Diseñado como red de seguridad, no como método principal
-
+ 
 ---
-
+ 
 ### ⚠️ Penalización por Reintentos (NO IMPLEMENTADA)
-
+ 
 **IMPORTANTE:** Aunque el sistema de reintentos está implementado y funcional, actualmente **NO se aplica penalización** por el número de intentos necesarios para obtener una respuesta válida.
-
-En el código existe una sección comentada que permitiría penalizar entidades que requirieron múltiples reintentos, pero esta funcionalidad no está activa:
-
-```python
-# Note: retry_info is not currently implemented in the entity detection system
-# This section is reserved for future implementation of retry-based confidence scoring
-```
-
+ 
+En el código se registra la variable `final_attempt` (el número de intento en que se obtuvo respuesta válida), pero este valor no se propaga al sistema de scoring ni influye en la confianza final de la entidad.
+ 
 **Razón:** Se decidió que el número de reintentos no es un indicador confiable de la calidad de la detección. Un reintento puede deberse a:
 - Formato de respuesta incorrecto (problema técnico, no semántico)
 - Variabilidad natural del LLM (misma calidad, diferente formato)
 - Problemas de parsing JSON (no indica falsa detección)
-
+ 
 **Implicación:** Todas las entidades detectadas por LLM tienen el mismo peso base, independientemente del número de reintentos necesarios
-
+ 
 ---
 
 ## Matching y Normalización de Entidades
@@ -983,10 +1023,6 @@ if "regex" in entity_strategies[entity]:
 
 **Justificación:**
 - Si una entidad es detectada por la estrategia regex, su score se multiplica por 1.5
-- Regex tiene 100% precisión, por lo que su confirmación es muy valiosa
-
-**Ejemplo:**
-- Score base: 0.6 → Con regex: 0.6 × 1.5 = 0.9
 
 ---
 
@@ -1004,9 +1040,6 @@ if strategy_count > 1:
 
 **Fórmula:** `score × (1.0 + 0.2 × (num_estrategias - 1))`
 
-**Ejemplo con 3 estrategias:**
-- Score base: 0.5 → 0.5 × (1.0 + 0.2 × 2) = 0.5 × 1.4 = 0.7
-
 ---
 
 ### Factores que Reducen la Confianza
@@ -1022,10 +1055,7 @@ if "regex" not in entity_strategies[entity]:
 - Si una entidad NO es confirmada por regex, se aplica una penalización del 20%
 - LLM puede producir falsos positivos; sin confirmación regex se reduce confianza
 
-**Ejemplo:**
-- Score: 0.8 sin regex → 0.8 × 0.8 = 0.64
-
-**Nota:** Esta es la ÚNICA penalización actualmente implementada en el sistema.
+**Nota:** Esta es la única penalización actualmente implementada en el sistema (ya que previamente se ha hablado también de la penalización por reintentos que existe en el código pero no se propaga al scoring).
 
 ---
 
@@ -1042,56 +1072,6 @@ entity_confidence[entity] = max(0.0, min(1.0, entity_confidence[entity]))
 
 ---
 
-### Ejemplos Numéricos Completos
-
-#### Ejemplo 1: Entidad detectada por regex + 2 LLMs
-
-```
-Score inicial (suma de pesos): 0.6
-Detectada por regex: 0.6 × 1.5 = 0.9
-Detectada por 3 estrategias (regex + 2 LLM): 0.9 × (1.0 + 0.2 × 1) = 0.9 × 1.2 = 1.08
-Normalización: min(1.0, 1.08) = 1.0
-Resultado final: confidence = 1.0 ✓ (aceptada)
-```
-
----
-
-#### Ejemplo 2: Entidad solo detectada por 1 LLM (sin regex)
-
-```
-Score inicial (peso estrategia): 0.7
-No detectada por regex: 0.7 × 0.8 (penalización llm_only) = 0.56
-Una sola estrategia: sin bonus multi-estrategia
-Normalización: max(0.0, 0.56) = 0.56
-Resultado final: confidence = 0.56 ✓ (aceptada, pero con baja confianza)
-```
-
----
-
-#### Ejemplo 3: Entidad solo detectada por qwen25_diversity (weight=0.5)
-
-```
-Score inicial: 0.5
-No detectada por regex: 0.5 × 0.8 = 0.4
-Una sola estrategia: sin bonus
-Normalización: 0.4
-Resultado final: confidence = 0.4 ✗ (rechazada, < 0.5)
-```
-
----
-
-#### Ejemplo 4: Entidad detectada por 4 LLMs pero sin regex
-
-```
-Score inicial (suma pesos): 1.0
-No detectada por regex: 1.0 × 0.8 = 0.8
-Detectada por 4 estrategias: 0.8 × (1.0 + 0.2 × 3) = 0.8 × 1.6 = 1.28
-Normalización: min(1.0, 1.28) = 1.0
-Resultado final: confidence = 1.0 ✓ (aceptada, consenso LLM compensa falta de regex)
-```
-
----
-
 ### Ajuste de Scores y Thresholds
 
 El umbral mínimo (`min_accept`) está actualmente fijado en 0.5, pero puede ajustarse para optimizar recall, precisión u otras métricas según el caso de uso.
@@ -1104,94 +1084,85 @@ Los scores de confianza son relativos y dependen de:
 Actualmente, por ejemplo, `qwen25_diversity` tiene un peso más bajo que `gemma3_balanced`, pero no existen pruebas empíricas sólidas que justifiquen esta diferencia. De la misma manera, los multiplicadores de regex o los bonos por multi-estrategia podrían ajustarse según resultados reales de evaluación.
 
 ---
-
+ 
 ## Optimizaciones de Rendimiento
-
+ 
 ### Procesamiento Paralelo
-
-Las estrategias LLM se ejecutan en paralelo usando `ThreadPoolExecutor`, permitiendo procesar múltiples chunks simultáneamente sin bloquear el flujo principal:
-
+ 
+Las estrategias LLM se ejecutan en paralelo usando `ThreadPoolExecutor`. El número de workers viene de `MAX_WORKERS` (definido en `settings.py`). Los resultados se recogen a medida que cada estrategia termina, mediante `as_completed` (sin orden garantizado):
+ 
 ```python
-with ThreadPoolExecutor(max_workers=4) as executor:
+with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
     future_to_strategy = {
-        executor.submit(run_strategy, strategy): strategy 
+        executor.submit(run_strategy, strategy): strategy
         for strategy in strategies
     }
-    
+   
     for future in as_completed(future_to_strategy):
         strategy_name, results_filepath = future.result()
 ```
-
+ 
 **Características:**
-- **4 workers simultáneos**: Uno por cada estrategia LLM
 - **Ejecución no bloqueante**: Las estrategias corren independientemente
-- **Recolección ordenada**: Los resultados se procesan a medida que completan
+- **Recolección por orden de finalización**: `as_completed` devuelve el futuro que acaba antes, no en orden de envío
 - **Manejo de errores**: Cada estrategia maneja sus propios fallos sin afectar a las demás
-
-**Beneficios:**
-- Reducción de ~75% en tiempo de procesamiento vs secuencial
-- Mejor aprovechamiento de GPU cuando Ollama soporta requests paralelas
-- Aislamiento de fallos entre estrategias
-
+ 
 ---
-
+ 
 ### Cache de LLM
-
-El sistema implementa un cache inteligente para evitar llamadas duplicadas al LLM:
-
+ 
+El sistema implementa un cache para evitar llamadas duplicadas al LLM cuando el mismo chunk y modelo se procesan más de una vez. Está activo durante toda la ejecución mediante una instancia global.
+ 
 ```python
 class LLMCache:
-    def __init__(self, max_size=1000, ttl_hours=24):
+    def __init__(self, max_size=CACHE_MAX_SIZE, ttl_hours=CACHE_TTL_HOURS):
         self.cache = {}
         self.max_size = max_size
         self.ttl_hours = ttl_hours
         self.lock = threading.Lock()
-    
+   
     def _generate_key(self, model: str, system_prompt: str, user_prompt: str) -> str:
         content = f"{model}:{system_prompt}:{user_prompt}"
         return hashlib.md5(content.encode()).hexdigest()
-    
-    def get(self, model: str, system_prompt: str, user_prompt: str):
+   
+    def get(self, key: str) -> Optional[str]:
         with self.lock:
-            key = self._generate_key(model, system_prompt, user_prompt)
             if key in self.cache:
                 entry = self.cache[key]
-                if not self._is_expired(entry):
+                if datetime.now() < entry['expiry']:
                     return entry['response']
+                else:
+                    del self.cache[key]
         return None
-    
-    def set(self, model: str, system_prompt: str, user_prompt: str, response: str):
+   
+    def put(self, key: str, response: str):
         with self.lock:
-            key = self._generate_key(model, system_prompt, user_prompt)
+            if len(self.cache) >= self.max_size:
+                # Elimina el 25% de entradas más antiguas
+                oldest_keys = sorted(self.cache.keys(),
+                                   key=lambda k: self.cache[k]['expiry'])[:len(self.cache)//4]
+                for old_key in oldest_keys:
+                    del self.cache[old_key]
             self.cache[key] = {
                 'response': response,
-                'timestamp': time.time()
+                'expiry': datetime.now() + timedelta(hours=self.ttl_hours)
             }
-            # Evict oldest if cache is full
-            if len(self.cache) > self.max_size:
-                oldest_key = min(self.cache, key=lambda k: self.cache[k]['timestamp'])
-                del self.cache[oldest_key]
 ```
-
+ 
 **Características clave:**
 - **Thread-safe**: Uso de locks para escritura/lectura concurrente
-- **TTL configurable**: Las entradas expiran después de 24 horas por defecto
-- **Eviction LRU**: Elimina entradas más antiguas cuando se alcanza el máximo
-- **Hash MD5**: Genera claves únicas basadas en modelo + prompts
-
-**Impacto:**
-- Útil cuando se procesan múltiples documentos con chunks similares
-- Reduce latencia en ~30-50% para chunks repetidos
-- Ahorra llamadas a GPU/CPU de Ollama
-
+- **TTL basado en `datetime`**: Las entradas expiran tras `CACHE_TTL_HOURS` horas; la expiración se comprueba en `get()` comparando con `datetime.now()`
+- **Eviction por capacidad**: Cuando se alcanza `max_size`, se elimina el 25% de entradas con expiración más próxima
+- **Hash MD5**: Genera claves únicas a partir de modelo + system prompt + user prompt
+ 
 ---
-
+ 
 ## Gestión de Memoria y Archivos
-
+ 
 ### Archivos Temporales
-
-El sistema usa archivos temporales para minimizar uso de memoria:
-
+ 
+El sistema usa archivos temporales para evitar acumular datos de todos los chunks en RAM:
+ 
 ```
 temp/
 ├── chunks/
@@ -1199,106 +1170,66 @@ temp/
 └── results/
     └── {doc_id}_{strategy_name}_results.json
 ```
-
-**Ventajas:**
-- Uso constante de memoria (~500 MB)
-- Permite procesar documentos muy grandes
-- Facilita debugging y auditoría
-
+ 
+Cada línea del archivo de chunks tiene el formato `{"text": "...", "chunk_id": N}`. Los resultados de cada estrategia se almacenan en su propio archivo y se leen al finalizar para combinarlos.
+ 
 **Limpieza:**
-- Se eliminan tras procesar cada documento
-- Directorio `temp/` se limpia al finalizar
-
+- Los archivos de chunks se eliminan tras procesar cada estrategia
+- Los archivos de resultados se eliminan tras combinar todas las estrategias
+ 
 ---
-
+ 
 ### Estrategias de Gestión de Memoria
-
-El sistema implementa múltiples técnicas para mantener el consumo de memoria constante (~500 MB) independientemente del volumen de datos procesado:
-
+ 
 #### 1. Chunking Basado en Archivos
-
-**Problema:** Mantener chunks de todos los documentos en RAM puede consumir gigabytes.
-
-**Solución:** Los chunks se escriben a disco temporal y se leen bajo demanda:
-
+ 
+Los chunks se escriben a disco y se leen línea a línea, evitando mantener todo el texto dividido en memoria:
+ 
 ```python
-# Escribir chunks a archivo temporal
-chunks_filepath = f"temp/chunks/{doc_id}_{strategy_name}_chunks.json"
-with open(chunks_filepath, 'w') as f:
-    for chunk in chunks:
-        f.write(json.dumps({"chunk": chunk}) + "\n")
-
-# Leer chunks línea por línea (streaming)
-with open(chunks_filepath, 'r') as f:
+# Leer chunks línea por línea desde archivo temporal
+with open(chunks_filepath, 'r', encoding='utf-8') as f:
     for line in f:
         chunk_data = json.loads(line)
+        chunk = chunk_data["text"]
+        chunk_id = chunk_data["chunk_id"]
         # Procesar chunk...
 ```
-
-**Beneficios:**
-- Memoria constante independiente del tamaño del documento
-- Permite procesar documentos de decenas de miles de palabras
-- Facilita debugging (los chunks quedan en disco temporalmente)
-
+ 
 #### 2. Procesamiento Incremental
-
-**Enfoque:** Un documento a la vez, guardado inmediato tras procesamiento.
-
+ 
+Un documento a la vez, con guardado inmediato tras procesamiento:
+ 
 ```python
 for doc in documents:
     result = process_document(doc)
     save_single_result(result, output_file)  # Guardado inmediato
     gc.collect()  # Liberar memoria
 ```
-
+ 
 **Ventajas:**
 - No se acumulan resultados en memoria
 - Pérdida mínima de trabajo si hay interrupciones
-- Reinicio automático desde último documento procesado
-
+- Reinicio automático desde el último documento procesado
+ 
 #### 3. Limpieza Automática
-
-**Proceso:**
+ 
 ```python
-# Después de procesar un documento
 try:
     os.remove(chunks_filepath)
     os.remove(results_filepath)
-    print(f"[FILE] Cleaned up temporary files for {doc_id}")
 except Exception as e:
     print(f"[WARNING] Could not clean up files: {e}")
 ```
-
-**Alcance:**
-- Archivos temporales se eliminan tras cada documento
-- Directorio `temp/` completo se limpia al finalizar el script
-- Manejo robusto de errores para evitar bloqueos
-
+ 
 #### 4. Garbage Collection Forzado
-
-**Implementación:**
+ 
 ```python
-import gc
-
-for doc in documents:
-    # Procesar documento...
-    result = process_document(doc)
-    
-    # Liberar memoria explícitamente
-    gc.collect()
+gc.collect()
 ```
-
-**Justificación:**
-- Python no siempre libera memoria inmediatamente
-- `gc.collect()` fuerza la recolección de objetos no referenciados
-- Especialmente útil después de procesar textos largos o múltiples chunks
-
-**Impacto medido:**
-- Reducción de ~30-40% en uso pico de memoria
-- Previene memory leaks en ejecuciones largas (100+ documentos)
-
+ 
+Se llama explícitamente tras cada documento. Python no siempre libera memoria de forma inmediata, y este forzado es especialmente útil en ejecuciones largas con muchos documentos.
+ 
 ---
-
 ## Formato de Salida
 
 ### Estructura del Output JSONL
@@ -1407,20 +1338,6 @@ options = {
 }
 ```
 
-**Parámetros explicados:**
-
-| Parámetro | Valor | Justificación |
-|-----------|-------|---------------|
-| `temperature` | 0.0-0.5 | Varía según estrategia; menor = más determinista |
-| `top_p` | 0.9 | Muestreo nucleus para balance calidad/diversidad |
-| `num_predict` | 32 | Limita longitud de respuesta (solo necesitamos JSON corto) |
-| `num_gpu` | 1 | Fuerza uso de GPU para velocidad |
-| `num_thread` | 2 | Reducido para evitar sobrecarga |
-| `repeat_penalty` | 1.1 | Reduce repeticiones en la salida |
-| `top_k` | 40 | Limita tokens candidatos para sampling |
-| `stop` | Lista | Secuencias que detienen generación (evita output extra) |
-
-
 ---
 
 ## Evaluación y Métricas
@@ -1428,6 +1345,8 @@ options = {
 ### Formato de Archivos de Entrada y Referencia
 
 **⚠️ DIFERENCIA FUNDAMENTAL:** Los archivos de referencia (ground truth) tienen formato distinto en inglés vs español, y esto determina qué método de evaluación usar.
+
+**Nota sobre modelo usado en métricas:** para las evaluaciones reportadas en este documento sobre los datasets `n2c2` y `NCBI`, las ejecuciones se realizaron con el modelo `llama3.2:3b` aplicando las mismas estrategias y parámetros. El uso de `gemma3` se restringió al dataset del Hospital Clínic porque `gemma3` ofrece un soporte lingüístico significativamente más amplio que `llama3.2:3b`.
 
 #### Formato Inglés (NCBI, n2c2)
 
@@ -1508,22 +1427,11 @@ Cada uno usa una estrategia diferente para determinar si una predicción es corr
 
 **Usado para:** Datasets NCBI y n2c2 (inglés)
 
-Este método compara las **cadenas de texto** de las entidades predichas vs las de referencia usando fuzzy matching.
-
+Este método compara las **cadenas de texto** de las entidades predichas vs las de referencia (benchmark). 
 #### Filosofía del Sistema por Texto
 
-A diferencia del método ICD10, este sistema **NO mapea a códigos** sino que compara directamente las strings de texto. Una predicción es correcta si su texto es suficientemente similar al texto de referencia.
+A diferencia del método ICD10, este sistema **NO mapea a códigos** sino que compara directamente las strings de texto. Una predicción es correcta si su texto es suficientemente similar al texto de referencia (benchmark). En la práctica, la mayoría de comparaciones se resuelven con match exacto.
 
-**Ejemplo:**
-- Predicción: `"Diabetes Mellitus"`
-- Referencia: `"diabetes mellitus type 2"`
-- **Resultado:** ✅ TRUE POSITIVE (substring match)
-
-**Otro ejemplo:**
-- Predicción: `"G6PD deficiency"`
-- Referencia: `"glucose-6-phosphate dehydrogenase deficiency"`
-- **Resultado:** ❌ FALSE POSITIVE (sin fuzzy match suficiente)
-- **Pero:** Si estuviera en candidatos, `"G6PD"` se expandiría y matchearía
 
 #### Proceso de Evaluación por Texto
 
@@ -1593,51 +1501,7 @@ def fuzzy_match(predicted: str, reference: str, threshold: float = 0.8) -> bool:
     return similarity >= threshold  # 0.8 por defecto
 ```
 
-**Ejemplos de Matching:**
 
-**Caso 1: Match exacto**
-```
-Predicción: "diabetes mellitus"
-Referencia: "Diabetes Mellitus"
-→ Normalización: ambos → "diabetes mellitus"
-→ Comparación: iguales
-→ Resultado: ✅ TRUE POSITIVE (Nivel 1)
-```
-
-**Caso 2: Match parcial (substring)**
-```
-Predicción: "diabetes"
-Referencia: "diabetes mellitus type 2"
-→ "diabetes" está contenido en "diabetes mellitus type 2"
-→ Resultado: ✅ TRUE POSITIVE (Nivel 2)
-```
-
-**Caso 3: Match fuzzy (similitud de caracteres)**
-```
-Predicción: "hypertension"
-Referencia: "hypertension arterial"
-→ No son iguales
-→ "hypertension" ⊂ "hypertension arterial" → Match parcial
-→ Resultado: ✅ TRUE POSITIVE (Nivel 2)
-
-Otro ejemplo:
-Predicción: "lcat deficiency"
-Referencia: "lecithin cholesterol acyltransferase deficiency"
-→ No son iguales
-→ No substring match
-→ Similitud Jaccard: ~0.65 < 0.8
-→ Resultado: ❌ FALSE POSITIVE
-```
-
-**Caso 4: Sin match**
-```
-Predicción: "g6pd"
-Referencia: "glucose-6-phosphate dehydrogenase deficiency"
-→ No son iguales
-→ No substring
-→ Similitud baja (~0.3)
-→ Resultado: ❌ FALSE POSITIVE
-```
 
 **Paso 5: Calcular TP, FP, FN**
 ```python
@@ -1666,42 +1530,6 @@ for pred_ent in predicted_entities:
 fn = len(reference_entities) - len(matched_references)
 ```
 
-#### Ventajas del Método por Texto
-
-1. **No requiere diccionario predefinido:**
-   - Funciona con cualquier entidad
-   - Ideal para datasets de research con entidades variadas
-
-2. **Granularidad alta:**
-   - Distingue entre "diabetes" y "diabetes mellitus type 2"
-   - Captura matices textuales
-
-3. **Flexible:**
-   - Substring matching captura variantes comunes
-   - Fuzzy matching tolera errores menores
-
-4. **Interpretable:**
-   - Los textos son legibles directamente
-   - No requiere conocer códigos ICD10
-
-#### Limitaciones del Método por Texto
-
-1. **Sensible a variantes lingüísticas:**
-   - "G6PD deficiency" ≠ "glucose-6-phosphate dehydrogenase deficiency"
-   - Puede generar FP si las abreviaturas no matchean
-
-2. **Threshold arbitrario:**
-   - 0.8 es configurable pero fijo
-   - Puede ser muy estricto o muy laxo según el caso
-
-3. **No maneja sinónimos complejos:**
-   - "MI" vs "myocardial infarction" → No match
-   - "HTN" vs "hypertension" → No match (sin threshold bajo)
-
-4. **Dependiente de la forma textual:**
-   - Si referencia dice "DM2" y predicción dice "diabetes mellitus type 2"
-   - No matchea a menos que estén en candidatos
-
 #### Cálculo Final de Métricas (Método Texto)
 
 ```python
@@ -1716,72 +1544,32 @@ f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0
 ```
 
 **Ejemplo completo:**
+ 
+El FP típico es un candidato extra del input que no está en ground truth; el FN es una entidad real del benchmark que el pipeline no detectó.
+ 
 ```
-Documento PMID 12345:
-Predicciones: ["diabetes", "hypertension", "obesity"]
-Referencias: ["diabetes mellitus type 2", "hypertension", "asthma"]
-
+Documento PMID 9949209 (NCBI):
+Candidatos del input:  ["Wilson disease", "WD", "copper toxicosis", "CT", ..., "uranium", "polypectomy"]
+Ground truth (referencia): ["Wilson disease", "WD", "copper toxicosis", "CT", ...]
+ 
+Pipeline predice: ["Wilson disease", "WD", "copper toxicosis", "uranium"]
+ 
 Matching:
-- "diabetes" vs "diabetes mellitus type 2" → ✅ Match (substring)
-- "hypertension" vs "hypertension" → ✅ Match (exacto)
-- "obesity" vs "asthma" → ❌ No match
-- "asthma" sin predicción → ❌ Missed
-
+- "Wilson disease" vs "Wilson disease" → ✅ Match exacto
+- "WD" vs "WD"                         → ✅ Match exacto
+- "copper toxicosis" vs "copper toxicosis" → ✅ Match exacto
+- "uranium" → no está en referencias   → ❌ False Positive
+- "CT" sin predicción                  → ❌ Missed (False Negative)
+ 
 Resultado:
-TP = 2 (diabetes, hypertension)
-FP = 1 (obesity)
-FN = 1 (asthma)
-
-Precision = 2/(2+1) = 0.667 (66.7%)
-Recall = 2/(2+1) = 0.667 (66.7%)
-F1 = 0.667
+TP = 3 (Wilson disease, WD, copper toxicosis)
+FP = 1 (uranium — candidato del input que no es ground truth)
+FN = 1 (CT — entidad real no detectada)
+ 
+Precision = 3/(3+1) = 0.750 (75.0%)
+Recall    = 3/(3+1) = 0.750 (75.0%)
+F1        = 0.750
 ```
-
-#### Comando de uso
-
-```bash
-python scripts/evaluation/evaluate_ner_performance.py \
-  --predictions output_ncbi.jsonl \
-  --reference datasets/ncbi_test.jsonl \
-  --output eval_ncbi.json
-```
-
-#### Formato de salida (método texto)
-
-```json
-{
-  "overall": {
-    "precision": 0.9974,
-    "recall": 0.9974,
-    "f1": 0.9974,
-    "tp": 384,
-    "fp": 1,
-    "fn": 1
-  },
-  "strategy_metrics": {
-    "regex": {"precision": 0.95, "tp": 350, "fp": 18},
-    "gemma3_balanced": {"precision": 0.88, "tp": 320, "fp": 45}
-  },
-  "summary": {
-    "total_documents": 100,
-    "total_predictions": 385,
-    "total_references": 385
-  },
-  "detailed_results": [
-    {
-      "pmid": "12345",
-      "predicted": ["diabetes", "hypertension"],
-      "reference": ["diabetes mellitus type 2", "hypertension"],
-      "tp": 2,
-      "fp": 0,
-      "fn": 0,
-      "precision": 1.0,
-      "recall": 1.0
-    }
-  ]
-}
-```
-
 ---
 
 ### Evaluación Método 2: Por Código ICD10 (Hospital Clínic)
@@ -1811,70 +1599,6 @@ Todos estos textos se mapean al mismo código ICD10 → `"I10"`
 - Predicción: `"hta"` → ICD10: `"I10"`
 - Referencia: `"hipertensión"` → ICD10: `"I10"`
 - **Resultado:** ✅ TRUE POSITIVE (mismo código ICD10)
-
-#### Diccionario ICD10 Completo
-
-```python
-ENTITIES = {
-    "I10": [  # Hipertensión arterial
-        "hta",
-        "hipertensión arterial",
-        "hipertensión"
-    ],
-    
-    "E78.5": [  # Dislipemia
-        "dislipemia",
-        "dlp"
-    ],
-    
-    "Z87.891": [  # Exfumador
-        "exfumador",
-        "ex-fumador"
-    ],
-    
-    "E11.9": [  # Diabetes mellitus tipo 2
-        "dm2",
-        "diabetes mellitus tipo 2",
-        "diabetes mellitus",
-        "dm"
-    ],
-    
-    "F17.210": [  # Fumador
-        "fumador",
-        "tabaquismo"
-    ],
-    
-    "Z79.01": [  # Anticoagulado
-        "anticoagulado",
-        "anticoagulante",
-        "sintrom"
-    ],
-    
-    "I25.10": [  # Cardiopatía isquémica
-        "cardiopatía isquémica",
-        "enfermedad coronaria",
-        "eac"
-    ],
-    
-    "Z79.82": [  # AAS
-        "aas",
-        "aspirina",
-        "adiro"
-    ],
-    
-    "N17.9": [  # Insuficiencia renal aguda
-        "insuficiencia renal aguda",
-        "ira",
-        "aki"
-    ],
-    
-    "I48.91": [  # Fibrilación auricular
-        "fibrilación auricular",
-        "fa",
-        "acxfa"
-    ]
-}
-```
 
 #### Proceso de Evaluación ICD10
 
@@ -1943,40 +1667,6 @@ for code in fp_codes:
 for code in fn_codes:
     icd10_fn[code] += 1
 ```
-
-#### Ventajas del Método ICD10
-
-1. **Independiente de la forma textual:**
-   - "hta" vs "hipertensión arterial" → Mismo código → TP
-   - Elimina falsos negativos por variaciones lingüísticas
-
-2. **Análisis por condición médica:**
-   - Métricas separadas para cada código ICD10
-   - Identifica qué condiciones son más difíciles de detectar
-
-3. **Manejo de sinónimos:**
-   - "acxfa" = "fa" = "fibrilación auricular" → Todos I48.91
-   - No requiere fuzzy matching
-
-4. **Mejor para datasets clínicos:**
-   - Los médicos usan abreviaturas inconsistentes
-   - El código ICD10 es el ground truth real
-
-#### Limitaciones del Método ICD10
-
-1. **Requiere diccionario predefinido:**
-   - Solo funciona para códigos ICD10 conocidos
-   - Entidades no mapeadas se descartan (se registran en `unmapped_predictions`)
-
-2. **Pérdida de granularidad textual:**
-   - No distingue entre "diabetes" y "diabetes mellitus tipo 2"
-   - Ambos mapean a E11.9
-
-3. **Dependiente de la calidad del diccionario:**
-   - Si falta una variante en el diccionario, no se mapea
-
-
-
 #### Métricas Adicionales
 
 El evaluador ICD10 también genera:
@@ -1992,7 +1682,7 @@ El evaluador ICD10 también genera:
 }
 ```
 
-**2. Entidades no mapeadas:**
+**2. Entidades no mapeadas:** aparece cuando una entidad fue detectada correctamente por el pipeline (estaba en los candidatos del input), pero el diccionario del evaluador no tiene esa variante exacta.
 ```json
 {
   "unmapped_predictions": {
@@ -2001,239 +1691,6 @@ El evaluador ICD10 también genera:
   }
 }
 ```
-
-**3. Top códigos más problemáticos:**
-- Ordenados por FN (falsos negativos)
-- Identifica qué condiciones necesitan mejor detección
-
----
-
-### Comparación de Métodos
-
----
-
-### Comparación Detallada de Métodos
-
-
-
-| Aspecto | Método Texto (Inglés) | Método ICD10 (Hospital Clínic) |
-|---------|----------------------|--------------------------------|
-| **Dataset** | NCBI, n2c2 | Hospital Clínic (español/catalán) |
-| **Fuzzy en DETECCIÓN** | ✅ Sí (Jaccard ≥0.8) | ✅ Sí (mismo código) |
-| **Fuzzy en EVALUACIÓN** | ✅ Sí (compara strings) | ❌ No (compara códigos) |
-| **Criterio de match** | Fuzzy matching de strings (3 niveles) | Código ICD10 único |
-| **Unidad de comparación** | Texto normalizado | Código estandarizado |
-| **Granularidad** | Alta (distingue variantes textuales) | Media (agrupa sinónimos) |
-| **Sinónimos** | Requiere similitud textual ≥80% | Mapeados automáticamente |
-| **Abreviaturas** | Pueden fallar si muy diferentes | Predefinidas en diccionario |
-| **Variantes ortográficas** | Fuzzy puede capturar algunas | No importan si están mapeadas |
-| **Flexibilidad** | Alta (cualquier entidad) | Baja (solo 10 códigos ICD10) |
-| **Interpretabilidad** | Texto legible directamente | Requiere conocer códigos |
-| **Uso clínico** | Investigación biomédica | Producción hospitalaria |
-| **Mantenimiento** | No requiere diccionario | Requiere actualizar diccionario |
-| **Entidades nuevas** | Funciona inmediatamente | Necesita agregar al diccionario |
-
-#### Diferencias Clave en el Matching
-
-**⚠️ IMPORTANTE:** Ambos sistemas usan el **mismo fuzzy matching durante la detección** (fase NER). La diferencia está en **cómo evalúan** los resultados:
-
-##### Durante la DETECCIÓN (ambos sistemas):
-
-Ambos usan el mismo código en `llm_strategy.py`:
-```python
-# Este código se ejecuta IGUAL en inglés y español
-for entity in present:  # Entidades devueltas por LLM
-    entity_lower = entity.lower().strip()
-    
-    for candidate in entity_candidates:
-        candidate_lower = candidate.lower().strip()
-        
-        # Nivel 1: Match exacto
-        if candidate_lower == entity_lower:
-            detected_entities.add(candidate)
-            break
-        # Nivel 2: Match parcial
-        elif entity_lower in candidate_lower or candidate_lower in entity_lower:
-            detected_entities.add(candidate)
-            break
-        # Nivel 3: Fuzzy match (Jaccard ≥ 0.8)
-        elif _fuzzy_match(entity_lower, candidate_lower):
-            detected_entities.add(candidate)
-            break
-```
-
-**Este fuzzy matching ocurre en AMBOS idiomas** para emparejar lo que el LLM detecta con los candidatos del documento.
-
----
-
-##### Durante la EVALUACIÓN (aquí difieren):
-
-**Método Texto (Inglés) - Fuzzy en Evaluación:**
-```
-Predicción: "hta"
-Referencia: "hipertensión arterial"
-
-EVALUACIÓN (con fuzzy matching):
-→ Fuzzy match: "hta" vs "hipertensión arterial"
-→ Similitud Jaccard: set("hta") vs set("hipertensiónarterial")
-→ Caracteres únicos: {'h','t','a'} vs {'h','i','p','e','r','t','n','s','ó','a','l'}
-→ Intersección: {'h','t','a'} → 3 caracteres
-→ Unión: 11 caracteres
-→ Similitud: 3/11 = 0.27 < 0.8
-→ Resultado: ❌ FALSE POSITIVE (sin match en evaluación)
-```
-
-**Método ICD10 (Hospital Clínic) - Comparación Exacta de Códigos:**
-```
-Predicción: "hta"
-Referencia: "hipertensión arterial"
-
-EVALUACIÓN (solo códigos, sin fuzzy):
-→ Mapeo predicción: "hta" → I10 (según diccionario)
-→ Mapeo referencia: "hipertensión arterial" → I10 (según diccionario)
-→ Comparación: I10 == I10
-→ Resultado: ✅ TRUE POSITIVE
-```
-
-**Otro ejemplo:**
-
-**Método Texto:**
-```
-Predicción: "diabetes mellitus"
-Referencia: "diabetes mellitus type 2"
-→ "diabetes mellitus" está contenido en "diabetes mellitus type 2"
-→ Resultado: ✅ TRUE POSITIVE (substring match)
-```
-
-**Método ICD10:**
-```
-Predicción: "diabetes mellitus"
-Referencia: "dm2"
-→ Mapeo predicción: "diabetes mellitus" → E11.9
-→ Mapeo referencia: "dm2" → E11.9
-→ Comparación: E11.9 == E11.9
-→ Resultado: ✅ TRUE POSITIVE
-```
-
----
-
-#### ¿Por Qué Fuzzy Matching DOS VECES en el Método Texto?
-
-Esta es una pregunta importante porque parece redundante. La respuesta es que **comparan cosas diferentes en momentos diferentes:**
-
-##### Fuzzy #1: Durante DETECCIÓN (LLM → Candidatos)
-
-**Objetivo:** Emparejar lo que el LLM detecta con el texto exacto del documento
-
-```python
-# Ejemplo real:
-Texto documento: "Patient has HTN and obesity"
-Candidatos extraídos: ["htn", "obesity"]
-
-LLM detecta: ["hypertension", "obesity"]
-
-FUZZY MATCHING #1:
-→ "hypertension" vs "htn" → Similitud baja, pero substring? No
-→ "hypertension" vs "obesity" → No match
-→ "obesity" vs "obesity" → ✅ Match exacto
-
-Predicción final guardada: ["obesity"]  # ¡Perdimos "hypertension"!
-```
-
-**Problema:** Si el LLM normaliza ("HTN" → "hypertension"), no matchea con el candidato original.
-
-##### Fuzzy #2: Durante EVALUACIÓN (Predicciones → Ground Truth)
-
-**Objetivo:** Emparejar las predicciones finales con las referencias anotadas
-
-```python
-# Continuando el ejemplo:
-Predicción: ["obesity"]
-Ground truth: ["hypertension", "obesity"]
-
-FUZZY MATCHING #2:
-→ "obesity" vs "hypertension" → No match
-→ "obesity" vs "obesity" → ✅ Match
-
-Métricas:
-TP = 1 (obesity)
-FP = 0
-FN = 1 (hypertension no detectado)
-```
-
-##### Caso Completo: Ambos Fuzzy Trabajando Juntos
-
-```
-Texto: "Pt diagnosed with DM2 and CHF"
-Candidatos: ["dm2", "chf"]
-
---- DETECCIÓN ---
-LLM 1 dice: "diabetes mellitus type 2" y "congestive heart failure"
-LLM 2 dice: "dm2" y "chf"
-
-FUZZY #1 (LLM → Candidatos):
-→ "diabetes mellitus type 2" vs "dm2" → Baja similitud, NO match
-→ "diabetes mellitus type 2" vs "chf" → NO match
-→ "dm2" vs "dm2" → ✅ MATCH (LLM 2)
-→ "chf" vs "chf" → ✅ MATCH (LLM 2)
-
-Predicciones finales: ["dm2", "chf"] (textos del documento)
-
---- EVALUACIÓN ---
-Ground truth: ["diabetes mellitus type 2", "congestive heart failure"]
-
-FUZZY #2 (Predicciones → Ground truth):
-→ "dm2" vs "diabetes mellitus type 2"
-  - Jaccard: {'d','m','2'} ∩ {...} / {...} ≈ 0.15 < 0.8 → ❌ NO MATCH
-→ "chf" vs "congestive heart failure"  
-  - Jaccard: {'c','h','f'} ∩ {...} / {...} ≈ 0.13 < 0.8 → ❌ NO MATCH
-
-Resultado SIN fuzzy en evaluación:
-TP = 0, FP = 2, FN = 2  ❌ INCORRECTO (detectó correctamente pero no reconoce)
-```
-
-##### El Dilema del Método Texto
-
-**Problema fundamental:** Las predicciones son textos del documento original, pero el ground truth usa formas normalizadas diferentes.
-
-```
-Tensión inevitable:
-┌─────────────────┐
-│ Texto original  │ "HTN", "DM2", "CHF"
-└────────┬────────┘
-         │ fuzzy #1 (detección)
-┌────────▼────────┐
-│ Predicciones    │ ["htn", "dm2", "chf"]
-└────────┬────────┘
-         │ fuzzy #2 (evaluación)
-┌────────▼────────┐
-│ Ground truth    │ ["hypertension", "diabetes mellitus", "heart failure"]
-└─────────────────┘
-```
-
-**Soluciones posibles:**
-
-1. **Normalizar predicciones antes de guardar:** Las predicciones se guardan como "hypertension" en vez de "htn"
-   - ❌ Pierde la forma original del documento
-   - ❌ Dificulta análisis de lo que realmente dice el texto
-
-2. **Usar fuzzy en evaluación:** ✅ **Implementado actualmente**
-   - ✅ Mantiene fidelidad al texto original
-   - ⚠️ Requiere threshold bien calibrado
-
-3. **Método ICD10:** ✅ **Solución elegante para el Dataset del Hospital Clínic**
-   - ✅ Mapea ambos lados a códigos
-   - ✅ Elimina la tensión completamente
-   - ❌ Requiere diccionario predefinido
-
-##### Conclusión
-
-El fuzzy matching en evaluación **NO es redundante**, es necesario porque:
-
-1. **Fuzzy #1:** Matchea salidas normalizadas del LLM con texto crudo del documento
-2. **Fuzzy #2:** Matchea textos crudos guardados con referencias normalizadas del ground truth
-
-**El método ICD10 es superior porque elimina esta tensión:** tanto predicciones como referencias se mapean a códigos, haciendo **irrelevante** la forma textual exacta.
 
 ---
 
@@ -2362,15 +1819,6 @@ Los dos scripts generan formatos distintos.
   }
 }
 ```
-
-**Diferencias clave:**
-
-| Campo | Inglés | Español/ICD10 |
-|---|---|---|
-| Desglose por categoría | ✗ | ✓ `icd10_metrics` por código |
-| `strategy_metrics` | solo `precision`, `tp`, `fp` | igual |
-| `detailed_results` | `predicted` / `reference` (texto) | `predicted_codes` / `reference_codes` + `predicted_entities_by_code` |
-| `summary` | `total_predictions/references` | `total_predicted/reference_codes` + `unique_*` + `total_unmapped` |
 ---
 
 ## Métricas de Performance
@@ -2389,12 +1837,6 @@ Los dos scripts generan formatos distintos.
 - **Total Entidades**: 385
 - **Documentos Procesados**: 93 de 100
 - **Errores**: Solo 2 (0.5% tasa de error)
-
-**Análisis:**
-- Rendimiento casi perfecto en corpus biomédico estándar en inglés
-- Solo 1 falso positivo y 1 falso negativo
-- Alta precisión gracias a la estrategia regex + consenso LLM
-
 ---
 
 ### Dataset n2c2 (National NLP Clinical Challenges)
@@ -2406,11 +1848,6 @@ Los dos scripts generan formatos distintos.
 - **F1-Score**: 97.6%
 - **Total Entidades Reales**: 65
 - **Total Entidades en Benchmark**: 47
-
-**Análisis:**
-- Recall perfecto (100%): el sistema detecta todas las entidades reales presentes
-- Precisión alta (95.4%) con solo unos pocos falsos positivos
-- F1 muy elevado (97.6%) en un dataset de lenguaje clínico real
 
 #### Corrección de Anotaciones Humanas en n2c2
 
@@ -2431,15 +1868,13 @@ Durante la evaluación del dataset n2c2, se descubrió que **14 entidades detect
 | 155 | `monitoring` | 1.000 |
 | 170 | `monitoring` | 1.000 |
 
-**Conclusión**: El sistema tiene razón en estos casos, demostrando su capacidad para **identificar errores en anotaciones humanas** y mejorar la calidad del benchmark. Solo 3 documentos (PMIDs 123, 128, 16) contienen errores reales, correspondientes a variaciones en nomenclatura biomédica.
+**Conclusión**: El sistema tiene razón en estos casos, demostrando su capacidad para **identificar errores en anotaciones humanas** y mejorar la calidad del benchmark. 
 
 ---
 
 ### Dataset del Hospital Clínic — Evaluación Completa (100 documentos)
 
-#### Contexto del experimento
-
-El sistema se evaluó sobre **100 historias clínicas reales** del Hospital Clínic, escritas en **español y catalán**, anotadas con **10 códigos ICD-10** correspondientes a comorbilidades crónicas frecuentes. El objetivo era detectar la *presencia* de cada condición en cada documento, utilizando el siguiente diccionario de búsqueda:
+El sistema se evaluó sobre 100 historias clínicas reales del Hospital Clínic, escritas en español y catalán. Los documentos fueron anotados con 10 códigos ICD-10, seleccionados tras un análisis exploratorio del conjunto de historias clínicas. Estos códigos correspondían a las condiciones más frecuentes en los documentos y resultaban conceptualmente comparables a las entidades utilizadas en los conjuntos de datos n2c2 y NCBI, lo que permitía realizar una evaluación coherente del enfoque. El objetivo era detectar la presencia de cada condición en cada documento, utilizando el siguiente diccionario de búsqueda:
 
 ```python
 ENTITIES = {
@@ -2494,18 +1929,21 @@ Tras revisión manual de las 115 entradas de FP del análisis textual (que corre
 
 1. **Benchmark incompleto (~71% de las entradas de FP, causa principal)**  
    El benchmark anota un subconjunto específico de condiciones por documento. Es habitual que un documento mencione textualmente una condición que el sistema detecta correctamente, pero que el benchmark no anotó para ese documento concreto. La evaluación automática la clasifica como FP, aunque la detección sea clínicamente correcta. De las 115 entradas, 82 (71%) se reclasificaron a TP tras la revisión manual; a nivel agrupado (90 FP → 31 FP reales), el porcentaje es similar (~66%).  
-   *Ejemplo (I48.91):* de 19 FP agrupados donde el sistema predijo fibrilación auricular y no estaba en el benchmark, 11 se convirtieron a TP tras verificar manualmente que la condición sí aparecía en el texto.
+
 
 2. **Negaciones y contexto clínico**  
-   La búsqueda regex detecta la presencia del término en el texto sin analizar si está negado, es una hipótesis diagnóstica o se menciona como antecedente descartado: *"sin antecedentes de fibrilación auricular"*, *"en estudio por posible FA"*, *"FA resuelta"*. Los LLMs reducen este fenómeno al evaluar el contexto del chunk, pero no lo eliminan por completo. Esta causa explica la mayor parte de los FP reales que persisten tras la revisión manual.
+   La búsqueda mediante regex detecta la presencia del término en el texto sin analizar si está negado o descartado en el contexto clínico. Por ejemplo, en fragmentos como “Sin HTA, dislipemia o DM. Sin cardiopatía conocida.” el término aparece explícitamente, pero el contexto indica la ausencia de la condición. Los LLMs no lo eliminan por completo este fenómeno. Esta causa explica parte de los falsos positivos (FP) presentes antes de la revisión manual.
 
 3. **Discordancia de granularidad en el código ICD-10**  
-   El diccionario del sistema mapea "fa" y "acxfa" al código genérico `I48.91` (fibrilación auricular no especificada). Sin embargo, la nomenclatura clínica distingue subtipos con códigos más específicos: FA crónica (`I48.2`), FA persistente de larga data (`I48.11`), FA permanente, aleteo auricular (`I48.3`). El término «ACXFA» (del catalán *arrítmia completa per fibril·lació auricular*) hace referencia habitualmente a una FA de carácter permanente o crónico, que un codificador asignaría a un código distinto del `I48.91` genérico que emplea nuestro diccionario.  
-   En estos casos **el modelo no ha cometido un error de detección** — la condición está presente en el texto y se identifica correctamente — sino que existe una discordancia de granularidad entre el código que asigna el diccionario y el que emplea el benchmark. Son situaciones donde dos códigos distintos describen la misma realidad clínica con diferente nivel de especificidad.
+   El diccionario del sistema mapea términos como “fibrilación auricular” o sus abreviaturas al código genérico I48.91 (fibrilación auricular no especificada). Sin embargo, la nomenclatura clínica distingue subtipos con códigos más específicos, como fibrilación auricular persistente, permanente o crónica.
+   
+   Por ejemplo, en un documento clínico donde aparece el antecedente “FIBRILACIÓN AURICULAR PERMANENTE, anticoagulada con acenocumarol (Sintrom)”, el sistema predice el código I48.91. Sin embargo, el benchmark anota el diagnóstico como I48.21 (fibrilación auricular permanente).
+   
+   En estos casos el sistema identifica correctamente la condición clínica, pero el código asignado es más general que el utilizado en la anotación de referencia. No se trata de un error de detección de la entidad, sino de una discordancia en el nivel de especificidad del código ICD-10 utilizado. Ambos códigos describen la misma patología, aunque con diferente granularidad.
 
 **Dos aproximaciones de corrección:**
-- **Corrección no agrupada**: cada predicción textual se considera TP si el código existe en el benchmark de ese documento (sin importar cuántas variantes textuales haya para ese código). Cuantifica el total de menciones correctas.
-- **Corrección agrupada por código**: se evalúa de forma binaria (¿el sistema marcó el código como presente en el documento? ¿está en el benchmark?). Es la métrica más representativa para codificación clínica y la que coincide con la lógica del set-based evaluation ya implementada.
+- **Corrección no agrupada**: cada mención textual se cuenta por separado. Si el sistema detecta tres sinónimos de "hipertensión" en un documento y el código está en el benchmark, se contabilizan 3 TP. La misma lógica aplica a los errores: si detecta dos menciones de un código incorrecto, cuenta 2 FP en lugar de 1. Esto infla simétricamente TP y FP respecto a la evaluación agrupada, y actúa como cota superior del rendimiento.
+- **Corrección agrupada por código**: evaluación binaria por par (documento, código): ¿el sistema marcó el código como presente? ¿está en el benchmark? Cada código se evalúa una sola vez por documento, independientemente de cuántas menciones textuales haya. Es la métrica más representativa para codificación clínica y coincide con la lógica del set-based evaluation ya implementada.
 
 Se realizó una **revisión manual de los 115 entradas de FP y los 28 FN** para clasificar cada uno como error real o artefacto de la metodología de evaluación.
 
@@ -2518,7 +1956,7 @@ Se realizó una **revisión manual de los 115 entradas de FP y los 28 FN** para 
 | Todos los códigos | 0.6538 | 0.8586 | 0.7424 | 170 | 90 | 28 |
 | Sin fumador/exfumador | 0.6590 | 0.9108 | 0.7647 | 143 | 74 | 14 |
 
-La baja precisión (65%) no refleja la realidad del sistema. Como se detalla en la sección anterior, la evaluación agrupada (set-based) ya evita la doble penalización por sinónimos del mismo código. Los FP provienen principalmente de tres fuentes: **benchmark incompleto** (condiciones presentes en el texto pero no anotadas en ese documento), **negaciones y contexto clínico** que el regex no puede interpretar, y **discordancias de granularidad ICD-10** (detección correcta de la condición pero con código de diferente nivel de especificidad).
+La baja precisión (65%) no refleja la realidad del sistema. Como se detalla en la sección anterior, la evaluación agrupada (set-based) ya evita la doble penalización por sinónimos del mismo código. Los FP provienen principalmente de tres fuentes: **benchmark incompleto** (condiciones presentes en el texto pero no anotadas en ese documento), **negaciones y contexto clínico** , y **discordancias de granularidad ICD-10** (detección correcta de la condición pero con código de diferente nivel de especificidad).
 
 ---
 
@@ -2540,7 +1978,7 @@ Tras clasificar manualmente cada FP (¿es un error real o una mención legítima
 | Todos los códigos | **0.8808** | **0.8911** | **0.8859** | 229 | 31 | 28 |
 | Sin fumador/exfumador | **0.9124** | **0.9340** | **0.9231** | 198 | 19 | 14 |
 
-La **corrección agrupada** es la más interpretable: mide si el sistema acierta en decir "este paciente tiene esta condición", que es lo que importa en la codificación clínica. La corrección no agrupada es útil como cota superior para cuantificar cuántos sinónimos distintos de la lista ICD-10 detecta correctamente el sistema en cada documento.
+La **corrección agrupada** es la más interpretable: mide si el sistema acierta en decir "este paciente tiene esta condición", que es lo que importa en la codificación clínica. La **corrección no agrupada** tiene más TP (309 vs 229) porque cuenta cada mención textual por separado, pero también más FP (33 vs 31) por la misma razón: un código incorrecto detectado dos veces suma 2 FP en lugar de 1. Actúa como cota superior del rendimiento real.
 
 ---
 
@@ -2564,6 +2002,8 @@ La **corrección agrupada** es la más interpretable: mide si el sistema acierta
 └──────────────────────────────────────────────────────────────────┘
 ```
 
+![Precisión / Recall / F1 por escenario de evaluación](../metrics/plots/1_prf1_comparison.png)
+
 La diferencia entre todos los códigos y excluir fumador/exfumador muestra de forma inequívoca que estos dos códigos son la principal fuente de error del sistema. Ver sección *El caso especial de fumador/exfumador* más abajo.
 
 ---
@@ -2571,6 +2011,12 @@ La diferencia entre todos los códigos y excluir fumador/exfumador muestra de fo
 #### 4. Análisis por código ICD-10
 
 Métricas corregidas (agrupadas por código) para cada código evaluado:
+
+![Precisión por código: Original vs. Corregida](../metrics/plots/3_precision_by_code.png)
+
+![Recall por código ICD10: Original vs. Corregido (agrupado)](../metrics/plots/2b_recall_by_code.png)
+
+![F1 por código ICD10: Original vs. Corregido (agrupado)](../metrics/plots/2_f1_by_code.png)
 
 | Código | Condición | P original | P corr. | R original | R corr. | F1 orig. | F1 corr. | FP→TP | FN |
 |---|---|---|---|---|---|---|---|---|---|
@@ -2584,6 +2030,8 @@ Métricas corregidas (agrupadas por código) para cada código evaluado:
 | **Z87.891** | Exfumador | 0.833 | **1.000** | 0.667 | 0.706 | 0.741 | **0.828** | 4 | 10 |
 | **Z79.01** | Anticoagulado | 0.500 | **0.857** | 0.583 | 0.706 | 0.538 | **0.774** | 5 | 5 |
 | **F17.210** | Fumador activo | 0.368 | 0.368 | 0.636 | 0.636 | 0.467 | 0.467 | 0 | 4 |
+
+![FP por código: Original vs. Corregido](../metrics/plots/4_fp_by_code.png)
 
 **Observaciones clave:**
 - **I25.10** (cardiopatía isquémica): F1 perfecto. El sistema detecta exactamente las menciones correctas, sin ningún error.
@@ -2602,7 +2050,7 @@ Estos dos códigos relacionados con el tabaco son los más problemáticos del ex
 
 La lista de búsqueda contiene `["fumador", "tabaquismo"]`. El problema es que el texto clínico real presenta **variaciones que el sistema no controla**:
 
-**FP reales (errores del sistema):** El sistema detecta `"fumador"` en frases donde el contexto indica *exfumador*, por ejemplo: *"exfumador desde hace 10 años"*. Un regex de palabra completa (`\bfumador\b`) encuentra "fumador" dentro de "exfumador" si no se implementa una guarda de prefijo negativo. En este dataset, 12 de los FP de F17.210 corresponden exactamente a este caso.
+**FP reales (errores del sistema):** El sistema detecta `"fumador"` en frases donde el contexto indica *ex-fumador*, por ejemplo: *"ex-fumador desde hace 10 años"*. Aunque el patrón usa `\bfumador\b`, esto no protege contra este caso: `\b` delimita fronteras entre caracteres de palabra (`\w` = letras, dígitos, `_`) y caracteres que no lo son. El guión `-` no es `\w`, por lo que la posición entre `-` y `f` en `"ex-fumador"` se trata como frontera de palabra y el patrón encaja igualmente. En este dataset, 12 de los FP de F17.210 corresponden exactamente a este caso.
 
 **FN reales (lo que falta):** El diccionario contiene `"fumador"` (masculino) pero el texto usa `"fumadora"`. Por convención médica, los formularios de antecedentes se adaptan al género del paciente. El sistema no tiene `"fumadora"` en la lista, por lo que los documentos de mujeres fumadoras no se detectan:
 
@@ -2659,11 +2107,13 @@ El pipeline ejecuta en paralelo **5 estrategias** (1 regex + 4 LLMs). Aquí se a
 | gemma3_max_sensitivity | 35 | 6 | 29 | 17.1% |
 | **gemma3_balanced** | 43 | **6** | 37 | **14.0%** |
 
-**La estrategia regex tiene la tasa de error real más alta (28.7%)**, lo cual es contraintuitivo dado que se suele asumir que regex es muy preciso. La razón es exactamente el caso descrito en la sección anterior: `\bfumador\b` coincide dentro de "exfumador", y las listas de keywords de condiciones muy frecuentes generan muchas detecciones en contextos negativos (*"no tiene hipertensión"*, *"sin antecedentes de fibrilación auricular"*).
+![FP por modelo: reales vs. corregidos a TP](../metrics/plots/5_fp_by_model.png)
 
-**gemma3_balanced es el modelo con menor tasa de error real (14%)**, lo que se explica por su diseño: temperatura moderada (0.3) y chunks medianos permiten al LLM evaluar el contexto semántico completo de la mención, y por tanto discriminar mejor entre menciones positivas y negativas.
+![Tasa de error real por modelo/estrategia](../metrics/plots/9_error_rate_by_model.png)
 
-> **Nota importante sobre detecciones únicas por LLM:** Ningún FP es detectado *exclusivamente* por los modelos LLM (cero FP "solo LLM"). Todos los FP son o bien detectados solo por regex, o bien por regex junto con uno o más LLMs. Esto confirma que los LLMs no generan "alucinaciones" de condiciones inexistentes: cuando el LLM detecta algo, es porque el regex también lo ha encontrado antes.
+**La estrategia regex tiene la tasa de error real más alta (28.7%)**, lo cual es contraintuitivo dado que se suele asumir que regex es muy preciso.
+
+**gemma3_balanced es el modelo con menor tasa de error real (14%)**.
 
 ##### 6.2 Distribución de FPs por consenso de modelos
 
@@ -2676,7 +2126,9 @@ Nº de estrategias que detectaron el FP → Total FPs originales
   5 estrategias  (todos)          →  27 FP  ( 5 reales,  22 TP encubiertos)
 ```
 
-**Patrón crítico:** El consenso **no es garantía de corrección** ni tampoco de error. Los 27 FP detectados por las 5 estrategias incluyen solo 5 errores reales: los 22 restantes son menciones correctas que simplemente exceden el conteo del benchmark. Los FP detectados solo por regex tienen una tasa de error mayor (23/51 = 45%), mientras que los detectados por regex+LLM tienen tasas mucho menores.
+![Distribución de FPs por tipo de consenso (mejorado)](../metrics/plots/7_fp_overlap_distribution_improved.png)
+
+**Patrón crítico:** Los FP detectados solo por regex tienen una tasa de error mayor (23/51 = 45%), mientras que los detectados por regex+LLM tienen tasas mucho menores.
 
 ##### 6.3 Tipo de detección de FPs
 
@@ -2686,13 +2138,17 @@ Nº de estrategias que detectaron el FP → Total FPs originales
 | Regex + ≥1 LLM | 64 | 10 | 54 |
 | Solo LLM | **0** | 0 | 0 |
 
-El hecho de que ningún FP sea exclusivamente LLM confirma el rol del regex como **filtro necesario**: el LLM solo puede confirmar lo que el regex encuentra, no puede introducir entidades arbitrarias.
+![FP por tipo de detección: reales vs. corregidos](../metrics/plots/6_fp_by_detection_type.png)
+
+El hecho de que ningún FP sea exclusivamente LLM confirma el rol del regex como **filtro necesario**: el rol del LLM es confirmar lo que el regex encuentra.
 
 ---
 
 #### 7. Análisis de falsos negativos (FN = 28)
 
 Los 28 FN son todos considerados errores reales tras la revisión manual (ninguno es un FN aceptable). Se distribuyen así:
+
+![FN por código ICD10 (tras revisión manual)](../metrics/plots/8_fn_by_code.png)
 
 | Código | FN | Variantes no cubiertas |
 |---|---|---|
@@ -2709,7 +2165,7 @@ Los 28 FN son todos considerados errores reales tras la revisión manual (ningun
 
 - **Variantes de género no cubiertas (14 FN):** "fumadora", "exfumadora", "ex fumadora". El diccionario solo tiene la forma masculina. Esto supone el **50% de todos los FN**.
 - **Variantes ortográficas no cubiertas en el diccionario (7 FN):** "anticoagulación", "anticoagulant", "anticoagulacion", "dislipidemia", "dl", "deterioro de función renal", "ácido acetilsalicílico". Son formas sinónimas o derivas morfológicas no incluidas en el diccionario.
-- **Términos cubiertos no detectados (2 FN):** "dlp" (E78.5) y "anticoagulante" (Z79.01) sí están en el diccionario pero el sistema no los detectó en esos documentos. La causa probable es el contexto (negación o texto adyacente que rompe el boundary de palabra).
+- **Términos cubiertos no detectados (2 FN):** "dlp" (E78.5) y "anticoagulante" (Z79.01) sí están en el diccionario pero el sistema no los detectó en esos documentos. La causa es texto adyacente que rompe el boundary de palabra.
 - **Errores de OCR/transcripción (2 FN):** "hipertensio arterial" y "HIPERTENSION ARTERIAL" (sin tilde, en mayúsculas). Son artefactos del proceso de digitalización del historial clínico, no errores del NER.
 - **Ambigüedad semántica (3 FN):** "ira" como sigla de insuficiencia renal aguda es ambigua (también significa enfado); el sistema tiene el término pero requiere contexto para desambigüar.
 
@@ -2717,7 +2173,7 @@ Los 28 FN son todos considerados errores reales tras la revisión manual (ningun
 
 #### 8. Limitaciones inherentes de la técnica
 
-Esta sección documenta los problemas que son **estructurales al tipo de aproximación** utilizada (detección por lista cerrada + LLMs de validación), no bugs corregibles:
+Esta sección documenta los problemas que son **estructurales al tipo de aproximación** utilizada:
 
 ##### 8.1 Lista cerrada: solo se detecta lo que está en la lista
 
@@ -2731,7 +2187,6 @@ el sistema no la detectará aunque aparezca en todos los documentos.
 Esto es una decisión de diseño deliberada (detectar exactamente los 10 códigos de interés), pero implica que:
 - La cobertura está acotada por la completitud del diccionario
 - Cambios en la lista de condiciones requieren re-ejecutar todo el pipeline
-- El sistema no puede descubrir comorbilidades inesperadas
 
 ##### 8.2 Variantes de género no controladas
 
@@ -2744,16 +2199,14 @@ Femenino:   "fumadora", "exfumadora", "diabética", "hipertensa"
 
 El diccionario actual incluye solo las formas masculinas. Documentos de pacientes femeninas generan sistemáticamente FN para las categorías con adjetivos de género variable (`F17.210`, `Z87.891`). Este problema afecta a **14 de los 28 FN** (50%) y es el principal factor limitante del recall en el dataset actual.
 
+Este error no responde a una limitación conceptual del método, sino a una cobertura incompleta del diccionario. Podría corregirse fácilmente incorporando variantes morfológicas de género.
+
 > Las formas nominales sin variación de género (`"hipertensión"`, `"dislipemia"`, `"fibrilación auricular"`) no tienen este problema.
 
 ##### 8.3 Negación y contexto semántico
 
-El sistema regex detecta la presencia del término en el texto, sin analizar si está:
-- Negado: *"no presenta hipertensión"* → FP
-- Condicional: *"si desarrollara hipertensión..."* → FP
-- Histórico o resuelto: *"hipertensión durante el embarazo, actualmente resuelta"* → posible FP
+El sistema detecta la presencia del término en el texto sin analizar si está negado (*"Sin HTA, dislipemia o DM"*), es condicional o está resuelto. Este fenómeno se discute con ejemplos del dataset del Hospital Clinic en la sección *Causas reales de los FP identificados*.
 
-Los LLMs reducen este problema porque analizan el contexto del chunk, pero no lo eliminan completamente. En este dataset, este fenómeno explica algunos de los FP reales que persisten incluso tras la revisión (especialmente para `I48.91` con 8 FP reales).
 
 ##### 8.4 Variantes ortográficas y morfológicas no anticipadas
 
@@ -2767,19 +2220,18 @@ El texto clínico real contiene una variedad de formas para el mismo concepto qu
 | insuficiencia renal aguda | deterioro de función renal, IRA (ambiguo) |
 | ácido acetilsalicílico | acido acetilsalicilico, aspirina (sí cubierto), AAS (sí cubierto) |
 
+Al igual que en el caso de las variaciones de género, este problema no representa una limitación estructural del enfoque, sino una cobertura incompleta del diccionario léxico. Podría mitigarse ampliando el diccionario para incluir más variantes.
+
 ##### 8.5 Ambigüedad de acrónimos
 
-Algunos acrónimos en la lista son polisémicos en el contexto clínico:
-
-- `"fa"` → se usa para fibrilación auricular (`I48.91`) pero también puede ser parte de otras expresiones ("fa, fa, fa" en notas informales, o abreviatura de "fármacos")
-- `"ira"` → insuficiencia renal aguda (`N17.9`) pero también "ira" como sustantivo común (enfado, cólera), frecuente en textos de anamnesis psiquiátrica
-- `"dm"` → diabetes mellitus tipo 2, pero también puede aparecer en contextos de "dm" como decímetros u otras unidades
+Algunos acrónimos en la lista son polisémicos en el contexto clínico. Por ejemplo:
+`"fa"` → se usa para fibrilación auricular (`I48.91`) pero también puede ser parte de otras expresiones (abreviatura de fosfatasa alcalina, por ejemplo)
 
 El sistema gestiona esto parcialmente mediante el contexto que los LLMs analizan, pero no de forma perfecta.
 
-##### 8.6 Errores de digitalización (OCR)
+##### 8.6 Errores ortográficos en el texto clínico
 
-Los documentos clínicos provienen de un proceso de OCR sobre imágenes o PDFs. Los errores de OCR generan variantes inusualmente ortografía que ningún diccionario anticipa:
+El texto clínico puede contener errores ortográficos o inconsistencias tipográficas que generan variantes no previstas en el diccionario:
 
 ```
 "hipertensio arterial"      (pérdida del acento tónico final)
@@ -2787,38 +2239,9 @@ Los documentos clínicos provienen de un proceso de OCR sobre imágenes o PDFs. 
 "anticoagulantehabitual"    (palabras fusionadas sin espacio)
 ```
 
-Estos errores son imputables al proceso de digitalización, no al sistema NER. Representan **2 de los 28 FN** en este dataset.
-
 ##### 8.7 Benchmark incompleto y granularidad de código ICD-10
 
-El benchmark anota **un código por condición por documento** (siguiendo la lógica de codificación clínica: la condición está presente o no está). El sistema opera en el mismo nivel gracias al uso de conjuntos (sets) de códigos por documento, por lo que la detección de múltiples sinónimos del mismo código no genera FP adicionales en la evaluación agrupada.
-
-Lo que sí genera FPs es la **cobertura dispar entre benchmark y documentos reales**: el benchmark anota un subconjunto específico de condiciones por documento, y el sistema puede detectar correctamente condiciones que aparecen en el texto pero que el benchmark no incluyó para ese episodio concreto. Esta incompletitud estructural es la causa principal de la brecha entre precisión automática (65%) y precisión real tras revisión manual (88-90%).
-
-A esto se suma la **discordancia de granularidad ICD-10**: el diccionario mapea términos como "fa" o "acxfa" al código genérico `I48.91` (FA no especificada), mientras que el benchmark puede emplear un código de mayor especificidad para el mismo concepto clínico (FA crónica, FA permanente, etc.). En la práctica, el modelo no se equivoca en la detección — ambas entidades refieren la misma condición — pero el código exacto difiere. Esta limitación es inherente al uso de un diccionario plano con un único código por concepto, sin jerarquía de especificidad.
-
-Para un sistema cuya aplicación es **detectar si una condición está presente en el documento**, la métrica relevante es la corregida: el modelo acierta en el 88-90% de los pares (documento, código ICD-10) evaluados.
-
----
-
-#### 9. Síntesis y conclusiones de la evaluación
-
-| Aspecto | Resultado |
-|---|---|
-| F1 global (evaluación automática bruta) | 0.742 |
-| F1 global (evaluación corregida, agrupada) | **0.886** |
-| F1 excluyendo fumador/exfumador (corregido) | **0.923** |
-| Códigos con F1 ≥ 0.97 tras corrección | I25.10, I10, E11.9 |
-| Modelo con menor tasa de error real | gemma3_balanced (14%) |
-| Principal fuente de FP | regex (28.7% de tasa de error real) |
-| Principal fuente de FN | variantes de género (50% de FN) |
-| FP "falsos FP" recuperados a TP | 82 de 115 (71%) |
-
-**Sobre la métrica a reportar:** La métrica más honesta para este sistema es la **F1 agrupada por código corregida (0.886)**, que refleja si el sistema acierta en detectar la presencia de cada condición en cada documento, independientemente de cuántas veces el texto la mencione. Esta métrica es comparable con la de sistemas de codificación clínica asistida por IA en la literatura.
-
-**Sobre los códigos de tabaco:** La recomendación directa es expandir el diccionario con variantes de género y variantes de escritura del prefijo "ex-". Este cambio único mejoraría el recall en 14 FN adicionales (50% de todos los FN actuales) sin ningún cambio en el modelo.
-
----
+Ambas fuentes de FP —benchmark incompleto y discordancia de granularidad en el código ICD-10— se analizan con detalle y ejemplos concretos en la sección *Causas reales de los FP identificados* del dataset del Hospital Clinic. En conjunto explican el ~66% de los FP agrupados y la brecha entre precisión automática (65%) y precisión tras revisión manual (88-90%).
 
 ## Configuración Recomendada
 
@@ -2828,9 +2251,9 @@ Este es el comando que se utiliza actualmente en el proyecto para procesar los d
 
 ```bash
 python -m ner_app.main \
-  --input_jsonl datasets/spanish_clinical_test1_input.jsonl \
-  --out_pred metrics/test1_predictions.jsonl \
-  --language es
+  --input_jsonl <archivo_entrada.jsonl> \
+  --out_pred <archivo_salida.jsonl> \
+  --language <codigo_idioma>
 ```
 
 **Parámetros explicados:**
@@ -2842,13 +2265,9 @@ python -m ner_app.main \
 
 ---
 
-### ⚠️ IMPORTANTE - Threshold de Aceptación
+### Threshold de Aceptación
 
-Con este comando, **el threshold está a 0.5** (50% de confianza mínima). Esto significa que:
-- ✅ **Se aceptan** todas las entidades con `confidence >= 0.5`
-- ❌ **Se rechazan** todas las entidades con `confidence < 0.5`
-
-Este valor se define en `ner_app/config/thresholds.py` y determina qué entidades aparecen en el campo `Entidad` del output final. Las entidades rechazadas aún se pueden ver en `_multi_strategy.all_detections` para auditoría.
+Al no pasar `--confidence_threshold`, el sistema usa el valor por defecto **`min_accept = 0.5`** definido en `ner_app/config/thresholds.py`. Las entidades con score inferior se descartan del campo `Entidad` del output pero siguen siendo accesibles en `_multi_strategy.all_detections` para auditoría. Para el ajuste de este umbral según la métrica objetivo, ver la sección *Ajuste de Scores y Thresholds*.
 
 ---
 
@@ -2858,80 +2277,64 @@ Este valor se define en `ner_app/config/thresholds.py` y determina qué entidade
 ┌─────────────────────────────────────────────────────────┐
 │  1. INICIALIZACIÓN                                      │
 │     - Parse CLI args                                    │
-│     - Setup logging                                     │
-│     - Configurar estrategias                            │
-│     - Configurar umbrales                               │
+│     - Setup logging (TeeWriter → consola + .log)        │
+│     - Cargar estrategias y umbrales de confianza        │
 └────────────────┬────────────────────────────────────────┘
                  │
                  ▼
 ┌─────────────────────────────────────────────────────────┐
 │  2. CARGA DE DOCUMENTOS                                 │
-│     - Leer archivo JSONL                                │
-│     - Extraer PMID, texto, candidatos                   │
-│     - Detectar ya procesados                            │
+│     - Leer archivo JSONL (PMID, Texto, candidatos)      │
+│     - Omitir PMIDs ya procesados (reinicio automático)  │
 └────────────────┬────────────────────────────────────────┘
                  │
                  ▼
 ┌────────────────────────────────────────────────────────┐
-│  3. LOOP PROCESAMIENTO (para cada documento)           │
-│     ┌──────────────────────────────────────────────┐   │
-│     │  3.1 ESTRATEGIA REGEX (baseline)             │   │
-│     │      - Búsqueda exacta con word boundaries   │   │
-│     │      - Insensible a acentos                  │   │
-│     │      - Resultados instantáneos               │   │
-│     └──────────────┬───────────────────────────────┘   │
-│                    │                                   │
-│                    ▼                                   │
-│     ┌──────────────────────────────────────────────┐   │
-│     │  3.2 ESTRATEGIAS LLM (4 en paralelo)         │   │
-│     │                                              │   │
-│     │  Thread 1: gemma3_max_sensitivity            │   │
-│     │    - Dividir en chunks (target=100)          │   │
-│     │    - Sistema de 3 fases de reintentos        │   │
-│     │    - Fuzzy matching                          │   │
-│     │                                              │   │
-│     │  Thread 2: gemma3_balanced                   │   │
-│     │    - Chunks medianos (target=60)             │   │
-│     │    - Temperatura media (0.3)                 │   │
-│     │                                              │   │
-│     │  Thread 3: gemma3_high_precision             │   │
-│     │    - Chunks pequeños (target=30)             │   │
-│     │    - Temperatura baja (0.0)                  │   │
-│     │                                              │   │
-│     │  Thread 4: qwen25_diversity                  │   │
-│     │    - Modelo diferente (qwen2.5)              │   │
-│     │    - Chunks muy pequeños (target=20)         │   │
-│     └──────────────┬───────────────────────────────┘   │
-│                    │                                   │
-│                    ▼                                   │
-│     ┌──────────────────────────────────────────────┐   │
-│     │  3.3 COMBINACIÓN Y SCORING                   │   │
-│     │      - Cargar resultados de archivos temp    │   │
-│     │      - Calcular score inicial (pesos)        │   │
-│     │      - Aplicar reglas de confianza           │   │
-│     │        * Bonus regex (×1.5)                  │   │
-│     │        * Bonus multi-estrategia (+0.2)       │   │
-│     │        * Penalización LLM-only (×0.8)        │   │
-│     │        * Penalización por reintentos         │   │
-│     │      - Normalizar a [0, 1]                   │   │
-│     │      - Filtrar por umbral (≥0.5)             │   │
-│     └──────────────┬───────────────────────────────┘   │
-│                    │                                   │
-│                    ▼                                   │
-│     ┌──────────────────────────────────────────────┐   │
-│     │  3.4 GUARDADO INMEDIATO                      │   │
-│     │      - Append al archivo de salida           │   │
-│     │      - Liberar memoria (gc.collect())        │   │
-│     │      - Limpiar archivos temporales           │   │
-│     └──────────────────────────────────────────────┘   │
+│  3. LOOP PRINCIPAL (por cada documento)                │
+│                                                        │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  3.1 REGEX (baseline)                            │  │
+│  │      - Normalización: lower + sin acentos        │  │
+│  │      - Patrón \b...\b sobre cada alias           │  │
+│  └──────────────┬───────────────────────────────────┘  │
+│                 │                                      │
+│                 ▼                                      │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  3.2 LLMs (4 threads en paralelo)                │  │
+│  │      - Chunking con ventana deslizante           │  │
+│  │      - Caché por hash(modelo + prompt + chunk)   │  │
+│  │      - Reintentos en 3 fases:                    │  │
+│  │          1) Parsing JSON (hasta 3 intentos)      │  │
+│  │          2) Prompt reforzado si vacío            │  │
+│  │          3) Fallback regex sobre respuesta cruda │  │
+│  │      - Matching vs candidatos:                   │  │
+│  │          exacto → parcial → fuzzy Jaccard ≥ 0.8  │  │
+│  │      - Resultados a archivo temporal             │  │
+│  └──────────────┬───────────────────────────────────┘  │
+│                 │                                      │
+│                 ▼                                      │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  3.3 SCORING Y FILTRADO                          │  │
+│  │      - Score base: suma de pesos de estrategias  │  │
+│  │      - Regex: × 1.5 | Multi-estrategia: × 1+0.2  │  │
+│  │      - Solo LLM (sin regex): × 0.8               │  │
+│  │      - Clip [0, 1] → descartar si < min_accept   │  │
+│  └──────────────┬───────────────────────────────────┘  │
+│                 │                                      │
+│                 ▼                                      │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  3.4 GUARDADO INMEDIATO                          │  │
+│  │      - Append JSONL de salida                    │  │
+│  │      - Limpiar archivos temporales               │  │
+│  │      - gc.collect()                              │  │
+│  └──────────────────────────────────────────────────┘  │
 └────────────────┬───────────────────────────────────────┘
                  │
                  ▼
 ┌─────────────────────────────────────────────────────────┐
 │  4. FINALIZACIÓN                                        │
-│     - Imprimir resumen estadístico                      │
-│     - Limpiar directorio temp/                          │
-│     - Cerrar archivo de log                             │
+│     - Resumen estadístico                               │
+│     - Limpiar temp/ y cerrar log                        │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -3053,46 +2456,10 @@ El archivo de log registra **toda la ejecución**, incluyendo:
 
 ### Ventajas del Sistema de Logging
 
-1. **Auditoría completa:**
-   - Registro de cada decisión tomada por el sistema
-   - Permite reproducir resultados analizando el log
-
-2. **Debugging facilitado:**
-   - Ver exactamente qué pasó con cada entidad
-   - Identificar dónde falló un procesamiento
-
-3. **Monitoreo de rendimiento:**
-   - Tiempos de procesamiento por documento
-   - Eficacia de cada estrategia
-   - Tasa de éxito de reintentos
-
-4. **Análisis post-procesamiento:**
-   - Estadísticas de uso de cada estrategia
-   - Distribución de scores de confianza
-   - Patrones de errores
-
-### Usar el Log para Análisis
-
-**Ejemplo: Extraer documentos con errores**
-```bash
-grep "\[ERROR\]" ner_processing_20260216_143052.log
-```
-
-**Ejemplo: Analizar tiempos de procesamiento**
-```bash
-grep "\[PROCESSING\]" ner_processing_20260216_143052.log | wc -l
-```
-
-**Ejemplo: Ver reintentos exitosos**
-```bash
-grep "\[RETRY\].*Success" ner_processing_20260216_143052.log
-```
-
-**Ejemplo: Contar entidades por estrategia**
-```bash
-grep "\[LLM:gemma3_max_sensitivity\] Detected" ner_processing_20260216_143052.log
-```
-
+- **Auditoría completa**
+- **Debugging facilitado**
+- **Monitoreo de rendimiento**
+- **Análisis post-procesamiento**
 ---
 
 ## Troubleshooting
@@ -3108,9 +2475,5 @@ grep "\[LLM:gemma3_max_sensitivity\] Detected" ner_processing_20260216_143052.lo
 ### Consumo excesivo de memoria
 **Causa:** Demasiados documentos grandes  
 **Solución:** Procesar por lotes con `--limit`
-
-### Resultados con baja confianza
-**Causa:** Solo detecciones LLM sin confirmación regex  
-**Solución:** Revisar lista de candidatos en input JSONL
 
 ---
