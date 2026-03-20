@@ -13,6 +13,12 @@ Use these scripts **after** running your production NER system to assess output 
 
 ---
 
+## ICD10 Support
+
+All evaluation scripts (`evaluate_ner_performance`, `analyze_false_negatives`, `analyze_false_positives`, and `corrected_metrics_analysis`) have ICD10-aware variants implemented for the Hospital Clínic dataset, mapping entity text to ICD10 codes for code-level evaluation.
+
+---
+
 ## Scripts
 
 ### 1. `evaluate_ner_performance.py`

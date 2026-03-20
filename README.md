@@ -294,6 +294,8 @@ CONFIDENCE_THRESHOLDS = {
 
 ### **Resultados en Dataset NCBI (Test Completo)**
 
+> **Modelos**: `llama3.2:3b` (estrategias principales) + `qwen2.5:3b` (diversidad)
+
 - **Precisión**: 99.7%
 - **Recall**: 99.7%
 - **F1-Score**: 99.7%
@@ -303,12 +305,42 @@ CONFIDENCE_THRESHOLDS = {
 
 ### **Resultados en Dataset n2c2 (Test - primeros 100 documentos)**
 
+> **Modelos**: `llama3.2:3b` (estrategias principales) + `qwen2.5:3b` (diversidad)
+
 - **Precisión**: 95.4%
 - **Recall**: 100.0%
 - **F1-Score**: 97.6%
 - **Total Entidades Reales**: 65
 - **Total Entidades en Benchmark**: 47
 
+### **Resultados en Dataset Hospital Clínic (Clínica Real - 100 documentos)**
+
+> **Modelos**: `gemma3:4b` (estrategias principales) + `qwen2.5:3b` (diversidad)
+
+Dataset de informes clínicos reales en español y catalán, con anotación basada en códigos ICD-10. Documentos de mayor complejidad y longitud que los datasets en inglés, lo que impacta significativamente en los tiempos de procesamiento.
+
+Las métricas se presentan en tres escenarios: original (sin corrección), corregido sin agrupar por código, y corregido agrupado por código ICD-10. La corrección manual consistió en identificar detecciones del sistema clínicamente correctas pero no anotadas en el benchmark original, reclasificándolas como verdaderos positivos. Se procesaron **100 documentos**, con un tiempo de procesamiento de **~1 hora por documento**.
+
+| Escenario | Precisión | Recall | F1 |
+|-----------|-----------|--------|----|
+| **Original** | 65.4% | 85.9% | 74.2% |
+| **Corr. sin agrupar** | 90.3% | 91.7% | 91.0% |
+| **Corr. agrupado** | 88.1% | 89.1% | 88.6% |
+
+Excluyendo los códigos de fumador/exfumador (F17.210, Z87.891), que presentan mayor dificultad por ambigüedad lingüística:
+
+| Escenario | Precisión | Recall | F1 |
+|-----------|-----------|--------|----|
+| **Original (sin fumador/exfumador)** | 65.9% | 91.1% | 76.5% |
+| **Corr. sin agrupar (sin fumador/exfumador)** | 93.3% | 95.2% | 94.2% |
+| **Corr. agrupado (sin fumador/exfumador)** | 91.2% | 93.4% | 92.3% |
+
+#### Notas sobre este Dataset
+
+- Los documentos clínicos reales son significativamente más largos y complejos que los datasets de benchmark (NCBI, n2c2)
+- El sistema debe manejar texto bilingüe español/catalán, incluyendo abreviaturas clínicas específicas (p.ej. `dlp`, `dl`, `ira`, `ex-fumador`, `exfumadora`)
+- El bajo rendimiento en fumador/exfumador se debe a la confusión entre F17.210 (fumador activo) y Z87.891 (exfumador), con variantes textuales muy similares
+- Tras la corrección manual, el F1 pasa de 74.2% a ~88-91%, confirmando que gran parte de los falsos positivos eran detecciones clínicamente válidas no recogidas en el benchmark
 ## **Análisis de Corrección de Anotaciones Humanas**
 
 Durante la evaluación del dataset n2c2, descubrimos que **14 entidades detectadas por la máquina no estaban anotadas en el benchmark**, pero **eran correctas**:
@@ -383,11 +415,13 @@ Durante la evaluación del dataset n2c2, descubrimos que **14 entidades detectad
 
 | Métrica | BERT (GPU) | NER Multi-Estrategia | Factor |
 |---------|------------|----------------------|---------|
-| **1 documento** | ~0.1-0.5s | ~10-30s | **20-60x más lento** |
-| **100 documentos** | ~10-50s | ~15-45 min | **20-60x más lento** |
-| **1000 documentos** | ~2-8 min | ~2.5-7.5 horas | **20-60x más lento** |
+| **1 documento (corto, NCBI/n2c2)** | ~0.1-0.5s | ~10-30s | **20-60x más lento** |
+| **100 documentos (cortos)** | ~10-50s | ~15-45 min | **20-60x más lento** |
+| **1000 documentos (cortos)** | ~2-8 min | ~2.5-7.5 horas | **20-60x más lento** |
+| **1 documento (largo, clínico real)** | ~0.5-2s | **~1 hora** | **>1000x más lento** |
+| **100 documentos (largos, clínicos)** | ~1-3 min | **~100 horas** | **>1000x más lento** |
 
-**Nota**: Los tiempos varían según hardware, complejidad del texto y configuración de estrategias.
+**Nota**: Los tiempos varían significativamente según hardware, longitud y complejidad del texto, y configuración de estrategias. Los documentos clínicos reales (informes de hospital) pueden ser 10-20x más largos que los documentos de benchmark estándar (NCBI, n2c2), incrementando el tiempo de forma proporcional. En el dataset Hospital Clínic se observó un tiempo de procesamiento de **~1 hora por documento**.
 
 ### **Casos de Uso Recomendados**
 

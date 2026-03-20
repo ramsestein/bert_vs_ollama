@@ -1,0 +1,299 @@
+{
+  "summary": {
+    "total_predictions": 72,
+    "total_benchmark": 48,
+    "total_false_positives": 26
+  },
+  "false_positives": [
+    {
+      "PMID": "103",
+      "predicted_entity": "orthopnea",
+      "benchmark_entities": [
+        "aspirin"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity"
+      ]
+    },
+    {
+      "PMID": "106",
+      "predicted_entity": "monitoring",
+      "benchmark_entities": [
+        "hypertension",
+        "hyperlipidemia"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "110",
+      "predicted_entity": "short of breath",
+      "benchmark_entities": [],
+      "confidence": 0.8,
+      "strategies": [
+        "gemma3_max_sensitivity",
+        "gemma3_balanced"
+      ]
+    },
+    {
+      "PMID": "103",
+      "predicted_entity": "orthopnea",
+      "benchmark_entities": [
+        "aspirin"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity"
+      ]
+    },
+    {
+      "PMID": "106",
+      "predicted_entity": "monitoring",
+      "benchmark_entities": [
+        "hypertension",
+        "hyperlipidemia"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "110",
+      "predicted_entity": "short of breath",
+      "benchmark_entities": [],
+      "confidence": 0.8,
+      "strategies": [
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced"
+      ]
+    },
+    {
+      "PMID": "121",
+      "predicted_entity": "hypertension",
+      "benchmark_entities": [],
+      "confidence": 0.8,
+      "strategies": [
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "123",
+      "predicted_entity": "hypertension",
+      "benchmark_entities": [
+        "angina"
+      ],
+      "confidence": 0.8,
+      "strategies": [
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "123",
+      "predicted_entity": "hyperlipidemia",
+      "benchmark_entities": [
+        "angina"
+      ],
+      "confidence": 0.8,
+      "strategies": [
+        "qwen25_diversity",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "125",
+      "predicted_entity": "hypertension",
+      "benchmark_entities": [
+        "angina"
+      ],
+      "confidence": 0.8,
+      "strategies": [
+        "qwen25_diversity",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "127",
+      "predicted_entity": "aspirin",
+      "benchmark_entities": [],
+      "confidence": 0.8,
+      "strategies": [
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "127",
+      "predicted_entity": "monitoring",
+      "benchmark_entities": [],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "129",
+      "predicted_entity": "angina",
+      "benchmark_entities": [
+        "hypertension",
+        "aspirin"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity"
+      ]
+    },
+    {
+      "PMID": "131",
+      "predicted_entity": "short of breath",
+      "benchmark_entities": [],
+      "confidence": 0.8,
+      "strategies": [
+        "qwen25_diversity",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "136",
+      "predicted_entity": "short of breath",
+      "benchmark_entities": [],
+      "confidence": 0.8,
+      "strategies": [
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "142",
+      "predicted_entity": "hypertension",
+      "benchmark_entities": [
+        "aspirin"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "146",
+      "predicted_entity": "obesity",
+      "benchmark_entities": [
+        "hypertension",
+        "orthopnea"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity"
+      ]
+    },
+    {
+      "PMID": "149",
+      "predicted_entity": "short of breath",
+      "benchmark_entities": [],
+      "confidence": 0.8,
+      "strategies": [
+        "qwen25_diversity",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "153",
+      "predicted_entity": "hypertension",
+      "benchmark_entities": [],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity"
+      ]
+    },
+    {
+      "PMID": "153",
+      "predicted_entity": "aspirin",
+      "benchmark_entities": [],
+      "confidence": 0.8,
+      "strategies": [
+        "qwen25_diversity",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "155",
+      "predicted_entity": "monitoring",
+      "benchmark_entities": [],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "16",
+      "predicted_entity": "hyperlipidemia",
+      "benchmark_entities": [],
+      "confidence": 0.8,
+      "strategies": [
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "161",
+      "predicted_entity": "angina",
+      "benchmark_entities": [
+        "hypertension"
+      ],
+      "confidence": 0.8,
+      "strategies": [
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "161",
+      "predicted_entity": "short of breath",
+      "benchmark_entities": [
+        "hypertension"
+      ],
+      "confidence": 0.8,
+      "strategies": [
+        "gemma3_balanced"
+      ]
+    },
+    {
+      "PMID": "170",
+      "predicted_entity": "hypertension",
+      "benchmark_entities": [],
+      "confidence": 0.8,
+      "strategies": [
+        "qwen25_diversity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "170",
+      "predicted_entity": "monitoring",
+      "benchmark_entities": [],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    }
+  ],
+  "by_strategy": {
+    "regex": 11,
+    "qwen25_diversity": 14,
+    "gemma3_max_sensitivity": 3,
+    "gemma3_balanced": 6,
+    "gemma3_high_precision": 13
+  }
+}

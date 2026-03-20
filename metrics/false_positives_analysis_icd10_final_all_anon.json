@@ -1,0 +1,3383 @@
+{
+  "summary": {
+    "total_predictions": 260,
+    "total_benchmark": 198,
+    "total_false_positives": 115,
+    "total_false_positives_grouped": 90,
+    "total_unmapped": 0
+  },
+  "false_positives": [
+    {
+      "PMID": "HC_0012",
+      "predicted_code": "Z79.82",
+      "predicted_code_name": "AAS",
+      "predicted_entity": "aas",
+      "benchmark_codes": [
+        "E78.5"
+      ],
+      "benchmark_names": [
+        "Dislipemia"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0012",
+      "predicted_code": "Z79.82",
+      "predicted_code_name": "AAS",
+      "predicted_entity": "adiro",
+      "benchmark_codes": [
+        "E78.5"
+      ],
+      "benchmark_names": [
+        "Dislipemia"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0012",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión arterial",
+      "benchmark_codes": [
+        "E78.5"
+      ],
+      "benchmark_names": [
+        "Dislipemia"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0012",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión",
+      "benchmark_codes": [
+        "E78.5"
+      ],
+      "benchmark_names": [
+        "Dislipemia"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "gemma3_max_sensitivity"
+      ]
+    },
+    {
+      "PMID": "HC_0022",
+      "predicted_code": "F17.210",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "fumador",
+      "benchmark_codes": [
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0028",
+      "predicted_code": "F17.210",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "fumador",
+      "benchmark_codes": [
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0070",
+      "predicted_code": "E78.5",
+      "predicted_code_name": "Dislipemia",
+      "predicted_entity": "dlp",
+      "benchmark_codes": [
+        "I10"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0095",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fibrilación auricular",
+      "benchmark_codes": [
+        "E78.5",
+        "I10",
+        "I25.10",
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Hipertensión arterial",
+        "Cardiopatía isquémica",
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_balanced"
+      ]
+    },
+    {
+      "PMID": "HC_0092",
+      "predicted_code": "F17.210",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "fumador",
+      "benchmark_codes": [
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0036",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fibrilación auricular",
+      "benchmark_codes": [
+        "E11.9",
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_balanced"
+      ]
+    },
+    {
+      "PMID": "HC_0036",
+      "predicted_code": "F17.210",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "fumador",
+      "benchmark_codes": [
+        "E11.9",
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0036",
+      "predicted_code": "Z87.891",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "ex-fumador",
+      "benchmark_codes": [
+        "E11.9",
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0036",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión arterial",
+      "benchmark_codes": [
+        "E11.9",
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0036",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión",
+      "benchmark_codes": [
+        "E11.9",
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0073",
+      "predicted_code": "Z79.82",
+      "predicted_code_name": "AAS",
+      "predicted_entity": "aas",
+      "benchmark_codes": [
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity"
+      ]
+    },
+    {
+      "PMID": "HC_0073",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión",
+      "benchmark_codes": [
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0073",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión arterial",
+      "benchmark_codes": [
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0080",
+      "predicted_code": "N17.9",
+      "predicted_code_name": "Insuficiencia renal aguda",
+      "predicted_entity": "insuficiencia renal aguda",
+      "benchmark_codes": [
+        "F17.210",
+        "I10"
+      ],
+      "benchmark_names": [
+        "Desconocido",
+        "Hipertensión arterial"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0088",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fa",
+      "benchmark_codes": [
+        "F17.210"
+      ],
+      "benchmark_names": [
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0027",
+      "predicted_code": "Z79.82",
+      "predicted_code_name": "AAS",
+      "predicted_entity": "adiro",
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "I25.10"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Dislipemia",
+        "Cardiopatía isquémica"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0027",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión",
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "I25.10"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Dislipemia",
+        "Cardiopatía isquémica"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0051",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fa",
+      "benchmark_codes": [
+        "I10",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "Anticoagulado",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0051",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fibrilación auricular",
+      "benchmark_codes": [
+        "I10",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "Anticoagulado",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_balanced"
+      ]
+    },
+    {
+      "PMID": "HC_0051",
+      "predicted_code": "N17.9",
+      "predicted_code_name": "Insuficiencia renal aguda",
+      "predicted_entity": "insuficiencia renal aguda",
+      "benchmark_codes": [
+        "I10",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "Anticoagulado",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0051",
+      "predicted_code": "F17.210",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "fumador",
+      "benchmark_codes": [
+        "I10",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "Anticoagulado",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0032",
+      "predicted_code": "E11.9",
+      "predicted_code_name": "Diabetes mellitus tipo 2",
+      "predicted_entity": "diabetes mellitus",
+      "benchmark_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "AAS"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0032",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hta",
+      "benchmark_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "AAS"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0090",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fa",
+      "benchmark_codes": [
+        "I10"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0021",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fa",
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "F17.210",
+        "I25.10"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Dislipemia",
+        "Desconocido",
+        "Cardiopatía isquémica"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0021",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión",
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "F17.210",
+        "I25.10"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Dislipemia",
+        "Desconocido",
+        "Cardiopatía isquémica"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0098",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fa",
+      "benchmark_codes": [
+        "F17.210"
+      ],
+      "benchmark_names": [
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0034",
+      "predicted_code": "Z79.01",
+      "predicted_code_name": "Anticoagulado",
+      "predicted_entity": "sintrom",
+      "benchmark_codes": [
+        "E78.5",
+        "I10",
+        "I48.91",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Hipertensión arterial",
+        "Fibrilación auricular",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0034",
+      "predicted_code": "Z79.01",
+      "predicted_code_name": "Anticoagulado",
+      "predicted_entity": "anticoagulante",
+      "benchmark_codes": [
+        "E78.5",
+        "I10",
+        "I48.91",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Hipertensión arterial",
+        "Fibrilación auricular",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0011",
+      "predicted_code": "Z87.891",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "exfumador",
+      "benchmark_codes": [
+        "E11.9",
+        "I10"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Hipertensión arterial"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0011",
+      "predicted_code": "Z79.01",
+      "predicted_code_name": "Anticoagulado",
+      "predicted_entity": "anticoagulado",
+      "benchmark_codes": [
+        "E11.9",
+        "I10"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Hipertensión arterial"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0040",
+      "predicted_code": "Z79.01",
+      "predicted_code_name": "Anticoagulado",
+      "predicted_entity": "anticoagulado",
+      "benchmark_codes": [
+        "I10"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0008",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fa",
+      "benchmark_codes": [
+        "E78.5",
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0008",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fibrilación auricular",
+      "benchmark_codes": [
+        "E78.5",
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0008",
+      "predicted_code": "Z87.891",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "exfumador",
+      "benchmark_codes": [
+        "E78.5",
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0008",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hta",
+      "benchmark_codes": [
+        "E78.5",
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0056",
+      "predicted_code": "Z79.01",
+      "predicted_code_name": "Anticoagulado",
+      "predicted_entity": "anticoagulante",
+      "benchmark_codes": [
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0037",
+      "predicted_code": "Z79.82",
+      "predicted_code_name": "AAS",
+      "predicted_entity": "adiro",
+      "benchmark_codes": [
+        "I10",
+        "I25.10"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "Cardiopatía isquémica"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0015",
+      "predicted_code": "Z79.82",
+      "predicted_code_name": "AAS",
+      "predicted_entity": "aspirina",
+      "benchmark_codes": [
+        "E78.5"
+      ],
+      "benchmark_names": [
+        "Dislipemia"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0097",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "acxfa",
+      "benchmark_codes": [
+        "I10",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0049",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fa",
+      "benchmark_codes": [
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0049",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fibrilación auricular",
+      "benchmark_codes": [
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0049",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión arterial",
+      "benchmark_codes": [
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0049",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión",
+      "benchmark_codes": [
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_balanced"
+      ]
+    },
+    {
+      "PMID": "HC_0060",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fa",
+      "benchmark_codes": [
+        "E78.5"
+      ],
+      "benchmark_names": [
+        "Dislipemia"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0060",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hta",
+      "benchmark_codes": [
+        "E78.5"
+      ],
+      "benchmark_names": [
+        "Dislipemia"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0064",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fa",
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Dislipemia",
+        "Hipertensión arterial",
+        "AAS",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0016",
+      "predicted_code": "Z79.82",
+      "predicted_code_name": "AAS",
+      "predicted_entity": "adiro",
+      "benchmark_codes": [
+        "E78.5"
+      ],
+      "benchmark_names": [
+        "Dislipemia"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0043",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hta",
+      "benchmark_codes": [
+        "E78.5"
+      ],
+      "benchmark_names": [
+        "Dislipemia"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_balanced"
+      ]
+    },
+    {
+      "PMID": "HC_0100",
+      "predicted_code": "F17.210",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "fumador",
+      "benchmark_codes": [
+        "E78.5",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0031",
+      "predicted_code": "F17.210",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "tabaquismo",
+      "benchmark_codes": [
+        "I10",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "AAS",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity"
+      ]
+    },
+    {
+      "PMID": "HC_0031",
+      "predicted_code": "F17.210",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "fumador",
+      "benchmark_codes": [
+        "I10",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "AAS",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0019",
+      "predicted_code": "Z79.82",
+      "predicted_code_name": "AAS",
+      "predicted_entity": "aas",
+      "benchmark_codes": [
+        "E78.5",
+        "I48.91"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Fibrilación auricular"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0026",
+      "predicted_code": "E11.9",
+      "predicted_code_name": "Diabetes mellitus tipo 2",
+      "predicted_entity": "dm2",
+      "benchmark_codes": [
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_balanced"
+      ]
+    },
+    {
+      "PMID": "HC_0026",
+      "predicted_code": "E11.9",
+      "predicted_code_name": "Diabetes mellitus tipo 2",
+      "predicted_entity": "diabetes mellitus",
+      "benchmark_codes": [
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0026",
+      "predicted_code": "E11.9",
+      "predicted_code_name": "Diabetes mellitus tipo 2",
+      "predicted_entity": "diabetes mellitus tipo 2",
+      "benchmark_codes": [
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0026",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hta",
+      "benchmark_codes": [
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_balanced"
+      ]
+    },
+    {
+      "PMID": "HC_0026",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión arterial",
+      "benchmark_codes": [
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0026",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión",
+      "benchmark_codes": [
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0091",
+      "predicted_code": "I25.10",
+      "predicted_code_name": "Cardiopatía isquémica",
+      "predicted_entity": "eac",
+      "benchmark_codes": [
+        "E11.9",
+        "I10",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Hipertensión arterial",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity"
+      ]
+    },
+    {
+      "PMID": "HC_0094",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fa",
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Dislipemia",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0094",
+      "predicted_code": "F17.210",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "fumador",
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Dislipemia",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0094",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión arterial",
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Dislipemia",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_balanced"
+      ]
+    },
+    {
+      "PMID": "HC_0094",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión",
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Dislipemia",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0062",
+      "predicted_code": "Z79.82",
+      "predicted_code_name": "AAS",
+      "predicted_entity": "aas",
+      "benchmark_codes": [
+        "I10"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0062",
+      "predicted_code": "F17.210",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "tabaquismo",
+      "benchmark_codes": [
+        "I10"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0074",
+      "predicted_code": "E11.9",
+      "predicted_code_name": "Diabetes mellitus tipo 2",
+      "predicted_entity": "dm",
+      "benchmark_codes": [
+        "F17.210"
+      ],
+      "benchmark_names": [
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0074",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hta",
+      "benchmark_codes": [
+        "F17.210"
+      ],
+      "benchmark_names": [
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0082",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fibrilación auricular",
+      "benchmark_codes": [
+        "E78.5",
+        "I10",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Hipertensión arterial",
+        "Anticoagulado",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity"
+      ]
+    },
+    {
+      "PMID": "HC_0001",
+      "predicted_code": "F17.210",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "fumador",
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Dislipemia",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0001",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión arterial",
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Dislipemia",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0001",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión",
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2",
+        "Dislipemia",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0052",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fa",
+      "benchmark_codes": [
+        "E11.9"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0052",
+      "predicted_code": "Z79.82",
+      "predicted_code_name": "AAS",
+      "predicted_entity": "aas",
+      "benchmark_codes": [
+        "E11.9"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0052",
+      "predicted_code": "Z79.82",
+      "predicted_code_name": "AAS",
+      "predicted_entity": "adiro",
+      "benchmark_codes": [
+        "E11.9"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0052",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hta",
+      "benchmark_codes": [
+        "E11.9"
+      ],
+      "benchmark_names": [
+        "Diabetes mellitus tipo 2"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0044",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hta",
+      "benchmark_codes": [
+        "E78.5"
+      ],
+      "benchmark_names": [
+        "Dislipemia"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0077",
+      "predicted_code": "Z79.82",
+      "predicted_code_name": "AAS",
+      "predicted_entity": "aas",
+      "benchmark_codes": [
+        "I10",
+        "I25.10"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "Cardiopatía isquémica"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0077",
+      "predicted_code": "Z87.891",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "exfumador",
+      "benchmark_codes": [
+        "I10",
+        "I25.10"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "Cardiopatía isquémica"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "gemma3_max_sensitivity"
+      ]
+    },
+    {
+      "PMID": "HC_0077",
+      "predicted_code": "Z79.01",
+      "predicted_code_name": "Anticoagulado",
+      "predicted_entity": "anticoagulante",
+      "benchmark_codes": [
+        "I10",
+        "I25.10"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "Cardiopatía isquémica"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0069",
+      "predicted_code": "E11.9",
+      "predicted_code_name": "Diabetes mellitus tipo 2",
+      "predicted_entity": "dm",
+      "benchmark_codes": [
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0069",
+      "predicted_code": "E78.5",
+      "predicted_code_name": "Dislipemia",
+      "predicted_entity": "dislipemia",
+      "benchmark_codes": [
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity"
+      ]
+    },
+    {
+      "PMID": "HC_0069",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hta",
+      "benchmark_codes": [
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0045",
+      "predicted_code": "E11.9",
+      "predicted_code_name": "Diabetes mellitus tipo 2",
+      "predicted_entity": "diabetes mellitus",
+      "benchmark_codes": [
+        "I10",
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0045",
+      "predicted_code": "E11.9",
+      "predicted_code_name": "Diabetes mellitus tipo 2",
+      "predicted_entity": "diabetes mellitus tipo 2",
+      "benchmark_codes": [
+        "I10",
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0045",
+      "predicted_code": "Z79.01",
+      "predicted_code_name": "Anticoagulado",
+      "predicted_entity": "sintrom",
+      "benchmark_codes": [
+        "I10",
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity"
+      ]
+    },
+    {
+      "PMID": "HC_0035",
+      "predicted_code": "E78.5",
+      "predicted_code_name": "Dislipemia",
+      "predicted_entity": "dislipemia",
+      "benchmark_codes": [
+        "I10"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0046",
+      "predicted_code": "Z79.82",
+      "predicted_code_name": "AAS",
+      "predicted_entity": "aas",
+      "benchmark_codes": [
+        "I10",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0046",
+      "predicted_code": "E11.9",
+      "predicted_code_name": "Diabetes mellitus tipo 2",
+      "predicted_entity": "dm",
+      "benchmark_codes": [
+        "I10",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0046",
+      "predicted_code": "E11.9",
+      "predicted_code_name": "Diabetes mellitus tipo 2",
+      "predicted_entity": "diabetes mellitus",
+      "benchmark_codes": [
+        "I10",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Hipertensión arterial",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0007",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fibrilación auricular",
+      "benchmark_codes": [
+        "E78.5",
+        "I25.10",
+        "N17.9",
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Cardiopatía isquémica",
+        "Insuficiencia renal aguda",
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0007",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fa",
+      "benchmark_codes": [
+        "E78.5",
+        "I25.10",
+        "N17.9",
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Cardiopatía isquémica",
+        "Insuficiencia renal aguda",
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0007",
+      "predicted_code": "Z79.82",
+      "predicted_code_name": "AAS",
+      "predicted_entity": "adiro",
+      "benchmark_codes": [
+        "E78.5",
+        "I25.10",
+        "N17.9",
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Cardiopatía isquémica",
+        "Insuficiencia renal aguda",
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0007",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión",
+      "benchmark_codes": [
+        "E78.5",
+        "I25.10",
+        "N17.9",
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Cardiopatía isquémica",
+        "Insuficiencia renal aguda",
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0007",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión arterial",
+      "benchmark_codes": [
+        "E78.5",
+        "I25.10",
+        "N17.9",
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Cardiopatía isquémica",
+        "Insuficiencia renal aguda",
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0079",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fa",
+      "benchmark_codes": [
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0079",
+      "predicted_code": "E11.9",
+      "predicted_code_name": "Diabetes mellitus tipo 2",
+      "predicted_entity": "diabetes mellitus",
+      "benchmark_codes": [
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0079",
+      "predicted_code": "E11.9",
+      "predicted_code_name": "Diabetes mellitus tipo 2",
+      "predicted_entity": "diabetes mellitus tipo 2",
+      "benchmark_codes": [
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0079",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión",
+      "benchmark_codes": [
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity"
+      ]
+    },
+    {
+      "PMID": "HC_0079",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hipertensión arterial",
+      "benchmark_codes": [
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0071",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fa",
+      "benchmark_codes": [
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0087",
+      "predicted_code": "I48.91",
+      "predicted_code_name": "Fibrilación auricular",
+      "predicted_entity": "fa",
+      "benchmark_codes": [
+        "E78.5",
+        "Z79.01"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Anticoagulado"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0059",
+      "predicted_code": "N17.9",
+      "predicted_code_name": "Insuficiencia renal aguda",
+      "predicted_entity": "ira",
+      "benchmark_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "AAS"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0059",
+      "predicted_code": "E11.9",
+      "predicted_code_name": "Diabetes mellitus tipo 2",
+      "predicted_entity": "dm2",
+      "benchmark_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "AAS"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_balanced",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0059",
+      "predicted_code": "E11.9",
+      "predicted_code_name": "Diabetes mellitus tipo 2",
+      "predicted_entity": "diabetes mellitus",
+      "benchmark_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "AAS"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0059",
+      "predicted_code": "E11.9",
+      "predicted_code_name": "Diabetes mellitus tipo 2",
+      "predicted_entity": "diabetes mellitus tipo 2",
+      "benchmark_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "AAS"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0059",
+      "predicted_code": "I10",
+      "predicted_code_name": "Hipertensión arterial",
+      "predicted_entity": "hta",
+      "benchmark_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "AAS"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "qwen25_diversity",
+        "gemma3_max_sensitivity",
+        "gemma3_high_precision"
+      ]
+    },
+    {
+      "PMID": "HC_0081",
+      "predicted_code": "F17.210",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "fumador",
+      "benchmark_codes": [
+        "Z79.82",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "AAS",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0065",
+      "predicted_code": "Z79.82",
+      "predicted_code_name": "AAS",
+      "predicted_entity": "aas",
+      "benchmark_codes": [
+        "E78.5",
+        "N17.9"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Insuficiencia renal aguda"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex",
+        "gemma3_balanced"
+      ]
+    },
+    {
+      "PMID": "HC_0093",
+      "predicted_code": "F17.210",
+      "predicted_code_name": "Desconocido",
+      "predicted_entity": "fumador",
+      "benchmark_codes": [
+        "E78.5",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    },
+    {
+      "PMID": "HC_0093",
+      "predicted_code": "Z79.01",
+      "predicted_code_name": "Anticoagulado",
+      "predicted_entity": "anticoagulante",
+      "benchmark_codes": [
+        "E78.5",
+        "Z87.891"
+      ],
+      "benchmark_names": [
+        "Dislipemia",
+        "Desconocido"
+      ],
+      "confidence": 1.0,
+      "strategies": [
+        "regex"
+      ]
+    }
+  ],
+  "by_code": {
+    "Z79.82": 15,
+    "I10": 30,
+    "F17.210": 13,
+    "E78.5": 3,
+    "I48.91": 23,
+    "Z87.891": 4,
+    "N17.9": 3,
+    "E11.9": 15,
+    "Z79.01": 8,
+    "I25.10": 1
+  },
+  "by_strategy": {
+    "regex": 115,
+    "qwen25_diversity": 56,
+    "gemma3_balanced": 43,
+    "gemma3_high_precision": 46,
+    "gemma3_max_sensitivity": 35
+  },
+  "by_document": [
+    {
+      "PMID": "HC_0012",
+      "fp_count": 2,
+      "fp_codes": [
+        "I10",
+        "Z79.82"
+      ],
+      "fp_codes_names": [
+        "Hipertensión arterial",
+        "AAS"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "I10",
+        "Z79.82"
+      ],
+      "benchmark_codes": [
+        "E78.5"
+      ]
+    },
+    {
+      "PMID": "HC_0022",
+      "fp_count": 1,
+      "fp_codes": [
+        "F17.210"
+      ],
+      "fp_codes_names": [
+        "Desconocido"
+      ],
+      "predicted_codes": [
+        "F17.210",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0028",
+      "fp_count": 1,
+      "fp_codes": [
+        "F17.210"
+      ],
+      "fp_codes_names": [
+        "Desconocido"
+      ],
+      "predicted_codes": [
+        "F17.210",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0070",
+      "fp_count": 1,
+      "fp_codes": [
+        "E78.5"
+      ],
+      "fp_codes_names": [
+        "Dislipemia"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "I10"
+      ],
+      "benchmark_codes": [
+        "I10"
+      ]
+    },
+    {
+      "PMID": "HC_0095",
+      "fp_count": 1,
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fp_codes_names": [
+        "Fibrilación auricular"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "I10",
+        "I25.10",
+        "I48.91",
+        "Z79.01"
+      ],
+      "benchmark_codes": [
+        "E78.5",
+        "I10",
+        "I25.10",
+        "Z79.01"
+      ]
+    },
+    {
+      "PMID": "HC_0092",
+      "fp_count": 1,
+      "fp_codes": [
+        "F17.210"
+      ],
+      "fp_codes_names": [
+        "Desconocido"
+      ],
+      "predicted_codes": [
+        "F17.210",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0036",
+      "fp_count": 4,
+      "fp_codes": [
+        "F17.210",
+        "I10",
+        "I48.91",
+        "Z87.891"
+      ],
+      "fp_codes_names": [
+        "Desconocido",
+        "Hipertensión arterial",
+        "Fibrilación auricular",
+        "Desconocido"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "F17.210",
+        "I10",
+        "I48.91",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "E11.9",
+        "Z79.01"
+      ]
+    },
+    {
+      "PMID": "HC_0073",
+      "fp_count": 2,
+      "fp_codes": [
+        "I10",
+        "Z79.82"
+      ],
+      "fp_codes_names": [
+        "Hipertensión arterial",
+        "AAS"
+      ],
+      "predicted_codes": [
+        "I10",
+        "N17.9",
+        "Z79.82"
+      ],
+      "benchmark_codes": [
+        "N17.9"
+      ]
+    },
+    {
+      "PMID": "HC_0080",
+      "fp_count": 1,
+      "fp_codes": [
+        "N17.9"
+      ],
+      "fp_codes_names": [
+        "Insuficiencia renal aguda"
+      ],
+      "predicted_codes": [
+        "I10",
+        "N17.9"
+      ],
+      "benchmark_codes": [
+        "F17.210",
+        "I10"
+      ]
+    },
+    {
+      "PMID": "HC_0088",
+      "fp_count": 1,
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fp_codes_names": [
+        "Fibrilación auricular"
+      ],
+      "predicted_codes": [
+        "I48.91"
+      ],
+      "benchmark_codes": [
+        "F17.210"
+      ]
+    },
+    {
+      "PMID": "HC_0027",
+      "fp_count": 2,
+      "fp_codes": [
+        "I10",
+        "Z79.82"
+      ],
+      "fp_codes_names": [
+        "Hipertensión arterial",
+        "AAS"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "I25.10",
+        "Z79.82"
+      ],
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "I25.10"
+      ]
+    },
+    {
+      "PMID": "HC_0051",
+      "fp_count": 3,
+      "fp_codes": [
+        "F17.210",
+        "I48.91",
+        "N17.9"
+      ],
+      "fp_codes_names": [
+        "Desconocido",
+        "Fibrilación auricular",
+        "Insuficiencia renal aguda"
+      ],
+      "predicted_codes": [
+        "F17.210",
+        "I10",
+        "I48.91",
+        "N17.9",
+        "Z79.01"
+      ],
+      "benchmark_codes": [
+        "I10",
+        "Z79.01",
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0032",
+      "fp_count": 2,
+      "fp_codes": [
+        "E11.9",
+        "I10"
+      ],
+      "fp_codes_names": [
+        "Diabetes mellitus tipo 2",
+        "Hipertensión arterial"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "Z79.82"
+      ],
+      "benchmark_codes": [
+        "E78.5",
+        "Z79.82"
+      ]
+    },
+    {
+      "PMID": "HC_0090",
+      "fp_count": 1,
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fp_codes_names": [
+        "Fibrilación auricular"
+      ],
+      "predicted_codes": [
+        "I10",
+        "I48.91"
+      ],
+      "benchmark_codes": [
+        "I10"
+      ]
+    },
+    {
+      "PMID": "HC_0021",
+      "fp_count": 2,
+      "fp_codes": [
+        "I10",
+        "I48.91"
+      ],
+      "fp_codes_names": [
+        "Hipertensión arterial",
+        "Fibrilación auricular"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "F17.210",
+        "I10",
+        "I25.10",
+        "I48.91"
+      ],
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "F17.210",
+        "I25.10"
+      ]
+    },
+    {
+      "PMID": "HC_0098",
+      "fp_count": 1,
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fp_codes_names": [
+        "Fibrilación auricular"
+      ],
+      "predicted_codes": [
+        "F17.210",
+        "I48.91"
+      ],
+      "benchmark_codes": [
+        "F17.210"
+      ]
+    },
+    {
+      "PMID": "HC_0034",
+      "fp_count": 1,
+      "fp_codes": [
+        "Z79.01"
+      ],
+      "fp_codes_names": [
+        "Anticoagulado"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "I10",
+        "I48.91",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "E78.5",
+        "I10",
+        "I48.91",
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0011",
+      "fp_count": 2,
+      "fp_codes": [
+        "Z79.01",
+        "Z87.891"
+      ],
+      "fp_codes_names": [
+        "Anticoagulado",
+        "Desconocido"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "I10",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "E11.9",
+        "I10"
+      ]
+    },
+    {
+      "PMID": "HC_0040",
+      "fp_count": 1,
+      "fp_codes": [
+        "Z79.01"
+      ],
+      "fp_codes_names": [
+        "Anticoagulado"
+      ],
+      "predicted_codes": [
+        "I10",
+        "Z79.01"
+      ],
+      "benchmark_codes": [
+        "I10"
+      ]
+    },
+    {
+      "PMID": "HC_0008",
+      "fp_count": 3,
+      "fp_codes": [
+        "I10",
+        "I48.91",
+        "Z87.891"
+      ],
+      "fp_codes_names": [
+        "Hipertensión arterial",
+        "Fibrilación auricular",
+        "Desconocido"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "I10",
+        "I48.91",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "E78.5",
+        "N17.9"
+      ]
+    },
+    {
+      "PMID": "HC_0056",
+      "fp_count": 1,
+      "fp_codes": [
+        "Z79.01"
+      ],
+      "fp_codes_names": [
+        "Anticoagulado"
+      ],
+      "predicted_codes": [
+        "Z79.01",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0037",
+      "fp_count": 1,
+      "fp_codes": [
+        "Z79.82"
+      ],
+      "fp_codes_names": [
+        "AAS"
+      ],
+      "predicted_codes": [
+        "I10",
+        "I25.10",
+        "Z79.82"
+      ],
+      "benchmark_codes": [
+        "I10",
+        "I25.10"
+      ]
+    },
+    {
+      "PMID": "HC_0015",
+      "fp_count": 1,
+      "fp_codes": [
+        "Z79.82"
+      ],
+      "fp_codes_names": [
+        "AAS"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "benchmark_codes": [
+        "E78.5"
+      ]
+    },
+    {
+      "PMID": "HC_0097",
+      "fp_count": 1,
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fp_codes_names": [
+        "Fibrilación auricular"
+      ],
+      "predicted_codes": [
+        "I10",
+        "I48.91",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "I10",
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0049",
+      "fp_count": 2,
+      "fp_codes": [
+        "I10",
+        "I48.91"
+      ],
+      "fp_codes_names": [
+        "Hipertensión arterial",
+        "Fibrilación auricular"
+      ],
+      "predicted_codes": [
+        "I10",
+        "I48.91",
+        "Z79.01"
+      ],
+      "benchmark_codes": [
+        "Z79.01"
+      ]
+    },
+    {
+      "PMID": "HC_0060",
+      "fp_count": 2,
+      "fp_codes": [
+        "I10",
+        "I48.91"
+      ],
+      "fp_codes_names": [
+        "Hipertensión arterial",
+        "Fibrilación auricular"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "I10",
+        "I48.91"
+      ],
+      "benchmark_codes": [
+        "E78.5"
+      ]
+    },
+    {
+      "PMID": "HC_0064",
+      "fp_count": 1,
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fp_codes_names": [
+        "Fibrilación auricular"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "I10",
+        "I48.91",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "Z79.82",
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0016",
+      "fp_count": 1,
+      "fp_codes": [
+        "Z79.82"
+      ],
+      "fp_codes_names": [
+        "AAS"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "benchmark_codes": [
+        "E78.5"
+      ]
+    },
+    {
+      "PMID": "HC_0043",
+      "fp_count": 1,
+      "fp_codes": [
+        "I10"
+      ],
+      "fp_codes_names": [
+        "Hipertensión arterial"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "I10"
+      ],
+      "benchmark_codes": [
+        "E78.5"
+      ]
+    },
+    {
+      "PMID": "HC_0100",
+      "fp_count": 1,
+      "fp_codes": [
+        "F17.210"
+      ],
+      "fp_codes_names": [
+        "Desconocido"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "F17.210",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "E78.5",
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0031",
+      "fp_count": 1,
+      "fp_codes": [
+        "F17.210"
+      ],
+      "fp_codes_names": [
+        "Desconocido"
+      ],
+      "predicted_codes": [
+        "F17.210",
+        "I10",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "I10",
+        "Z79.82",
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0019",
+      "fp_count": 1,
+      "fp_codes": [
+        "Z79.82"
+      ],
+      "fp_codes_names": [
+        "AAS"
+      ],
+      "predicted_codes": [
+        "I48.91",
+        "Z79.82"
+      ],
+      "benchmark_codes": [
+        "E78.5",
+        "I48.91"
+      ]
+    },
+    {
+      "PMID": "HC_0026",
+      "fp_count": 2,
+      "fp_codes": [
+        "E11.9",
+        "I10"
+      ],
+      "fp_codes_names": [
+        "Diabetes mellitus tipo 2",
+        "Hipertensión arterial"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "I10",
+        "N17.9"
+      ],
+      "benchmark_codes": [
+        "N17.9"
+      ]
+    },
+    {
+      "PMID": "HC_0091",
+      "fp_count": 1,
+      "fp_codes": [
+        "I25.10"
+      ],
+      "fp_codes_names": [
+        "Cardiopatía isquémica"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "I25.10",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "E11.9",
+        "I10",
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0094",
+      "fp_count": 3,
+      "fp_codes": [
+        "F17.210",
+        "I10",
+        "I48.91"
+      ],
+      "fp_codes_names": [
+        "Desconocido",
+        "Hipertensión arterial",
+        "Fibrilación auricular"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "F17.210",
+        "I10",
+        "I48.91"
+      ],
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0062",
+      "fp_count": 2,
+      "fp_codes": [
+        "F17.210",
+        "Z79.82"
+      ],
+      "fp_codes_names": [
+        "Desconocido",
+        "AAS"
+      ],
+      "predicted_codes": [
+        "F17.210",
+        "I10",
+        "Z79.82"
+      ],
+      "benchmark_codes": [
+        "I10"
+      ]
+    },
+    {
+      "PMID": "HC_0074",
+      "fp_count": 2,
+      "fp_codes": [
+        "E11.9",
+        "I10"
+      ],
+      "fp_codes_names": [
+        "Diabetes mellitus tipo 2",
+        "Hipertensión arterial"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "I10"
+      ],
+      "benchmark_codes": [
+        "F17.210"
+      ]
+    },
+    {
+      "PMID": "HC_0082",
+      "fp_count": 1,
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fp_codes_names": [
+        "Fibrilación auricular"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "I10",
+        "I48.91",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "E78.5",
+        "I10",
+        "Z79.01",
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0001",
+      "fp_count": 2,
+      "fp_codes": [
+        "F17.210",
+        "I10"
+      ],
+      "fp_codes_names": [
+        "Desconocido",
+        "Hipertensión arterial"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "F17.210",
+        "I10",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "E11.9",
+        "E78.5",
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0052",
+      "fp_count": 3,
+      "fp_codes": [
+        "I10",
+        "I48.91",
+        "Z79.82"
+      ],
+      "fp_codes_names": [
+        "Hipertensión arterial",
+        "Fibrilación auricular",
+        "AAS"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "I10",
+        "I48.91",
+        "Z79.82"
+      ],
+      "benchmark_codes": [
+        "E11.9"
+      ]
+    },
+    {
+      "PMID": "HC_0044",
+      "fp_count": 1,
+      "fp_codes": [
+        "I10"
+      ],
+      "fp_codes_names": [
+        "Hipertensión arterial"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "I10"
+      ],
+      "benchmark_codes": [
+        "E78.5"
+      ]
+    },
+    {
+      "PMID": "HC_0077",
+      "fp_count": 3,
+      "fp_codes": [
+        "Z79.01",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "fp_codes_names": [
+        "Anticoagulado",
+        "AAS",
+        "Desconocido"
+      ],
+      "predicted_codes": [
+        "I10",
+        "I25.10",
+        "Z79.01",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "I10",
+        "I25.10"
+      ]
+    },
+    {
+      "PMID": "HC_0069",
+      "fp_count": 3,
+      "fp_codes": [
+        "E11.9",
+        "E78.5",
+        "I10"
+      ],
+      "fp_codes_names": [
+        "Diabetes mellitus tipo 2",
+        "Dislipemia",
+        "Hipertensión arterial"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0045",
+      "fp_count": 2,
+      "fp_codes": [
+        "E11.9",
+        "Z79.01"
+      ],
+      "fp_codes_names": [
+        "Diabetes mellitus tipo 2",
+        "Anticoagulado"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "I10",
+        "N17.9",
+        "Z79.01"
+      ],
+      "benchmark_codes": [
+        "I10",
+        "N17.9"
+      ]
+    },
+    {
+      "PMID": "HC_0035",
+      "fp_count": 1,
+      "fp_codes": [
+        "E78.5"
+      ],
+      "fp_codes_names": [
+        "Dislipemia"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "I10"
+      ],
+      "benchmark_codes": [
+        "I10"
+      ]
+    },
+    {
+      "PMID": "HC_0046",
+      "fp_count": 2,
+      "fp_codes": [
+        "E11.9",
+        "Z79.82"
+      ],
+      "fp_codes_names": [
+        "Diabetes mellitus tipo 2",
+        "AAS"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "I10",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "I10",
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0007",
+      "fp_count": 3,
+      "fp_codes": [
+        "I10",
+        "I48.91",
+        "Z79.82"
+      ],
+      "fp_codes_names": [
+        "Hipertensión arterial",
+        "Fibrilación auricular",
+        "AAS"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "I10",
+        "I25.10",
+        "I48.91",
+        "Z79.82"
+      ],
+      "benchmark_codes": [
+        "E78.5",
+        "I25.10",
+        "N17.9",
+        "Z79.01"
+      ]
+    },
+    {
+      "PMID": "HC_0079",
+      "fp_count": 3,
+      "fp_codes": [
+        "E11.9",
+        "I10",
+        "I48.91"
+      ],
+      "fp_codes_names": [
+        "Diabetes mellitus tipo 2",
+        "Hipertensión arterial",
+        "Fibrilación auricular"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "I10",
+        "I48.91"
+      ],
+      "benchmark_codes": [
+        "Z79.01"
+      ]
+    },
+    {
+      "PMID": "HC_0071",
+      "fp_count": 1,
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fp_codes_names": [
+        "Fibrilación auricular"
+      ],
+      "predicted_codes": [
+        "I48.91",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0087",
+      "fp_count": 1,
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fp_codes_names": [
+        "Fibrilación auricular"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "I48.91"
+      ],
+      "benchmark_codes": [
+        "E78.5",
+        "Z79.01"
+      ]
+    },
+    {
+      "PMID": "HC_0059",
+      "fp_count": 3,
+      "fp_codes": [
+        "E11.9",
+        "I10",
+        "N17.9"
+      ],
+      "fp_codes_names": [
+        "Diabetes mellitus tipo 2",
+        "Hipertensión arterial",
+        "Insuficiencia renal aguda"
+      ],
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "N17.9",
+        "Z79.82"
+      ],
+      "benchmark_codes": [
+        "E78.5",
+        "Z79.82"
+      ]
+    },
+    {
+      "PMID": "HC_0081",
+      "fp_count": 1,
+      "fp_codes": [
+        "F17.210"
+      ],
+      "fp_codes_names": [
+        "Desconocido"
+      ],
+      "predicted_codes": [
+        "F17.210",
+        "Z79.82"
+      ],
+      "benchmark_codes": [
+        "Z79.82",
+        "Z87.891"
+      ]
+    },
+    {
+      "PMID": "HC_0065",
+      "fp_count": 1,
+      "fp_codes": [
+        "Z79.82"
+      ],
+      "fp_codes_names": [
+        "AAS"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "benchmark_codes": [
+        "E78.5",
+        "N17.9"
+      ]
+    },
+    {
+      "PMID": "HC_0093",
+      "fp_count": 2,
+      "fp_codes": [
+        "F17.210",
+        "Z79.01"
+      ],
+      "fp_codes_names": [
+        "Desconocido",
+        "Anticoagulado"
+      ],
+      "predicted_codes": [
+        "E78.5",
+        "F17.210",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "benchmark_codes": [
+        "E78.5",
+        "Z87.891"
+      ]
+    }
+  ],
+  "by_code_grouped": {
+    "Z79.82": 13,
+    "I10": 20,
+    "F17.210": 12,
+    "E78.5": 3,
+    "I48.91": 19,
+    "Z87.891": 4,
+    "N17.9": 3,
+    "E11.9": 8,
+    "Z79.01": 7,
+    "I25.10": 1
+  },
+  "unmapped_predictions": {}
+}

@@ -1,0 +1,1173 @@
+{
+  "original_metrics": {
+    "all_codes": {
+      "precision": 0.6538,
+      "recall": 0.8586,
+      "f1": 0.7424,
+      "tp": 170,
+      "fp": 90,
+      "fn": 28
+    },
+    "excluding_smoking": {
+      "precision": 0.659,
+      "recall": 0.9108,
+      "f1": 0.7647,
+      "tp": 143,
+      "fp": 74,
+      "fn": 14
+    },
+    "by_code": {
+      "E11.9": {
+        "precision": 0.7241379310344828,
+        "recall": 1.0,
+        "f1": 0.8400000000000001,
+        "tp": 21,
+        "fp": 8,
+        "fn": 0
+      },
+      "E78.5": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1": 0.9166666666666666,
+        "tp": 33,
+        "fp": 3,
+        "fn": 3
+      },
+      "F17.210": {
+        "precision": 0.3684210526315789,
+        "recall": 0.6363636363636364,
+        "f1": 0.4666666666666667,
+        "tp": 7,
+        "fp": 12,
+        "fn": 4
+      },
+      "I10": {
+        "precision": 0.7058823529411765,
+        "recall": 0.96,
+        "f1": 0.8135593220338982,
+        "tp": 48,
+        "fp": 20,
+        "fn": 2
+      },
+      "I25.10": {
+        "precision": 0.9333333333333333,
+        "recall": 1.0,
+        "f1": 0.9655172413793104,
+        "tp": 14,
+        "fp": 1,
+        "fn": 0
+      },
+      "I48.91": {
+        "precision": 0.20833333333333334,
+        "recall": 1.0,
+        "f1": 0.3448275862068966,
+        "tp": 5,
+        "fp": 19,
+        "fn": 0
+      },
+      "N17.9": {
+        "precision": 0.5714285714285714,
+        "recall": 0.5714285714285714,
+        "f1": 0.5714285714285714,
+        "tp": 4,
+        "fp": 3,
+        "fn": 3
+      },
+      "Z79.01": {
+        "precision": 0.5,
+        "recall": 0.5833333333333334,
+        "f1": 0.5384615384615384,
+        "tp": 7,
+        "fp": 7,
+        "fn": 5
+      },
+      "Z79.82": {
+        "precision": 0.4583333333333333,
+        "recall": 0.9166666666666666,
+        "f1": 0.611111111111111,
+        "tp": 11,
+        "fp": 13,
+        "fn": 1
+      },
+      "Z87.891": {
+        "precision": 0.8333333333333334,
+        "recall": 0.6666666666666666,
+        "f1": 0.7407407407407408,
+        "tp": 20,
+        "fp": 4,
+        "fn": 10
+      }
+    }
+  },
+  "corrected_metrics_ungrouped": {
+    "all_codes": {
+      "precision": 0.9035,
+      "recall": 0.9169,
+      "f1": 0.9102,
+      "tp": 309,
+      "fp": 33,
+      "fn": 28
+    },
+    "excluding_smoking": {
+      "precision": 0.9327,
+      "recall": 0.9519,
+      "f1": 0.9422,
+      "tp": 277,
+      "fp": 20,
+      "fn": 14
+    }
+  },
+  "corrected_metrics_grouped_by_code": {
+    "all_codes": {
+      "overall": {
+        "precision": 0.8808,
+        "recall": 0.8911,
+        "f1": 0.8859,
+        "tp": 229,
+        "fp": 31,
+        "fn": 28
+      },
+      "by_code": {
+        "E11.9": {
+          "precision": 0.9655,
+          "recall": 1.0,
+          "f1": 0.9825,
+          "tp": 28,
+          "fp": 1,
+          "fn": 0,
+          "original_tp": 21,
+          "original_fp": 8,
+          "original_fn": 0,
+          "fp_converted_to_tp": 7,
+          "fn_real_errors": 0,
+          "fn_acceptable": 0
+        },
+        "E78.5": {
+          "precision": 1.0,
+          "recall": 0.9231,
+          "f1": 0.96,
+          "tp": 36,
+          "fp": 0,
+          "fn": 3,
+          "original_tp": 33,
+          "original_fp": 3,
+          "original_fn": 3,
+          "fp_converted_to_tp": 3,
+          "fn_real_errors": 3,
+          "fn_acceptable": 0
+        },
+        "F17.210": {
+          "precision": 0.3684,
+          "recall": 0.6364,
+          "f1": 0.4667,
+          "tp": 7,
+          "fp": 12,
+          "fn": 4,
+          "original_tp": 7,
+          "original_fp": 12,
+          "original_fn": 4,
+          "fp_converted_to_tp": 0,
+          "fn_real_errors": 4,
+          "fn_acceptable": 0
+        },
+        "I10": {
+          "precision": 0.9706,
+          "recall": 0.9706,
+          "f1": 0.9706,
+          "tp": 66,
+          "fp": 2,
+          "fn": 2,
+          "original_tp": 48,
+          "original_fp": 20,
+          "original_fn": 2,
+          "fp_converted_to_tp": 18,
+          "fn_real_errors": 2,
+          "fn_acceptable": 0
+        },
+        "I25.10": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "tp": 15,
+          "fp": 0,
+          "fn": 0,
+          "original_tp": 14,
+          "original_fp": 1,
+          "original_fn": 0,
+          "fp_converted_to_tp": 1,
+          "fn_real_errors": 0,
+          "fn_acceptable": 0
+        },
+        "I48.91": {
+          "precision": 0.6667,
+          "recall": 1.0,
+          "f1": 0.8,
+          "tp": 16,
+          "fp": 8,
+          "fn": 0,
+          "original_tp": 5,
+          "original_fp": 19,
+          "original_fn": 0,
+          "fp_converted_to_tp": 11,
+          "fn_real_errors": 0,
+          "fn_acceptable": 0
+        },
+        "N17.9": {
+          "precision": 1.0,
+          "recall": 0.7,
+          "f1": 0.8235,
+          "tp": 7,
+          "fp": 0,
+          "fn": 3,
+          "original_tp": 4,
+          "original_fp": 3,
+          "original_fn": 3,
+          "fp_converted_to_tp": 3,
+          "fn_real_errors": 3,
+          "fn_acceptable": 0
+        },
+        "Z79.01": {
+          "precision": 0.8571,
+          "recall": 0.7059,
+          "f1": 0.7742,
+          "tp": 12,
+          "fp": 2,
+          "fn": 5,
+          "original_tp": 7,
+          "original_fp": 7,
+          "original_fn": 5,
+          "fp_converted_to_tp": 5,
+          "fn_real_errors": 5,
+          "fn_acceptable": 0
+        },
+        "Z79.82": {
+          "precision": 0.75,
+          "recall": 0.9474,
+          "f1": 0.8372,
+          "tp": 18,
+          "fp": 6,
+          "fn": 1,
+          "original_tp": 11,
+          "original_fp": 13,
+          "original_fn": 1,
+          "fp_converted_to_tp": 7,
+          "fn_real_errors": 1,
+          "fn_acceptable": 0
+        },
+        "Z87.891": {
+          "precision": 1.0,
+          "recall": 0.7059,
+          "f1": 0.8276,
+          "tp": 24,
+          "fp": 0,
+          "fn": 10,
+          "original_tp": 20,
+          "original_fp": 4,
+          "original_fn": 10,
+          "fp_converted_to_tp": 4,
+          "fn_real_errors": 10,
+          "fn_acceptable": 0
+        }
+      }
+    },
+    "excluding_smoking": {
+      "overall": {
+        "precision": 0.9124,
+        "recall": 0.934,
+        "f1": 0.9231,
+        "tp": 198,
+        "fp": 19,
+        "fn": 14
+      },
+      "by_code": {
+        "E11.9": {
+          "precision": 0.9655,
+          "recall": 1.0,
+          "f1": 0.9825,
+          "tp": 28,
+          "fp": 1,
+          "fn": 0,
+          "original_tp": 21,
+          "original_fp": 8,
+          "original_fn": 0,
+          "fp_converted_to_tp": 7,
+          "fn_real_errors": 0,
+          "fn_acceptable": 0
+        },
+        "E78.5": {
+          "precision": 1.0,
+          "recall": 0.9231,
+          "f1": 0.96,
+          "tp": 36,
+          "fp": 0,
+          "fn": 3,
+          "original_tp": 33,
+          "original_fp": 3,
+          "original_fn": 3,
+          "fp_converted_to_tp": 3,
+          "fn_real_errors": 3,
+          "fn_acceptable": 0
+        },
+        "I10": {
+          "precision": 0.9706,
+          "recall": 0.9706,
+          "f1": 0.9706,
+          "tp": 66,
+          "fp": 2,
+          "fn": 2,
+          "original_tp": 48,
+          "original_fp": 20,
+          "original_fn": 2,
+          "fp_converted_to_tp": 18,
+          "fn_real_errors": 2,
+          "fn_acceptable": 0
+        },
+        "I25.10": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "tp": 15,
+          "fp": 0,
+          "fn": 0,
+          "original_tp": 14,
+          "original_fp": 1,
+          "original_fn": 0,
+          "fp_converted_to_tp": 1,
+          "fn_real_errors": 0,
+          "fn_acceptable": 0
+        },
+        "I48.91": {
+          "precision": 0.6667,
+          "recall": 1.0,
+          "f1": 0.8,
+          "tp": 16,
+          "fp": 8,
+          "fn": 0,
+          "original_tp": 5,
+          "original_fp": 19,
+          "original_fn": 0,
+          "fp_converted_to_tp": 11,
+          "fn_real_errors": 0,
+          "fn_acceptable": 0
+        },
+        "N17.9": {
+          "precision": 1.0,
+          "recall": 0.7,
+          "f1": 0.8235,
+          "tp": 7,
+          "fp": 0,
+          "fn": 3,
+          "original_tp": 4,
+          "original_fp": 3,
+          "original_fn": 3,
+          "fp_converted_to_tp": 3,
+          "fn_real_errors": 3,
+          "fn_acceptable": 0
+        },
+        "Z79.01": {
+          "precision": 0.8571,
+          "recall": 0.7059,
+          "f1": 0.7742,
+          "tp": 12,
+          "fp": 2,
+          "fn": 5,
+          "original_tp": 7,
+          "original_fp": 7,
+          "original_fn": 5,
+          "fp_converted_to_tp": 5,
+          "fn_real_errors": 5,
+          "fn_acceptable": 0
+        },
+        "Z79.82": {
+          "precision": 0.75,
+          "recall": 0.9474,
+          "f1": 0.8372,
+          "tp": 18,
+          "fp": 6,
+          "fn": 1,
+          "original_tp": 11,
+          "original_fp": 13,
+          "original_fn": 1,
+          "fp_converted_to_tp": 7,
+          "fn_real_errors": 1,
+          "fn_acceptable": 0
+        }
+      }
+    }
+  },
+  "strategy_error_analysis": {
+    "all_codes": {
+      "fp_by_detection_type": {
+        "solo_regex": {
+          "description": "FP detectados SOLO por regex",
+          "total_fp": 51,
+          "real_errors": 23,
+          "corrected_to_tp": 28,
+          "by_code": {
+            "F17.210": 12,
+            "Z79.82": 11,
+            "I10": 8,
+            "E11.9": 7,
+            "I48.91": 5,
+            "Z79.01": 5,
+            "Z87.891": 3
+          }
+        },
+        "solo_llm": {
+          "description": "FP detectados SOLO por modelos LLM",
+          "total_fp": 0,
+          "real_errors": 0,
+          "corrected_to_tp": 0,
+          "by_code": {}
+        },
+        "regex_y_llm": {
+          "description": "FP detectados por regex + ≥1 LLM",
+          "total_fp": 64,
+          "real_errors": 10,
+          "corrected_to_tp": 54,
+          "by_code": {
+            "I10": 22,
+            "I48.91": 18,
+            "E11.9": 8,
+            "Z79.82": 4,
+            "E78.5": 3,
+            "N17.9": 3,
+            "Z79.01": 3,
+            "F17.210": 1,
+            "I25.10": 1,
+            "Z87.891": 1
+          }
+        }
+      },
+      "fp_by_model": {
+        "gemma3_balanced": {
+          "total_fp": 43,
+          "real_fp_errors": 6,
+          "fp_corrected_to_tp": 37,
+          "fp_error_rate": 0.1395,
+          "by_code": {
+            "I10": 16,
+            "I48.91": 15,
+            "E11.9": 6,
+            "N17.9": 3,
+            "Z79.82": 2,
+            "Z79.01": 1
+          }
+        },
+        "gemma3_high_precision": {
+          "total_fp": 46,
+          "real_fp_errors": 8,
+          "fp_corrected_to_tp": 38,
+          "fp_error_rate": 0.1739,
+          "by_code": {
+            "I10": 16,
+            "I48.91": 14,
+            "E11.9": 7,
+            "N17.9": 3,
+            "Z79.82": 2,
+            "E78.5": 2,
+            "Z79.01": 2
+          }
+        },
+        "gemma3_max_sensitivity": {
+          "total_fp": 35,
+          "real_fp_errors": 6,
+          "fp_corrected_to_tp": 29,
+          "fp_error_rate": 0.1714,
+          "by_code": {
+            "I48.91": 13,
+            "I10": 12,
+            "E11.9": 4,
+            "N17.9": 2,
+            "Z79.82": 1,
+            "E78.5": 1,
+            "Z87.891": 1,
+            "I25.10": 1
+          }
+        },
+        "qwen25_diversity": {
+          "total_fp": 56,
+          "real_fp_errors": 9,
+          "fp_corrected_to_tp": 47,
+          "fp_error_rate": 0.1607,
+          "by_code": {
+            "I10": 20,
+            "I48.91": 18,
+            "E11.9": 8,
+            "N17.9": 3,
+            "E78.5": 2,
+            "Z79.01": 2,
+            "Z79.82": 1,
+            "F17.210": 1,
+            "I25.10": 1
+          }
+        },
+        "regex": {
+          "total_fp": 115,
+          "real_fp_errors": 33,
+          "fp_corrected_to_tp": 82,
+          "fp_error_rate": 0.287,
+          "by_code": {
+            "I10": 30,
+            "I48.91": 23,
+            "Z79.82": 15,
+            "E11.9": 15,
+            "F17.210": 13,
+            "Z79.01": 8,
+            "Z87.891": 4,
+            "E78.5": 3,
+            "N17.9": 3,
+            "I25.10": 1
+          }
+        }
+      },
+      "model_ranking_by_real_fp": [
+        {
+          "model": "regex",
+          "real_fp_errors": 33
+        },
+        {
+          "model": "qwen25_diversity",
+          "real_fp_errors": 9
+        },
+        {
+          "model": "gemma3_high_precision",
+          "real_fp_errors": 8
+        },
+        {
+          "model": "gemma3_balanced",
+          "real_fp_errors": 6
+        },
+        {
+          "model": "gemma3_max_sensitivity",
+          "real_fp_errors": 6
+        }
+      ],
+      "fp_overlap_distribution": {
+        "1_strategies": 51,
+        "2_strategies": 10,
+        "3_strategies": 19,
+        "4_strategies": 8,
+        "5_strategies": 27
+      },
+      "top_fp_combinations": [
+        {
+          "strategies": [
+            "regex"
+          ],
+          "total_fp": 51,
+          "real_errors": 23,
+          "corrected": 28
+        },
+        {
+          "strategies": [
+            "gemma3_balanced",
+            "gemma3_high_precision",
+            "gemma3_max_sensitivity",
+            "qwen25_diversity",
+            "regex"
+          ],
+          "total_fp": 27,
+          "real_errors": 5,
+          "corrected": 22
+        },
+        {
+          "strategies": [
+            "gemma3_balanced",
+            "qwen25_diversity",
+            "regex"
+          ],
+          "total_fp": 8,
+          "real_errors": 0,
+          "corrected": 8
+        },
+        {
+          "strategies": [
+            "gemma3_high_precision",
+            "qwen25_diversity",
+            "regex"
+          ],
+          "total_fp": 7,
+          "real_errors": 2,
+          "corrected": 5
+        },
+        {
+          "strategies": [
+            "gemma3_balanced",
+            "gemma3_high_precision",
+            "qwen25_diversity",
+            "regex"
+          ],
+          "total_fp": 5,
+          "real_errors": 0,
+          "corrected": 5
+        },
+        {
+          "strategies": [
+            "qwen25_diversity",
+            "regex"
+          ],
+          "total_fp": 4,
+          "real_errors": 2,
+          "corrected": 2
+        },
+        {
+          "strategies": [
+            "gemma3_high_precision",
+            "regex"
+          ],
+          "total_fp": 3,
+          "real_errors": 0,
+          "corrected": 3
+        },
+        {
+          "strategies": [
+            "gemma3_max_sensitivity",
+            "qwen25_diversity",
+            "regex"
+          ],
+          "total_fp": 3,
+          "real_errors": 0,
+          "corrected": 3
+        },
+        {
+          "strategies": [
+            "gemma3_max_sensitivity",
+            "regex"
+          ],
+          "total_fp": 2,
+          "real_errors": 0,
+          "corrected": 2
+        },
+        {
+          "strategies": [
+            "gemma3_high_precision",
+            "gemma3_max_sensitivity",
+            "qwen25_diversity",
+            "regex"
+          ],
+          "total_fp": 2,
+          "real_errors": 0,
+          "corrected": 2
+        },
+        {
+          "strategies": [
+            "gemma3_balanced",
+            "gemma3_high_precision",
+            "regex"
+          ],
+          "total_fp": 1,
+          "real_errors": 0,
+          "corrected": 1
+        },
+        {
+          "strategies": [
+            "gemma3_balanced",
+            "gemma3_high_precision",
+            "gemma3_max_sensitivity",
+            "regex"
+          ],
+          "total_fp": 1,
+          "real_errors": 1,
+          "corrected": 0
+        },
+        {
+          "strategies": [
+            "gemma3_balanced",
+            "regex"
+          ],
+          "total_fp": 1,
+          "real_errors": 0,
+          "corrected": 1
+        }
+      ],
+      "fn_analysis": {
+        "total_fn": 28,
+        "real_errors": 28,
+        "acceptable_fn": 0,
+        "by_code": {
+          "E78.5": {
+            "real_errors": 3,
+            "acceptable": 0,
+            "total": 3,
+            "entity_examples": [
+              "dlp",
+              "dislipidemia",
+              "dl"
+            ]
+          },
+          "F17.210": {
+            "real_errors": 4,
+            "acceptable": 0,
+            "total": 4,
+            "entity_examples": [
+              "fumadora"
+            ]
+          },
+          "I10": {
+            "real_errors": 2,
+            "acceptable": 0,
+            "total": 2,
+            "entity_examples": [
+              "hipertensio arterial",
+              "HIPERTENSION ARTERIAL"
+            ]
+          },
+          "N17.9": {
+            "real_errors": 3,
+            "acceptable": 0,
+            "total": 3,
+            "entity_examples": [
+              "insuficiencia renal crónica agudizada",
+              "ira",
+              "deterioro de función renal"
+            ]
+          },
+          "Z79.01": {
+            "real_errors": 5,
+            "acceptable": 0,
+            "total": 5,
+            "entity_examples": [
+              "anticoagulant",
+              "anticoagulacion",
+              "anticoagulación",
+              "anticoagulante"
+            ]
+          },
+          "Z79.82": {
+            "real_errors": 1,
+            "acceptable": 0,
+            "total": 1,
+            "entity_examples": [
+              "acido acetilsalicilico"
+            ]
+          },
+          "Z87.891": {
+            "real_errors": 10,
+            "acceptable": 0,
+            "total": 10,
+            "entity_examples": [
+              "ex-fumador",
+              "ex fumadora",
+              "Exfumadora",
+              "ex - fumador",
+              "Ex fumador",
+              "exfumadora"
+            ]
+          }
+        }
+      }
+    },
+    "excluding_smoking": {
+      "fp_by_detection_type": {
+        "solo_regex": {
+          "description": "FP detectados SOLO por regex",
+          "total_fp": 36,
+          "real_errors": 11,
+          "corrected_to_tp": 25,
+          "by_code": {
+            "Z79.82": 11,
+            "I10": 8,
+            "E11.9": 7,
+            "I48.91": 5,
+            "Z79.01": 5
+          }
+        },
+        "solo_llm": {
+          "description": "FP detectados SOLO por modelos LLM",
+          "total_fp": 0,
+          "real_errors": 0,
+          "corrected_to_tp": 0,
+          "by_code": {}
+        },
+        "regex_y_llm": {
+          "description": "FP detectados por regex + ≥1 LLM",
+          "total_fp": 62,
+          "real_errors": 9,
+          "corrected_to_tp": 53,
+          "by_code": {
+            "I10": 22,
+            "I48.91": 18,
+            "E11.9": 8,
+            "Z79.82": 4,
+            "E78.5": 3,
+            "N17.9": 3,
+            "Z79.01": 3,
+            "I25.10": 1
+          }
+        }
+      },
+      "fp_by_model": {
+        "gemma3_balanced": {
+          "total_fp": 43,
+          "real_fp_errors": 6,
+          "fp_corrected_to_tp": 37,
+          "fp_error_rate": 0.1395,
+          "by_code": {
+            "I10": 16,
+            "I48.91": 15,
+            "E11.9": 6,
+            "N17.9": 3,
+            "Z79.82": 2,
+            "Z79.01": 1
+          }
+        },
+        "gemma3_high_precision": {
+          "total_fp": 46,
+          "real_fp_errors": 8,
+          "fp_corrected_to_tp": 38,
+          "fp_error_rate": 0.1739,
+          "by_code": {
+            "I10": 16,
+            "I48.91": 14,
+            "E11.9": 7,
+            "N17.9": 3,
+            "Z79.82": 2,
+            "E78.5": 2,
+            "Z79.01": 2
+          }
+        },
+        "gemma3_max_sensitivity": {
+          "total_fp": 34,
+          "real_fp_errors": 6,
+          "fp_corrected_to_tp": 28,
+          "fp_error_rate": 0.1765,
+          "by_code": {
+            "I48.91": 13,
+            "I10": 12,
+            "E11.9": 4,
+            "N17.9": 2,
+            "Z79.82": 1,
+            "E78.5": 1,
+            "I25.10": 1
+          }
+        },
+        "qwen25_diversity": {
+          "total_fp": 55,
+          "real_fp_errors": 8,
+          "fp_corrected_to_tp": 47,
+          "fp_error_rate": 0.1455,
+          "by_code": {
+            "I10": 20,
+            "I48.91": 18,
+            "E11.9": 8,
+            "N17.9": 3,
+            "E78.5": 2,
+            "Z79.01": 2,
+            "Z79.82": 1,
+            "I25.10": 1
+          }
+        },
+        "regex": {
+          "total_fp": 98,
+          "real_fp_errors": 20,
+          "fp_corrected_to_tp": 78,
+          "fp_error_rate": 0.2041,
+          "by_code": {
+            "I10": 30,
+            "I48.91": 23,
+            "Z79.82": 15,
+            "E11.9": 15,
+            "Z79.01": 8,
+            "E78.5": 3,
+            "N17.9": 3,
+            "I25.10": 1
+          }
+        }
+      },
+      "model_ranking_by_real_fp": [
+        {
+          "model": "regex",
+          "real_fp_errors": 20
+        },
+        {
+          "model": "gemma3_high_precision",
+          "real_fp_errors": 8
+        },
+        {
+          "model": "qwen25_diversity",
+          "real_fp_errors": 8
+        },
+        {
+          "model": "gemma3_balanced",
+          "real_fp_errors": 6
+        },
+        {
+          "model": "gemma3_max_sensitivity",
+          "real_fp_errors": 6
+        }
+      ],
+      "fp_overlap_distribution": {
+        "1_strategies": 36,
+        "2_strategies": 8,
+        "3_strategies": 19,
+        "4_strategies": 8,
+        "5_strategies": 27
+      },
+      "top_fp_combinations": [
+        {
+          "strategies": [
+            "regex"
+          ],
+          "total_fp": 36,
+          "real_errors": 11,
+          "corrected": 25
+        },
+        {
+          "strategies": [
+            "gemma3_balanced",
+            "gemma3_high_precision",
+            "gemma3_max_sensitivity",
+            "qwen25_diversity",
+            "regex"
+          ],
+          "total_fp": 27,
+          "real_errors": 5,
+          "corrected": 22
+        },
+        {
+          "strategies": [
+            "gemma3_balanced",
+            "qwen25_diversity",
+            "regex"
+          ],
+          "total_fp": 8,
+          "real_errors": 0,
+          "corrected": 8
+        },
+        {
+          "strategies": [
+            "gemma3_high_precision",
+            "qwen25_diversity",
+            "regex"
+          ],
+          "total_fp": 7,
+          "real_errors": 2,
+          "corrected": 5
+        },
+        {
+          "strategies": [
+            "gemma3_balanced",
+            "gemma3_high_precision",
+            "qwen25_diversity",
+            "regex"
+          ],
+          "total_fp": 5,
+          "real_errors": 0,
+          "corrected": 5
+        },
+        {
+          "strategies": [
+            "gemma3_high_precision",
+            "regex"
+          ],
+          "total_fp": 3,
+          "real_errors": 0,
+          "corrected": 3
+        },
+        {
+          "strategies": [
+            "qwen25_diversity",
+            "regex"
+          ],
+          "total_fp": 3,
+          "real_errors": 1,
+          "corrected": 2
+        },
+        {
+          "strategies": [
+            "gemma3_max_sensitivity",
+            "qwen25_diversity",
+            "regex"
+          ],
+          "total_fp": 3,
+          "real_errors": 0,
+          "corrected": 3
+        },
+        {
+          "strategies": [
+            "gemma3_high_precision",
+            "gemma3_max_sensitivity",
+            "qwen25_diversity",
+            "regex"
+          ],
+          "total_fp": 2,
+          "real_errors": 0,
+          "corrected": 2
+        },
+        {
+          "strategies": [
+            "gemma3_max_sensitivity",
+            "regex"
+          ],
+          "total_fp": 1,
+          "real_errors": 0,
+          "corrected": 1
+        },
+        {
+          "strategies": [
+            "gemma3_balanced",
+            "gemma3_high_precision",
+            "regex"
+          ],
+          "total_fp": 1,
+          "real_errors": 0,
+          "corrected": 1
+        },
+        {
+          "strategies": [
+            "gemma3_balanced",
+            "gemma3_high_precision",
+            "gemma3_max_sensitivity",
+            "regex"
+          ],
+          "total_fp": 1,
+          "real_errors": 1,
+          "corrected": 0
+        },
+        {
+          "strategies": [
+            "gemma3_balanced",
+            "regex"
+          ],
+          "total_fp": 1,
+          "real_errors": 0,
+          "corrected": 1
+        }
+      ],
+      "fn_analysis": {
+        "total_fn": 14,
+        "real_errors": 14,
+        "acceptable_fn": 0,
+        "by_code": {
+          "E78.5": {
+            "real_errors": 3,
+            "acceptable": 0,
+            "total": 3,
+            "entity_examples": [
+              "dlp",
+              "dislipidemia",
+              "dl"
+            ]
+          },
+          "I10": {
+            "real_errors": 2,
+            "acceptable": 0,
+            "total": 2,
+            "entity_examples": [
+              "hipertensio arterial",
+              "HIPERTENSION ARTERIAL"
+            ]
+          },
+          "N17.9": {
+            "real_errors": 3,
+            "acceptable": 0,
+            "total": 3,
+            "entity_examples": [
+              "insuficiencia renal crónica agudizada",
+              "ira",
+              "deterioro de función renal"
+            ]
+          },
+          "Z79.01": {
+            "real_errors": 5,
+            "acceptable": 0,
+            "total": 5,
+            "entity_examples": [
+              "anticoagulant",
+              "anticoagulacion",
+              "anticoagulación",
+              "anticoagulante"
+            ]
+          },
+          "Z79.82": {
+            "real_errors": 1,
+            "acceptable": 0,
+            "total": 1,
+            "entity_examples": [
+              "acido acetilsalicilico"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "summary_comparison": {
+    "scenario": [
+      "original",
+      "corr_ungrouped",
+      "corr_grouped"
+    ],
+    "all_codes": {
+      "precision": [
+        0.6538,
+        0.9035,
+        0.8808
+      ],
+      "recall": [
+        0.8586,
+        0.9169,
+        0.8911
+      ],
+      "f1": [
+        0.7424,
+        0.9102,
+        0.8859
+      ],
+      "tp": [
+        170,
+        309,
+        229
+      ],
+      "fp": [
+        90,
+        33,
+        31
+      ],
+      "fn": [
+        28,
+        28,
+        28
+      ]
+    },
+    "excluding_smoking": {
+      "precision": [
+        0.659,
+        0.9327,
+        0.9124
+      ],
+      "recall": [
+        0.9108,
+        0.9519,
+        0.934
+      ],
+      "f1": [
+        0.7647,
+        0.9422,
+        0.9231
+      ],
+      "tp": [
+        143,
+        277,
+        198
+      ],
+      "fp": [
+        74,
+        20,
+        19
+      ],
+      "fn": [
+        14,
+        14,
+        14
+      ]
+    }
+  },
+  "meta": {
+    "total_fp_in_analysis": 115,
+    "total_fn_in_analysis": 28,
+    "fp_manual_corrections_loaded": 114,
+    "fn_manual_corrections_loaded": 28,
+    "documents_analyzed": 100
+  }
+}

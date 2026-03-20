@@ -1,0 +1,143 @@
+{"pmid": "HC_0012", "predicted_entity": "aas (Z79.82)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0012", "predicted_entity": "adiro (Z79.82)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0012", "predicted_entity": "hipertensión arterial (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0012", "predicted_entity": "hipertensión (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0022", "predicted_entity": "fumador (F17.210)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0028", "predicted_entity": "fumador (F17.210)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0070", "predicted_entity": "dlp (E78.5)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0095", "predicted_entity": "fibrilación auricular (I48.91)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0092", "predicted_entity": "fumador (F17.210)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0036", "predicted_entity": "fibrilación auricular (I48.91)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0036", "predicted_entity": "fumador (F17.210)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0036", "predicted_entity": "ex-fumador (Z87.891)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0036", "predicted_entity": "hipertensión arterial (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0036", "predicted_entity": "hipertensión (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0073", "predicted_entity": "aas (Z79.82)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0073", "predicted_entity": "hipertensión (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0073", "predicted_entity": "hipertensión arterial (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0080", "predicted_entity": "insuficiencia renal aguda (N17.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0088", "predicted_entity": "fa (I48.91)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0027", "predicted_entity": "adiro (Z79.82)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0027", "predicted_entity": "hipertensión (I10)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0051", "predicted_entity": "fa (I48.91)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0051", "predicted_entity": "fibrilación auricular (I48.91)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0051", "predicted_entity": "insuficiencia renal aguda (N17.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0051", "predicted_entity": "fumador (F17.210)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0032", "predicted_entity": "diabetes mellitus (E11.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0032", "predicted_entity": "hta (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0090", "predicted_entity": "fa (I48.91)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0021", "predicted_entity": "fa (I48.91)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0021", "predicted_entity": "hipertensión (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0098", "predicted_entity": "fa (I48.91)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0034", "predicted_entity": "sintrom (Z79.82)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0034", "predicted_entity": "anticoagulante (Z79.01)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0011", "predicted_entity": "exfumador (Z87.891)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0011", "predicted_entity": "anticoagulado (Z79.01)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0040", "predicted_entity": "anticoagulado (Z79.01)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0008", "predicted_entity": "fa (I48.91)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0008", "predicted_entity": "fibrilación auricular (I48.91)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0008", "predicted_entity": "exfumador (Z87.891)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0008", "predicted_entity": "hta (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0056", "predicted_entity": "anticoagulante (Z79.01)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0037", "predicted_entity": "adiro (Z79.82)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0015", "predicted_entity": "aspirina (Z79.82)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0097", "predicted_entity": "acxfa (I48.91)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0049", "predicted_entity": "fa (I48.91)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0049", "predicted_entity": "fibrilación auricular (I48.91)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0049", "predicted_entity": "hipertensión arterial (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0049", "predicted_entity": "hipertensión (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0060", "predicted_entity": "fa (I48.91)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0060", "predicted_entity": "hta (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0064", "predicted_entity": "fa (I48.91)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0016", "predicted_entity": "adiro (Z79.82)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0043", "predicted_entity": "hta (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0100", "predicted_entity": "fumador (F17.210)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0031", "predicted_entity": "tabaquismo (F17.210)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0031", "predicted_entity": "fumador (F17.210)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0012", "predicted_entity": "aas (Z79.82)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0026", "predicted_entity": "dm2 (E11.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0026", "predicted_entity": "diabetes mellitus (E11.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0026", "predicted_entity": "diabetes mellitus tipo 2 (E11.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0026", "predicted_entity": "hta (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0026", "predicted_entity": "hipertensión arterial (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0026", "predicted_entity": "hipertensión (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0091", "predicted_entity": "eac (I25.10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0094", "predicted_entity": "fa (I48.91)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0094", "predicted_entity": "fumador (F17.210)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0094", "predicted_entity": "hipertensión arterial (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0094", "predicted_entity": "hipertensión (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0062", "predicted_entity": "aas (Z79.82)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0062", "predicted_entity": "tabaquismo (F17.210)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0074", "predicted_entity": "dm (E11.9)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0074", "predicted_entity": "hta (I10)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0082", "predicted_entity": "fibrilación auricular (I48.91)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0001", "predicted_entity": "fumador (F17.210)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0001", "predicted_entity": "hipertensión arterial (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0001", "predicted_entity": "hipertensión (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0052", "predicted_entity": "fa (I48.91)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0052", "predicted_entity": "aas (Z79.82)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0052", "predicted_entity": "adiro (Z79.82)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0052", "predicted_entity": "hta (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0044", "predicted_entity": "hta (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0077", "predicted_entity": "aas (Z79.82)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0077", "predicted_entity": "exfumador (Z87.891)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0077", "predicted_entity": "anticoagulante (Z79.01)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0069", "predicted_entity": "dm (E11.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0069", "predicted_entity": "dislipemia (E78.5)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0069", "predicted_entity": "hta (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0045", "predicted_entity": "diabetes mellitus (E11.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0045", "predicted_entity": "diabetes mellitus tipo 2 (E11.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0045", "predicted_entity": "sintrom (Z79.01)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0035", "predicted_entity": "dislipemia (E78.5)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0046", "predicted_entity": "aas (Z79.82)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0046", "predicted_entity": "dm (E11.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0046", "predicted_entity": "diabetes mellitus (E11.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0007", "predicted_entity": "fibrilación auricular (I48.91)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0007", "predicted_entity": "fa (I48.91)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0007", "predicted_entity": "adiro (Z79.82)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0007", "predicted_entity": "hipertensión (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0007", "predicted_entity": "hipertensión arterial (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0079", "predicted_entity": "fa (I48.91)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0079", "predicted_entity": "diabetes mellitus (E11.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0079", "predicted_entity": "diabetes mellitus tipo 2 (E11.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0079", "predicted_entity": "hipertensión (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0079", "predicted_entity": "hipertensión arterial (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0071", "predicted_entity": "fa (I48.91)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0087", "predicted_entity": "fa (I48.91)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0059", "predicted_entity": "ira (N17.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0059", "predicted_entity": "dm2 (E11.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0059", "predicted_entity": "diabetes mellitus (E11.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0059", "predicted_entity": "diabetes mellitus tipo 2 (E11.9)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0059", "predicted_entity": "hta (I10)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0081", "predicted_entity": "fumador (F17.210)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0065", "predicted_entity": "aas (Z79.82)", "error_type": "FP", "is_error": false}
+{"pmid": "HC_0093", "predicted_entity": "fumador (F17.210)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0093", "predicted_entity": "anticoagulante (Z79.01)", "error_type": "FP", "is_error": true}
+{"pmid": "HC_0004", "predicted_entity": "exfumadora (Z87.891)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0080", "predicted_entity": "fumadora (F17.210)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0088", "predicted_entity": "fumadora (F17.210)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0051", "predicted_entity": "ex - fumador (Z87.891)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0005", "predicted_entity": "fumadora (F17.210)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0055", "predicted_entity": "exfumadora (Z87.891)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0047", "predicted_entity": "dlp (E78.5)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0086", "predicted_entity": "exfumadora (Z87.891)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0017", "predicted_entity": "exfumadora (Z87.891)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0008", "predicted_entity": "insuficiencia renal crónica agudizada (N17.9)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0009", "predicted_entity": "anticoagulante (Z79.01)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0064", "predicted_entity": "dislipidemia (E78.5)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0031", "predicted_entity": "acido acetilsalicilico (Z79.82)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0019", "predicted_entity": "dl (E78.5)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0042", "predicted_entity": "exfumadora (Z87.891)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0091", "predicted_entity": "hipertensio arterial (I10)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0094", "predicted_entity": "ex-fumador (Z87.891)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0074", "predicted_entity": "fumadora (F17.210)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0006", "predicted_entity": "exfumadora (Z87.891)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0007", "predicted_entity": "deterioro de función renal (N17.9)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0007", "predicted_entity": "anticoagulación (Z79.01)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0079", "predicted_entity": "anticoagulacion (Z79.01)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0087", "predicted_entity": "anticoagulant (Z79.01)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0081", "predicted_entity": "ex fumador (Z87.891)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0065", "predicted_entity": "ira (N17.9)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0075", "predicted_entity": "ex fumadora (Z87.891)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0003", "predicted_entity": "anticoagulación (Z79.01)", "error_type": "FN", "is_error": true}
+{"pmid": "HC_0054", "predicted_entity": "hipertension arterial (I10)", "error_type": "FN", "is_error": true}

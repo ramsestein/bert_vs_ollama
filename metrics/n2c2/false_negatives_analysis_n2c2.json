@@ -1,0 +1,20 @@
+{
+  "summary": {
+    "total_benchmark_entities": 47,
+    "total_detected_entities": 72,
+    "total_false_negatives": 1,
+    "pmids_processed": 81,
+    "pmids_with_benchmark": 101
+  },
+  "false_negatives": [
+    {
+      "PMID": "107",
+      "benchmark_entity": "hypertension",
+      "predicted_entities": [],
+      "text": "The patient was transferred to St . Margaret ' s Center for Women & Infants John for evaluation of a reduced LAD and a left LAD puncture . The patient was seen in clinic today for right lower extremit..."
+    }
+  ],
+  "by_pmid": {
+    "107": 1
+  }
+}

@@ -1,0 +1,3701 @@
+{
+  "overall": {
+    "precision": 0.6538461538461539,
+    "recall": 0.8585858585858586,
+    "f1": 0.7423580786026202,
+    "tp": 170,
+    "fp": 90,
+    "fn": 28
+  },
+  "icd10_metrics": {
+    "E11.9": {
+      "precision": 0.7241379310344828,
+      "recall": 1.0,
+      "f1": 0.8400000000000001,
+      "tp": 21,
+      "fp": 8,
+      "fn": 0
+    },
+    "E78.5": {
+      "precision": 0.9166666666666666,
+      "recall": 0.9166666666666666,
+      "f1": 0.9166666666666666,
+      "tp": 33,
+      "fp": 3,
+      "fn": 3
+    },
+    "F17.210": {
+      "precision": 0.3684210526315789,
+      "recall": 0.6363636363636364,
+      "f1": 0.4666666666666667,
+      "tp": 7,
+      "fp": 12,
+      "fn": 4
+    },
+    "I10": {
+      "precision": 0.7058823529411765,
+      "recall": 0.96,
+      "f1": 0.8135593220338982,
+      "tp": 48,
+      "fp": 20,
+      "fn": 2
+    },
+    "I25.10": {
+      "precision": 0.9333333333333333,
+      "recall": 1.0,
+      "f1": 0.9655172413793104,
+      "tp": 14,
+      "fp": 1,
+      "fn": 0
+    },
+    "I48.91": {
+      "precision": 0.20833333333333334,
+      "recall": 1.0,
+      "f1": 0.3448275862068966,
+      "tp": 5,
+      "fp": 19,
+      "fn": 0
+    },
+    "N17.9": {
+      "precision": 0.5714285714285714,
+      "recall": 0.5714285714285714,
+      "f1": 0.5714285714285714,
+      "tp": 4,
+      "fp": 3,
+      "fn": 3
+    },
+    "Z79.01": {
+      "precision": 0.5,
+      "recall": 0.5833333333333334,
+      "f1": 0.5384615384615384,
+      "tp": 7,
+      "fp": 7,
+      "fn": 5
+    },
+    "Z79.82": {
+      "precision": 0.4583333333333333,
+      "recall": 0.9166666666666666,
+      "f1": 0.611111111111111,
+      "tp": 11,
+      "fp": 13,
+      "fn": 1
+    },
+    "Z87.891": {
+      "precision": 0.8333333333333334,
+      "recall": 0.6666666666666666,
+      "f1": 0.7407407407407408,
+      "tp": 20,
+      "fp": 4,
+      "fn": 10
+    }
+  },
+  "strategy_metrics": {
+    "regex": {
+      "precision": 0.6637426900584795,
+      "tp": 227,
+      "fp": 115
+    },
+    "gemma3_balanced": {
+      "precision": 0.4209039548022599,
+      "tp": 149,
+      "fp": 205
+    },
+    "qwen25_diversity": {
+      "precision": 0.4381720430107527,
+      "tp": 163,
+      "fp": 209
+    },
+    "gemma3_high_precision": {
+      "precision": 0.3856041131105398,
+      "tp": 150,
+      "fp": 239
+    },
+    "gemma3_max_sensitivity": {
+      "precision": 0.43902439024390244,
+      "tp": 108,
+      "fp": 138
+    }
+  },
+  "unmapped_predictions": {},
+  "detailed_results": [
+    {
+      "pmid": "HC_0048",
+      "predicted_codes": [
+        "I10",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "I10",
+        "Z79.82"
+      ],
+      "tp_codes": [
+        "I10",
+        "Z79.82"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta",
+          "hipertensión",
+          "hipertensión arterial"
+        ],
+        "Z79.82": [
+          "aas"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0012",
+      "predicted_codes": [
+        "E78.5",
+        "I10",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "E78.5"
+      ],
+      "tp_codes": [
+        "E78.5"
+      ],
+      "fp_codes": [
+        "I10",
+        "Z79.82"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "Z79.82": [
+          "aas",
+          "adiro"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0022",
+      "predicted_codes": [
+        "F17.210",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "Z87.891"
+      ],
+      "fp_codes": [
+        "F17.210"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "Z87.891": [
+          "ex-fumador"
+        ],
+        "F17.210": [
+          "fumador"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0028",
+      "predicted_codes": [
+        "F17.210",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "Z87.891"
+      ],
+      "fp_codes": [
+        "F17.210"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "Z87.891": [
+          "ex-fumador"
+        ],
+        "F17.210": [
+          "fumador"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0070",
+      "predicted_codes": [
+        "E78.5",
+        "I10"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [
+        "E78.5"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ],
+        "E78.5": [
+          "dlp"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0095",
+      "predicted_codes": [
+        "E78.5",
+        "I10",
+        "I25.10",
+        "I48.91",
+        "Z79.01"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "I10",
+        "I25.10",
+        "Z79.01"
+      ],
+      "tp_codes": [
+        "E78.5",
+        "I10",
+        "I25.10",
+        "Z79.01"
+      ],
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 4,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.8,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ],
+        "I48.91": [
+          "fibrilación auricular"
+        ],
+        "Z79.01": [
+          "sintrom"
+        ],
+        "I25.10": [
+          "enfermedad coronaria"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0092",
+      "predicted_codes": [
+        "F17.210",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "Z87.891"
+      ],
+      "fp_codes": [
+        "F17.210"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "Z87.891": [
+          "ex-fumador"
+        ],
+        "F17.210": [
+          "fumador"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0063",
+      "predicted_codes": [
+        "E11.9"
+      ],
+      "reference_codes": [
+        "E11.9"
+      ],
+      "tp_codes": [
+        "E11.9"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "E11.9": [
+          "diabetes mellitus",
+          "diabetes mellitus tipo 2"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0004",
+      "predicted_codes": [],
+      "reference_codes": [
+        "Z87.891"
+      ],
+      "tp_codes": [],
+      "fp_codes": [],
+      "fn_codes": [
+        "Z87.891"
+      ],
+      "unmapped_predictions": [],
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "predicted_entities_by_code": {}
+    },
+    {
+      "pmid": "HC_0036",
+      "predicted_codes": [
+        "E11.9",
+        "F17.210",
+        "I10",
+        "I48.91",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "Z79.01"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "Z79.01"
+      ],
+      "fp_codes": [
+        "F17.210",
+        "I10",
+        "I48.91",
+        "Z87.891"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 4,
+      "fn": 0,
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "Z87.891": [
+          "ex-fumador"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "E11.9": [
+          "diabetes mellitus",
+          "diabetes mellitus tipo 2"
+        ],
+        "F17.210": [
+          "fumador"
+        ],
+        "I48.91": [
+          "fibrilación auricular"
+        ],
+        "Z79.01": [
+          "anticoagulado"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0085",
+      "predicted_codes": [
+        "E11.9",
+        "I10"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "I10"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ],
+        "E11.9": [
+          "dm"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0073",
+      "predicted_codes": [
+        "I10",
+        "N17.9",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "N17.9"
+      ],
+      "tp_codes": [
+        "N17.9"
+      ],
+      "fp_codes": [
+        "I10",
+        "Z79.82"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "Z79.82": [
+          "aas"
+        ],
+        "I10": [
+          "hipertensión",
+          "hipertensión arterial"
+        ],
+        "N17.9": [
+          "insuficiencia renal aguda"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0080",
+      "predicted_codes": [
+        "I10",
+        "N17.9"
+      ],
+      "reference_codes": [
+        "F17.210",
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [
+        "N17.9"
+      ],
+      "fn_codes": [
+        "F17.210"
+      ],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 1,
+      "precision": 0.5,
+      "recall": 0.5,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ],
+        "N17.9": [
+          "insuficiencia renal aguda"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0088",
+      "predicted_codes": [
+        "I48.91"
+      ],
+      "reference_codes": [
+        "F17.210"
+      ],
+      "tp_codes": [],
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fn_codes": [
+        "F17.210"
+      ],
+      "unmapped_predictions": [],
+      "tp": 0,
+      "fp": 1,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "predicted_entities_by_code": {
+        "I48.91": [
+          "fa"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0053",
+      "predicted_codes": [
+        "E78.5"
+      ],
+      "reference_codes": [
+        "E78.5"
+      ],
+      "tp_codes": [
+        "E78.5"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "E78.5": [
+          "dislipemia"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0027",
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "I25.10",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "E78.5",
+        "I25.10"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "E78.5",
+        "I25.10"
+      ],
+      "fp_codes": [
+        "I10",
+        "Z79.82"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 3,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.6,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I25.10": [
+          "cardiopatía isquémica"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ],
+        "Z79.82": [
+          "adiro"
+        ],
+        "I10": [
+          "hipertensión"
+        ],
+        "E11.9": [
+          "dm"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0051",
+      "predicted_codes": [
+        "F17.210",
+        "I10",
+        "I48.91",
+        "N17.9",
+        "Z79.01"
+      ],
+      "reference_codes": [
+        "I10",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "I10",
+        "Z79.01"
+      ],
+      "fp_codes": [
+        "F17.210",
+        "I48.91",
+        "N17.9"
+      ],
+      "fn_codes": [
+        "Z87.891"
+      ],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 3,
+      "fn": 1,
+      "precision": 0.4,
+      "recall": 0.6666666666666666,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta",
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "I48.91": [
+          "fa",
+          "fibrilación auricular"
+        ],
+        "N17.9": [
+          "insuficiencia renal aguda"
+        ],
+        "F17.210": [
+          "fumador"
+        ],
+        "Z79.01": [
+          "sintrom",
+          "anticoagulado"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0032",
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "tp_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "fp_codes": [
+        "E11.9",
+        "I10"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ],
+        "E11.9": [
+          "diabetes mellitus"
+        ],
+        "Z79.82": [
+          "aas"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0005",
+      "predicted_codes": [
+        "I10",
+        "I48.91",
+        "Z79.01"
+      ],
+      "reference_codes": [
+        "F17.210",
+        "I10",
+        "I48.91",
+        "Z79.01"
+      ],
+      "tp_codes": [
+        "I10",
+        "I48.91",
+        "Z79.01"
+      ],
+      "fp_codes": [],
+      "fn_codes": [
+        "F17.210"
+      ],
+      "unmapped_predictions": [],
+      "tp": 3,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.75,
+      "predicted_entities_by_code": {
+        "I48.91": [
+          "fa",
+          "fibrilación auricular"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "Z79.01": [
+          "sintrom"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0090",
+      "predicted_codes": [
+        "I10",
+        "I48.91"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ],
+        "I48.91": [
+          "fa"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0055",
+      "predicted_codes": [],
+      "reference_codes": [
+        "Z87.891"
+      ],
+      "tp_codes": [],
+      "fp_codes": [],
+      "fn_codes": [
+        "Z87.891"
+      ],
+      "unmapped_predictions": [],
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "predicted_entities_by_code": {}
+    },
+    {
+      "pmid": "HC_0013",
+      "predicted_codes": [
+        "I10"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0047",
+      "predicted_codes": [
+        "I10"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [
+        "E78.5"
+      ],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.5,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0021",
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "F17.210",
+        "I10",
+        "I25.10",
+        "I48.91"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "E78.5",
+        "F17.210",
+        "I25.10"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "E78.5",
+        "F17.210",
+        "I25.10"
+      ],
+      "fp_codes": [
+        "I10",
+        "I48.91"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 4,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.6666666666666666,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I48.91": [
+          "fa"
+        ],
+        "I25.10": [
+          "cardiopatía isquémica"
+        ],
+        "E11.9": [
+          "diabetes mellitus"
+        ],
+        "F17.210": [
+          "fumador"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ],
+        "I10": [
+          "hipertensión"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0098",
+      "predicted_codes": [
+        "F17.210",
+        "I48.91"
+      ],
+      "reference_codes": [
+        "F17.210"
+      ],
+      "tp_codes": [
+        "F17.210"
+      ],
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I48.91": [
+          "fa"
+        ],
+        "F17.210": [
+          "fumador"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0086",
+      "predicted_codes": [],
+      "reference_codes": [
+        "Z87.891"
+      ],
+      "tp_codes": [],
+      "fp_codes": [],
+      "fn_codes": [
+        "Z87.891"
+      ],
+      "unmapped_predictions": [],
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "predicted_entities_by_code": {}
+    },
+    {
+      "pmid": "HC_0089",
+      "predicted_codes": [
+        "I10"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta",
+          "hipertensión arterial",
+          "hipertensión"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0034",
+      "predicted_codes": [
+        "E78.5",
+        "I10",
+        "I48.91",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "I10",
+        "I48.91",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "E78.5",
+        "I10",
+        "I48.91",
+        "Z87.891"
+      ],
+      "fp_codes": [
+        "Z79.01"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 4,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.8,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "Z87.891": [
+          "exfumador"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "Z79.01": [
+          "sintrom",
+          "anticoagulante"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ],
+        "I48.91": [
+          "acxfa"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0011",
+      "predicted_codes": [
+        "E11.9",
+        "I10",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "I10"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "I10"
+      ],
+      "fp_codes": [
+        "Z79.01",
+        "Z87.891"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ],
+        "Z87.891": [
+          "exfumador"
+        ],
+        "E11.9": [
+          "dm2"
+        ],
+        "Z79.01": [
+          "anticoagulado"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0024",
+      "predicted_codes": [
+        "I10"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0017",
+      "predicted_codes": [],
+      "reference_codes": [
+        "Z87.891"
+      ],
+      "tp_codes": [],
+      "fp_codes": [],
+      "fn_codes": [
+        "Z87.891"
+      ],
+      "unmapped_predictions": [],
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "predicted_entities_by_code": {}
+    },
+    {
+      "pmid": "HC_0029",
+      "predicted_codes": [
+        "I10"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta",
+          "hipertensión arterial",
+          "hipertensión"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0040",
+      "predicted_codes": [
+        "I10",
+        "Z79.01"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [
+        "Z79.01"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ],
+        "Z79.01": [
+          "anticoagulado"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0057",
+      "predicted_codes": [
+        "E11.9",
+        "N17.9"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "N17.9"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "N17.9"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "E11.9": [
+          "diabetes mellitus"
+        ],
+        "N17.9": [
+          "aki"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0066",
+      "predicted_codes": [
+        "E11.9",
+        "I25.10"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "I25.10"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "I25.10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "E11.9": [
+          "diabetes mellitus tipo 2",
+          "diabetes mellitus"
+        ],
+        "I25.10": [
+          "cardiopatía isquémica"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0039",
+      "predicted_codes": [
+        "E78.5",
+        "I10",
+        "I25.10",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "I10",
+        "I25.10",
+        "Z79.82"
+      ],
+      "tp_codes": [
+        "E78.5",
+        "I10",
+        "I25.10",
+        "Z79.82"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "E78.5": [
+          "dlp"
+        ],
+        "I25.10": [
+          "cardiopatía isquémica"
+        ],
+        "Z79.82": [
+          "aas",
+          "adiro"
+        ],
+        "I10": [
+          "hta"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0008",
+      "predicted_codes": [
+        "E78.5",
+        "I10",
+        "I48.91",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "N17.9"
+      ],
+      "tp_codes": [
+        "E78.5"
+      ],
+      "fp_codes": [
+        "I10",
+        "I48.91",
+        "Z87.891"
+      ],
+      "fn_codes": [
+        "N17.9"
+      ],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 3,
+      "fn": 1,
+      "precision": 0.25,
+      "recall": 0.5,
+      "predicted_entities_by_code": {
+        "Z87.891": [
+          "exfumador"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ],
+        "I48.91": [
+          "fa",
+          "fibrilación auricular"
+        ],
+        "I10": [
+          "hta"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0058",
+      "predicted_codes": [
+        "I25.10",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "I25.10",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "I25.10",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I25.10": [
+          "cardiopatía isquémica"
+        ],
+        "Z87.891": [
+          "exfumador"
+        ],
+        "Z79.82": [
+          "adiro",
+          "aas"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0009",
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "I10"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "Z79.01"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "E78.5",
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [
+        "Z79.01"
+      ],
+      "unmapped_predictions": [],
+      "tp": 3,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.75,
+      "predicted_entities_by_code": {
+        "E11.9": [
+          "diabetes mellitus"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0056",
+      "predicted_codes": [
+        "Z79.01",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "Z87.891"
+      ],
+      "fp_codes": [
+        "Z79.01"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "Z87.891": [
+          "exfumador"
+        ],
+        "Z79.01": [
+          "anticoagulante"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0037",
+      "predicted_codes": [
+        "I10",
+        "I25.10",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "I10",
+        "I25.10"
+      ],
+      "tp_codes": [
+        "I10",
+        "I25.10"
+      ],
+      "fp_codes": [
+        "Z79.82"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.6666666666666666,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "Z79.82": [
+          "adiro"
+        ],
+        "I25.10": [
+          "enfermedad coronaria"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0010",
+      "predicted_codes": [
+        "E11.9",
+        "E78.5"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "E78.5"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "E78.5"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "E11.9": [
+          "diabetes mellitus"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0015",
+      "predicted_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "E78.5"
+      ],
+      "tp_codes": [
+        "E78.5"
+      ],
+      "fp_codes": [
+        "Z79.82"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "E78.5": [
+          "dislipemia"
+        ],
+        "Z79.82": [
+          "aspirina"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0097",
+      "predicted_codes": [
+        "I10",
+        "I48.91",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "I10",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "I10",
+        "Z87.891"
+      ],
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.6666666666666666,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "Z87.891": [
+          "exfumador"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "I48.91": [
+          "acxfa"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0068",
+      "predicted_codes": [
+        "E78.5",
+        "F17.210",
+        "I10"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "F17.210",
+        "I10"
+      ],
+      "tp_codes": [
+        "E78.5",
+        "F17.210",
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "E78.5": [
+          "dislipemia"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "F17.210": [
+          "fumador"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0049",
+      "predicted_codes": [
+        "I10",
+        "I48.91",
+        "Z79.01"
+      ],
+      "reference_codes": [
+        "Z79.01"
+      ],
+      "tp_codes": [
+        "Z79.01"
+      ],
+      "fp_codes": [
+        "I10",
+        "I48.91"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "Z79.01": [
+          "sintrom",
+          "anticoagulado"
+        ],
+        "I48.91": [
+          "fa",
+          "fibrilación auricular"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0060",
+      "predicted_codes": [
+        "E78.5",
+        "I10",
+        "I48.91"
+      ],
+      "reference_codes": [
+        "E78.5"
+      ],
+      "tp_codes": [
+        "E78.5"
+      ],
+      "fp_codes": [
+        "I10",
+        "I48.91"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ],
+        "I48.91": [
+          "fa"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0064",
+      "predicted_codes": [
+        "E11.9",
+        "I10",
+        "I48.91",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "I10",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fn_codes": [
+        "E78.5"
+      ],
+      "unmapped_predictions": [],
+      "tp": 4,
+      "fp": 1,
+      "fn": 1,
+      "precision": 0.8,
+      "recall": 0.8,
+      "predicted_entities_by_code": {
+        "Z87.891": [
+          "exfumador"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "Z79.82": [
+          "aas"
+        ],
+        "E11.9": [
+          "diabetes mellitus tipo 2",
+          "diabetes mellitus"
+        ],
+        "I48.91": [
+          "fa"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0016",
+      "predicted_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "E78.5"
+      ],
+      "tp_codes": [
+        "E78.5"
+      ],
+      "fp_codes": [
+        "Z79.82"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "E78.5": [
+          "dislipemia"
+        ],
+        "Z79.82": [
+          "adiro"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0043",
+      "predicted_codes": [
+        "E78.5",
+        "I10"
+      ],
+      "reference_codes": [
+        "E78.5"
+      ],
+      "tp_codes": [
+        "E78.5"
+      ],
+      "fp_codes": [
+        "I10"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0100",
+      "predicted_codes": [
+        "E78.5",
+        "F17.210",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "E78.5",
+        "Z87.891"
+      ],
+      "fp_codes": [
+        "F17.210"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.6666666666666666,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "E78.5": [
+          "dislipemia"
+        ],
+        "Z87.891": [
+          "ex-fumador"
+        ],
+        "F17.210": [
+          "fumador"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0031",
+      "predicted_codes": [
+        "F17.210",
+        "I10",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "I10",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "I10",
+        "Z87.891"
+      ],
+      "fp_codes": [
+        "F17.210"
+      ],
+      "fn_codes": [
+        "Z79.82"
+      ],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 1,
+      "fn": 1,
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "predicted_entities_by_code": {
+        "Z87.891": [
+          "ex-fumador",
+          "exfumador"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "F17.210": [
+          "tabaquismo",
+          "fumador"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0019",
+      "predicted_codes": [
+        "I48.91",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "I48.91"
+      ],
+      "tp_codes": [
+        "I48.91"
+      ],
+      "fp_codes": [
+        "Z79.82"
+      ],
+      "fn_codes": [
+        "E78.5"
+      ],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 1,
+      "precision": 0.5,
+      "recall": 0.5,
+      "predicted_entities_by_code": {
+        "I48.91": [
+          "fibrilación auricular"
+        ],
+        "Z79.82": [
+          "aas"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0042",
+      "predicted_codes": [
+        "E78.5",
+        "I10"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "I10",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "E78.5",
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [
+        "Z87.891"
+      ],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "predicted_entities_by_code": {
+        "E78.5": [
+          "dislipemia"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0026",
+      "predicted_codes": [
+        "E11.9",
+        "I10",
+        "N17.9"
+      ],
+      "reference_codes": [
+        "N17.9"
+      ],
+      "tp_codes": [
+        "N17.9"
+      ],
+      "fp_codes": [
+        "E11.9",
+        "I10"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta",
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "N17.9": [
+          "aki"
+        ],
+        "E11.9": [
+          "dm2",
+          "diabetes mellitus",
+          "diabetes mellitus tipo 2"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0050",
+      "predicted_codes": [
+        "I10"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0091",
+      "predicted_codes": [
+        "E11.9",
+        "I25.10",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "I10",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "Z87.891"
+      ],
+      "fp_codes": [
+        "I25.10"
+      ],
+      "fn_codes": [
+        "I10"
+      ],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 1,
+      "fn": 1,
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "predicted_entities_by_code": {
+        "I25.10": [
+          "eac"
+        ],
+        "Z87.891": [
+          "exfumador"
+        ],
+        "E11.9": [
+          "dm2"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0094",
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "F17.210",
+        "I10",
+        "I48.91"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "E78.5",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "E78.5"
+      ],
+      "fp_codes": [
+        "F17.210",
+        "I10",
+        "I48.91"
+      ],
+      "fn_codes": [
+        "Z87.891"
+      ],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 3,
+      "fn": 1,
+      "precision": 0.4,
+      "recall": 0.6666666666666666,
+      "predicted_entities_by_code": {
+        "E78.5": [
+          "dislipemia"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "I48.91": [
+          "fa"
+        ],
+        "E11.9": [
+          "diabetes mellitus"
+        ],
+        "F17.210": [
+          "fumador"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0062",
+      "predicted_codes": [
+        "F17.210",
+        "I10",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [
+        "F17.210",
+        "Z79.82"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ],
+        "Z79.82": [
+          "aas"
+        ],
+        "F17.210": [
+          "tabaquismo"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0067",
+      "predicted_codes": [
+        "E78.5",
+        "I10",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "I10",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "E78.5",
+        "I10",
+        "Z87.891"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "Z87.891": [
+          "exfumador"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0074",
+      "predicted_codes": [
+        "E11.9",
+        "I10"
+      ],
+      "reference_codes": [
+        "F17.210"
+      ],
+      "tp_codes": [],
+      "fp_codes": [
+        "E11.9",
+        "I10"
+      ],
+      "fn_codes": [
+        "F17.210"
+      ],
+      "unmapped_predictions": [],
+      "tp": 0,
+      "fp": 2,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ],
+        "E11.9": [
+          "dm"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0082",
+      "predicted_codes": [
+        "E78.5",
+        "I10",
+        "I48.91",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "I10",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "E78.5",
+        "I10",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 4,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.8,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "Z87.891": [
+          "exfumador"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "I48.91": [
+          "fibrilación auricular"
+        ],
+        "Z79.01": [
+          "sintrom",
+          "anticoagulante"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0001",
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "F17.210",
+        "I10",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "E78.5",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "E78.5",
+        "Z87.891"
+      ],
+      "fp_codes": [
+        "F17.210",
+        "I10"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 3,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.6,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "Z87.891": [
+          "ex-fumador"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "E11.9": [
+          "diabetes mellitus",
+          "diabetes mellitus tipo 2"
+        ],
+        "F17.210": [
+          "fumador"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0052",
+      "predicted_codes": [
+        "E11.9",
+        "I10",
+        "I48.91",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "E11.9"
+      ],
+      "tp_codes": [
+        "E11.9"
+      ],
+      "fp_codes": [
+        "I10",
+        "I48.91",
+        "Z79.82"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 3,
+      "fn": 0,
+      "precision": 0.25,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ],
+        "I48.91": [
+          "fa"
+        ],
+        "Z79.82": [
+          "aas",
+          "adiro"
+        ],
+        "E11.9": [
+          "dm",
+          "diabetes mellitus"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0006",
+      "predicted_codes": [],
+      "reference_codes": [
+        "Z87.891"
+      ],
+      "tp_codes": [],
+      "fp_codes": [],
+      "fn_codes": [
+        "Z87.891"
+      ],
+      "unmapped_predictions": [],
+      "tp": 0,
+      "fp": 0,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "predicted_entities_by_code": {}
+    },
+    {
+      "pmid": "HC_0044",
+      "predicted_codes": [
+        "E78.5",
+        "I10"
+      ],
+      "reference_codes": [
+        "E78.5"
+      ],
+      "tp_codes": [
+        "E78.5"
+      ],
+      "fp_codes": [
+        "I10"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0077",
+      "predicted_codes": [
+        "I10",
+        "I25.10",
+        "Z79.01",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "I10",
+        "I25.10"
+      ],
+      "tp_codes": [
+        "I10",
+        "I25.10"
+      ],
+      "fp_codes": [
+        "Z79.01",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 3,
+      "fn": 0,
+      "precision": 0.4,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I25.10": [
+          "cardiopatía isquémica",
+          "enfermedad coronaria"
+        ],
+        "Z87.891": [
+          "exfumador"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "Z79.82": [
+          "aas"
+        ],
+        "Z79.01": [
+          "anticoagulante"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0018",
+      "predicted_codes": [
+        "E11.9",
+        "I25.10",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "I25.10",
+        "Z79.82"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "I25.10",
+        "Z79.82"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "E11.9": [
+          "diabetes mellitus",
+          "diabetes mellitus tipo 2"
+        ],
+        "I25.10": [
+          "cardiopatía isquémica"
+        ],
+        "Z79.82": [
+          "adiro"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0069",
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "Z87.891"
+      ],
+      "fp_codes": [
+        "E11.9",
+        "E78.5",
+        "I10"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 3,
+      "fn": 0,
+      "precision": 0.25,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ],
+        "Z87.891": [
+          "exfumador"
+        ],
+        "E11.9": [
+          "dm"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0025",
+      "predicted_codes": [
+        "E11.9",
+        "I10",
+        "I48.91"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "I10",
+        "I48.91"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "I10",
+        "I48.91"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta",
+          "hipertensión"
+        ],
+        "E11.9": [
+          "diabetes mellitus"
+        ],
+        "I48.91": [
+          "fa"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0045",
+      "predicted_codes": [
+        "E11.9",
+        "I10",
+        "N17.9",
+        "Z79.01"
+      ],
+      "reference_codes": [
+        "I10",
+        "N17.9"
+      ],
+      "tp_codes": [
+        "I10",
+        "N17.9"
+      ],
+      "fp_codes": [
+        "E11.9",
+        "Z79.01"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "N17.9": [
+          "insuficiencia renal aguda"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "Z79.01": [
+          "sintrom"
+        ],
+        "E11.9": [
+          "diabetes mellitus",
+          "diabetes mellitus tipo 2"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0035",
+      "predicted_codes": [
+        "E78.5",
+        "I10"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [
+        "E78.5"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "E78.5": [
+          "dislipemia"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0014",
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "Z79.01"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "Z79.01"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "Z79.01"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta",
+          "hipertensión arterial",
+          "hipertensión"
+        ],
+        "E11.9": [
+          "dm2",
+          "diabetes mellitus",
+          "diabetes mellitus tipo 2"
+        ],
+        "Z79.01": [
+          "sintrom",
+          "anticoagulante"
+        ],
+        "E78.5": [
+          "dlp"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0046",
+      "predicted_codes": [
+        "E11.9",
+        "I10",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "I10",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "I10",
+        "Z87.891"
+      ],
+      "fp_codes": [
+        "E11.9",
+        "Z79.82"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "Z87.891": [
+          "exfumador"
+        ],
+        "I10": [
+          "hta"
+        ],
+        "Z79.82": [
+          "aas"
+        ],
+        "E11.9": [
+          "dm",
+          "diabetes mellitus"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0096",
+      "predicted_codes": [
+        "E11.9",
+        "I10",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "I10",
+        "Z79.82"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "I10",
+        "Z79.82"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ],
+        "Z79.82": [
+          "aas"
+        ],
+        "E11.9": [
+          "dm2"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0061",
+      "predicted_codes": [
+        "I10"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0033",
+      "predicted_codes": [
+        "I10",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "I10",
+        "Z79.82"
+      ],
+      "tp_codes": [
+        "I10",
+        "Z79.82"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "Z79.82": [
+          "adiro"
+        ],
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0007",
+      "predicted_codes": [
+        "E78.5",
+        "I10",
+        "I25.10",
+        "I48.91",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "I25.10",
+        "N17.9",
+        "Z79.01"
+      ],
+      "tp_codes": [
+        "E78.5",
+        "I25.10"
+      ],
+      "fp_codes": [
+        "I10",
+        "I48.91",
+        "Z79.82"
+      ],
+      "fn_codes": [
+        "N17.9",
+        "Z79.01"
+      ],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 3,
+      "fn": 2,
+      "precision": 0.4,
+      "recall": 0.5,
+      "predicted_entities_by_code": {
+        "I25.10": [
+          "eac",
+          "cardiopatía isquémica"
+        ],
+        "I10": [
+          "hipertensión",
+          "hipertensión arterial"
+        ],
+        "Z79.82": [
+          "adiro"
+        ],
+        "I48.91": [
+          "fibrilación auricular",
+          "fa"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0076",
+      "predicted_codes": [
+        "I10"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0079",
+      "predicted_codes": [
+        "E11.9",
+        "I10",
+        "I48.91"
+      ],
+      "reference_codes": [
+        "Z79.01"
+      ],
+      "tp_codes": [],
+      "fp_codes": [
+        "E11.9",
+        "I10",
+        "I48.91"
+      ],
+      "fn_codes": [
+        "Z79.01"
+      ],
+      "unmapped_predictions": [],
+      "tp": 0,
+      "fp": 3,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hipertensión",
+          "hipertensión arterial"
+        ],
+        "E11.9": [
+          "diabetes mellitus",
+          "diabetes mellitus tipo 2"
+        ],
+        "I48.91": [
+          "fa"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0084",
+      "predicted_codes": [
+        "I10"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0099",
+      "predicted_codes": [
+        "F17.210",
+        "I10"
+      ],
+      "reference_codes": [
+        "F17.210",
+        "I10"
+      ],
+      "tp_codes": [
+        "F17.210",
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "F17.210": [
+          "fumador"
+        ],
+        "I10": [
+          "hta"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0083",
+      "predicted_codes": [
+        "F17.210",
+        "I10"
+      ],
+      "reference_codes": [
+        "F17.210",
+        "I10"
+      ],
+      "tp_codes": [
+        "F17.210",
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "F17.210": [
+          "fumador"
+        ],
+        "I10": [
+          "hta"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0071",
+      "predicted_codes": [
+        "I48.91",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "Z87.891"
+      ],
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I48.91": [
+          "fa"
+        ],
+        "Z87.891": [
+          "exfumador"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0087",
+      "predicted_codes": [
+        "E78.5",
+        "I48.91"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "Z79.01"
+      ],
+      "tp_codes": [
+        "E78.5"
+      ],
+      "fp_codes": [
+        "I48.91"
+      ],
+      "fn_codes": [
+        "Z79.01"
+      ],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 1,
+      "precision": 0.5,
+      "recall": 0.5,
+      "predicted_entities_by_code": {
+        "E78.5": [
+          "dislipemia"
+        ],
+        "I48.91": [
+          "fa"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0041",
+      "predicted_codes": [
+        "I10"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0059",
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "N17.9",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "tp_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "fp_codes": [
+        "E11.9",
+        "I10",
+        "N17.9"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 3,
+      "fn": 0,
+      "precision": 0.4,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ],
+        "Z79.82": [
+          "adiro",
+          "aas"
+        ],
+        "E11.9": [
+          "dm2",
+          "diabetes mellitus",
+          "diabetes mellitus tipo 2"
+        ],
+        "N17.9": [
+          "ira"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0072",
+      "predicted_codes": [
+        "E78.5",
+        "I25.10"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "I25.10"
+      ],
+      "tp_codes": [
+        "E78.5",
+        "I25.10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "E78.5": [
+          "dislipemia"
+        ],
+        "I25.10": [
+          "cardiopatía isquémica"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0081",
+      "predicted_codes": [
+        "F17.210",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "Z79.82",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "Z79.82"
+      ],
+      "fp_codes": [
+        "F17.210"
+      ],
+      "fn_codes": [
+        "Z87.891"
+      ],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 1,
+      "precision": 0.5,
+      "recall": 0.5,
+      "predicted_entities_by_code": {
+        "F17.210": [
+          "fumador"
+        ],
+        "Z79.82": [
+          "aas"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0038",
+      "predicted_codes": [
+        "I10"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0065",
+      "predicted_codes": [
+        "E78.5",
+        "Z79.82"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "N17.9"
+      ],
+      "tp_codes": [
+        "E78.5"
+      ],
+      "fp_codes": [
+        "Z79.82"
+      ],
+      "fn_codes": [
+        "N17.9"
+      ],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 1,
+      "fn": 1,
+      "precision": 0.5,
+      "recall": 0.5,
+      "predicted_entities_by_code": {
+        "E78.5": [
+          "dislipemia"
+        ],
+        "Z79.82": [
+          "aas"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0075",
+      "predicted_codes": [
+        "I10"
+      ],
+      "reference_codes": [
+        "I10",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [
+        "Z87.891"
+      ],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.5,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hipertensión arterial",
+          "hipertensión"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0078",
+      "predicted_codes": [
+        "F17.210",
+        "I10"
+      ],
+      "reference_codes": [
+        "F17.210",
+        "I10"
+      ],
+      "tp_codes": [
+        "F17.210",
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "F17.210": [
+          "tabaquismo"
+        ],
+        "I10": [
+          "hta"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0023",
+      "predicted_codes": [
+        "I10"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0020",
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "I25.10",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "I25.10",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "E78.5",
+        "I10",
+        "I25.10",
+        "Z79.82",
+        "Z87.891"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 6,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hipertensión",
+          "hipertensión arterial"
+        ],
+        "E11.9": [
+          "diabetes mellitus",
+          "diabetes mellitus tipo 2"
+        ],
+        "I25.10": [
+          "cardiopatía isquémica"
+        ],
+        "Z79.82": [
+          "aspirina",
+          "aas"
+        ],
+        "Z87.891": [
+          "exfumador"
+        ],
+        "E78.5": [
+          "dislipemia"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0093",
+      "predicted_codes": [
+        "E78.5",
+        "F17.210",
+        "Z79.01",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "E78.5",
+        "Z87.891"
+      ],
+      "fp_codes": [
+        "F17.210",
+        "Z79.01"
+      ],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.5,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "E78.5": [
+          "dislipemia"
+        ],
+        "Z79.01": [
+          "anticoagulante"
+        ],
+        "F17.210": [
+          "fumador"
+        ],
+        "Z87.891": [
+          "ex-fumador"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0002",
+      "predicted_codes": [
+        "E11.9",
+        "E78.5",
+        "I25.10",
+        "Z87.891"
+      ],
+      "reference_codes": [
+        "E11.9",
+        "E78.5",
+        "I25.10",
+        "Z87.891"
+      ],
+      "tp_codes": [
+        "E11.9",
+        "E78.5",
+        "I25.10",
+        "Z87.891"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 4,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I25.10": [
+          "enfermedad coronaria"
+        ],
+        "E78.5": [
+          "dlp"
+        ],
+        "E11.9": [
+          "dm2",
+          "dm"
+        ],
+        "Z87.891": [
+          "exfumador"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0030",
+      "predicted_codes": [
+        "I10"
+      ],
+      "reference_codes": [
+        "I10"
+      ],
+      "tp_codes": [
+        "I10"
+      ],
+      "fp_codes": [],
+      "fn_codes": [],
+      "unmapped_predictions": [],
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "predicted_entities_by_code": {
+        "I10": [
+          "hta"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0003",
+      "predicted_codes": [
+        "I25.10",
+        "I48.91"
+      ],
+      "reference_codes": [
+        "I25.10",
+        "I48.91",
+        "Z79.01"
+      ],
+      "tp_codes": [
+        "I25.10",
+        "I48.91"
+      ],
+      "fp_codes": [],
+      "fn_codes": [
+        "Z79.01"
+      ],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "predicted_entities_by_code": {
+        "I48.91": [
+          "fa"
+        ],
+        "I25.10": [
+          "cardiopatía isquémica"
+        ]
+      }
+    },
+    {
+      "pmid": "HC_0054",
+      "predicted_codes": [
+        "E78.5",
+        "F17.210"
+      ],
+      "reference_codes": [
+        "E78.5",
+        "F17.210",
+        "I10"
+      ],
+      "tp_codes": [
+        "E78.5",
+        "F17.210"
+      ],
+      "fp_codes": [],
+      "fn_codes": [
+        "I10"
+      ],
+      "unmapped_predictions": [],
+      "tp": 2,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "predicted_entities_by_code": {
+        "E78.5": [
+          "dislipemia"
+        ],
+        "F17.210": [
+          "fumador"
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "total_documents": 100,
+    "total_predicted_codes": 260,
+    "total_reference_codes": 198,
+    "unique_predicted_codes": 10,
+    "unique_reference_codes": 10,
+    "total_unmapped": 0
+  }
+}
