@@ -73,11 +73,19 @@ def run_multi_strategy_detection(text: str, entity_candidates: List[str],
     
     # Load results from files and combine
     all_detections = {"regex": regex_entities}
+    all_mentions = {}  # candidate_name -> set of raw text mentions (from all strategies)
+    
+    # Regex entities: the candidate IS the mention (exact text match)
+    for entity in regex_entities:
+        all_mentions.setdefault(entity, set()).add(entity)
     
     for strategy_name, filepath in strategy_filepaths.items():
         try:
             results = load_strategy_results(filepath)
             all_detections[strategy_name] = set(results["entities"])
+            # Merge mentions from this strategy
+            for candidate, mentions in results.get("entity_mentions", {}).items():
+                all_mentions.setdefault(candidate, set()).update(mentions)
             print(f"    [LOADED] {strategy_name}: {len(results['entities'])} entities")
         except Exception as e:
             print(f"    [LOAD_ERROR] {strategy_name}: {e}")
@@ -137,7 +145,8 @@ def run_multi_strategy_detection(text: str, entity_candidates: List[str],
                 "entity": entity,
                 "confidence": confidence,
                 "strategies": entity_strategies[entity],
-                "strategy_count": len(entity_strategies[entity])
+                "strategy_count": len(entity_strategies[entity]),
+                "mentions": list(all_mentions.get(entity, set()))
             })
     
     # Sort by confidence

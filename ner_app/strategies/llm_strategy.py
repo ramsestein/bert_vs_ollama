@@ -36,6 +36,7 @@ def llm_detection_strategy_file(text: str, strategy: Dict, entity_candidates: Li
         
         # Step 2: Load chunks one by one and process
         detected_entities = set()
+        entity_mentions = {}  # candidate_name -> set of raw LLM outputs
         chunk_count = 0
         
         print(f"      [DEBUG] Processing chunks from file: {chunks_filepath}")
@@ -226,18 +227,21 @@ If you find NO diseases, return: []"""
                                     
                                     if candidate_lower == entity_lower:
                                         detected_entities.add(candidate)  # Use original candidate text
+                                        entity_mentions.setdefault(candidate, set()).add(entity.strip())
                                         print(f"      [DEBUG] [OK] MATCH! Found entity: {candidate} (matched: {entity})")
                                         break
                                     elif entity_lower in candidate_lower or candidate_lower in entity_lower:
                                         print(f"      [DEBUG] ~ PARTIAL MATCH: '{entity_lower}' vs '{candidate_lower}'")
                                         # Add partial matches with lower confidence
                                         detected_entities.add(candidate)
+                                        entity_mentions.setdefault(candidate, set()).add(entity.strip())
                                         print(f"      [DEBUG] [OK] PARTIAL MATCH! Added: {candidate}")
                                         break
                                     # Add fuzzy matching for similar terms
                                     elif _fuzzy_match(entity_lower, candidate_lower):
                                         print(f"      [DEBUG] ~ FUZZY MATCH: '{entity_lower}' vs '{candidate_lower}'")
                                         detected_entities.add(candidate)
+                                        entity_mentions.setdefault(candidate, set()).add(entity.strip())
                                         print(f"      [DEBUG] [OK] FUZZY MATCH! Added: {candidate}")
                                         break
                                     else:
@@ -254,7 +258,7 @@ If you find NO diseases, return: []"""
         print(f"      [DEBUG] Strategy {strategy['name']} completed with {len(detected_entities)} entities from {chunk_count} chunks")
         
         # Step 3: Save results to file
-        results_filepath = save_strategy_results(doc_id, strategy['name'], detected_entities)
+        results_filepath = save_strategy_results(doc_id, strategy['name'], detected_entities, entity_mentions)
         
         # Step 4: Clean up chunks file to free memory
         try:
@@ -269,5 +273,5 @@ If you find NO diseases, return: []"""
     except Exception as e:
         print(f"    [ERROR] Strategy {strategy['name']} failed: {e}")
         # Return empty results filepath
-        empty_results = save_strategy_results(doc_id, strategy['name'], set())
+        empty_results = save_strategy_results(doc_id, strategy['name'], set(), {})
         return empty_results

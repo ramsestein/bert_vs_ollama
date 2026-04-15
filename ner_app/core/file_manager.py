@@ -54,13 +54,20 @@ def load_chunks_from_file(filepath: str) -> List[str]:
                 chunks.append(chunk_data["text"])
     return chunks
 
-def save_strategy_results(doc_id: str, strategy_name: str, entities: Set[str]) -> str:
+def save_strategy_results(doc_id: str, strategy_name: str, entities: Set[str], entity_mentions: Dict[str, Set[str]] = None) -> str:
     """Save strategy results to a temporary file."""
     filepath = get_strategy_file_path(doc_id, strategy_name)
+    
+    # Convert mention sets to lists for JSON serialization
+    mentions_serializable = {}
+    if entity_mentions:
+        for k, v in entity_mentions.items():
+            mentions_serializable[k] = list(v) if isinstance(v, set) else v
     
     results = {
         "strategy": strategy_name,
         "entities": list(entities),
+        "entity_mentions": mentions_serializable,
         "count": len(entities),
         "timestamp": datetime.now().isoformat()
     }

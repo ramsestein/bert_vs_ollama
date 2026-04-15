@@ -18,6 +18,7 @@ from .core.file_manager import ensure_temp_dir, cleanup_temp_files
 from .strategies.multi_strategy import run_multi_strategy_detection
 from .utils.cli_parser import parse_arguments, configure_strategies, print_configuration, validate_arguments
 from .config.thresholds import update_confidence_thresholds
+from .core.text_processor import find_entity_spans
 
 def setup_logging(log_file: str = None):
     """Configure logging to write to both console and file.
@@ -84,7 +85,8 @@ def process_document(pmid: str, text: str, entity_candidates: List[str],
         "PMID": pmid,
         "Texto": text,
         "Entidad": [{"texto": item["entity"], "tipo": "SpecificDisease", 
-                     "confidence": item["confidence"], "strategies": item["strategies"]} 
+                     "confidence": item["confidence"], "strategies": item["strategies"],
+                     "spans": find_entity_spans(text, item["entity"], item.get("mentions"))} 
                     for item in results["accepted_entities"]],
         "_multi_strategy": {
             "all_detections": results["all_detections"],

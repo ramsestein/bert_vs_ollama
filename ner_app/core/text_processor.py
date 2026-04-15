@@ -5,7 +5,7 @@ Contains functions for text normalization, tokenization, chunking, and fuzzy mat
 """
 
 import re
-from typing import List
+from typing import List, Dict, Tuple
 import unicodedata
 from ..config.settings import MAX_CHUNK_ITERATIONS, MIN_CHUNK_SIZE, MAX_CHUNK_SIZE
 
@@ -69,6 +69,109 @@ def normalize_surface(text: str, remove_accents: bool = False) -> str:
         text = ''.join(c for c in text if unicodedata.category(c) != 'Mn')
     
     return text.strip()
+
+def _strip_accents(text: str) -> str:
+    """Remove accents/diacritics from text."""
+    nfd = unicodedata.normalize('NFD', text)
+    return ''.join(c for c in nfd if unicodedata.category(c) != 'Mn')
+
+def _normalize_with_positions(text: str) -> Tuple[str, List[int]]:
+    """Lowercase and strip accents while tracking position mapping back to original.
+    
+    Returns:
+        (normalized_text, pos_map) where pos_map[i] = index in original text 
+        of the character that produced normalized char i.
+    """
+    text_lower = text.lower()
+    normalized_chars = []
+    pos_map = []
+    
+    for orig_idx, char in enumerate(text_lower):
+        decomposed = unicodedata.normalize('NFD', char)
+        for d_char in decomposed:
+            if unicodedata.category(d_char) != 'Mn':
+                normalized_chars.append(d_char)
+                pos_map.append(orig_idx)
+    
+    return ''.join(normalized_chars), pos_map
+
+def _find_text_in_original(original_text: str, search_term: str, 
+                           norm_text: str = None, pos_map: List[int] = None) -> List[Dict[str, int]]:
+    """Find all occurrences of search_term in original_text.
+    
+    Returns list of {"start": int, "end": int}. Tries case-insensitive first,
+    then accent-insensitive with pre-computed normalized text/pos_map.
+    """
+    if not search_term:
+        return []
+    
+    spans = []
+    
+    # Try direct case-insensitive search first (fast path)
+    pattern = re.compile(r'\b' + re.escape(search_term) + r'\b', re.IGNORECASE)
+    for match in pattern.finditer(original_text):
+        spans.append({"start": match.start(), "end": match.end()})
+    
+    if spans:
+        return spans
+    
+    # Fallback: accent-insensitive search
+    if norm_text is None or pos_map is None:
+        norm_text, pos_map = _normalize_with_positions(original_text)
+    
+    norm_search = _strip_accents(search_term.lower())
+    if not norm_search:
+        return []
+    
+    pattern = re.compile(r'\b' + re.escape(norm_search) + r'\b', re.IGNORECASE)
+    for match in pattern.finditer(norm_text):
+        orig_start = pos_map[match.start()]
+        orig_end = pos_map[match.end() - 1] + 1
+        spans.append({"start": orig_start, "end": orig_end})
+    
+    return spans
+
+def find_entity_spans(original_text: str, entity_name: str, 
+                      mentions: List[str] = None) -> List[Dict[str, int]]:
+    """Find all occurrences of an entity in original_text.
+    
+    Searches for the entity_name itself AND any raw mentions (the text as
+    originally detected by the LLM before fuzzy matching to the candidate name).
+    
+    Args:
+        original_text: The full document text
+        entity_name: The canonical entity name (user-defined candidate)
+        mentions: List of raw text strings that were matched to this entity
+                  (e.g. what the LLM actually found in the text)
+    
+    Returns:
+        List of {"start": int, "end": int} character offsets, deduplicated.
+    """
+    if not original_text or not entity_name:
+        return []
+    
+    # Pre-compute normalized text once for all searches
+    norm_text, pos_map = _normalize_with_positions(original_text)
+    
+    # Collect all search terms: the canonical name + all raw mentions
+    search_terms = {entity_name}
+    if mentions:
+        search_terms.update(m for m in mentions if m)
+    
+    # Find spans for each search term
+    seen = set()  # (start, end) to deduplicate overlapping finds
+    spans = []
+    
+    for term in search_terms:
+        for span in _find_text_in_original(original_text, term, norm_text, pos_map):
+            key = (span["start"], span["end"])
+            if key not in seen:
+                seen.add(key)
+                spans.append(span)
+    
+    # Sort by position
+    spans.sort(key=lambda s: s["start"])
+    return spans
 
 def tokenize(text: str) -> List[str]:
     """Simple tokenization for chunking."""
